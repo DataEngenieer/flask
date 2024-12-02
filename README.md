@@ -1,5 +1,5 @@
-# flask
-A minimal Flask web application.
+# Flask Claro | Qmas
+A Flask web application.
 
 ![static-site](static/images/static-site.png)
 
