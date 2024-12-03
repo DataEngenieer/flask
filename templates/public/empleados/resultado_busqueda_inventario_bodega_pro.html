@@ -1,0 +1,15 @@
+{% for inventario in dataBusqueda_inv_bod_pro %}
+<tr id="inventario_{{ inventario.Bodega }}">
+  
+  <td>{{ inventario.Bodega }}</td>
+  <td>{{ inventario.Material }}</td>
+  <td>{{ inventario.Subproducto }}</td>
+  <td>{{ inventario.CantidadDisponible }}</td>
+  <td>{{ inventario.creation_date }}</td>
+</tr>
+{% endfor %}
+
+
+{% if dataBusqueda_inv_bod_pro|length == 0 %}
+    <tr><td colspan="5" style="text-align:center;">No se encontraron resultados.</td></tr>
+{% endif %}

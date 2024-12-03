@@ -1,0 +1,10 @@
+{% for inventario in dataBusqueda_inv_bod %}
+<tr id="inventario_{{ inventario.Bodega }}">
+  
+  <td>{{ inventario.Bodega }}</td>
+  <td>{{ inventario.Material }}</td>
+  <td>{{ inventario.Subproducto }}</td>
+  <td>{{ inventario.CantidadDisponible }}</td>
+  <td>{{ inventario.creation_date }}</td>
+</tr>
+{% endfor %}
