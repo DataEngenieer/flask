@@ -112,6 +112,38 @@ def sql_lista_inventariobodegaBD():
             f"Error en la función sql_lista_inventariobodegaBD: {e}")
         return None
 
+def sql_lista_inventariobodegaBD_oms():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = (f"""
+                    SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
+                    FROM inventario_OMS e
+                    order by e.NombreSku asc limit 20;
+                    """)
+                cursor.execute(querySQL,)
+                inventarioBD_oms = cursor.fetchall()
+        return inventarioBD_oms
+    except Exception as e:
+        print(
+            f"Error en la función sql_lista_inventariobodegaBD_oms: {e}")
+        return None
+
+def sql_lista_token():
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = (f"""
+                    SELECT * FROM bd_claro.token_poliedro ORDER BY `fecha_registro` desc LIMIT 10;
+                    """)
+                cursor.execute(querySQL,)
+                token = cursor.fetchall()
+        return token
+    except Exception as e:
+        print(
+            f"Error en la función sql_lista_token: {e}")
+        return None
+
 
 # Detalles del Empleado
 def sql_detalles_empleadosBD(idEmpleado):
@@ -266,7 +298,7 @@ def buscarInventarioBD(search):
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                         FROM inventario_bodega AS e
                         WHERE e.Subproducto LIKE %s 
-                        ORDER BY e.Subproducto asc LIMIT 20
+                        ORDER BY e.Subproducto asc,e.CantidadDisponible asc LIMIT 20
                     """)
                 search_pattern = f"%{search}%"  # Agregar "%" alrededor del término de búsqueda
                 mycursor.execute(querySQL, (search_pattern,))
@@ -285,7 +317,7 @@ def buscarInventarioBD_bodega(search):
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                         FROM inventario_bodega AS e
                         WHERE e.Bodega LIKE %s 
-                        ORDER BY e.Subproducto asc LIMIT 20
+                        ORDER BY e.Subproducto asc,e.CantidadDisponible asc LIMIT 20
                     """)
                 search_pattern = f"%{search}%"  # Agregar "%" alrededor del término de búsqueda
                 mycursor.execute(querySQL, (search_pattern,))
@@ -304,13 +336,33 @@ def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                         FROM inventario_bodega AS e
                         WHERE e.Bodega LIKE %s AND e.Subproducto LIKE %s
-                        ORDER BY e.Subproducto asc LIMIT 20
+                        ORDER BY e.Subproducto asc,e.CantidadDisponible asc LIMIT 20
                     """)
                 search_bodega_pattern = f"%{search_bodega}%"  # Para Bodega
                 search_producto_pattern = f"%{search_producto}%"  # Para Producto
                 mycursor.execute(querySQL, (search_bodega_pattern, search_producto_pattern))
                 resultadobusquedainv_bodega_pro = mycursor.fetchall()
                 return resultadobusquedainv_bodega_pro
+
+    except Exception as e:
+        print(f"Ocurrió un error en def buscarInventarioBD_bodega_pro: {e}")
+        return []
+
+def buscarInventarioBD_bodega_oms(search_producto):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = ("""
+                        SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
+                        FROM inventario_OMS e
+                        WHERE e.Subproducto LIKE %s
+                        order by e.NombreSku asc,e.Cantidad asc limit 20;
+                    """)
+                
+                search_producto_pattern = f"%{search_producto}%"  # Para Producto
+                mycursor.execute(querySQL, (search_producto_pattern))
+                resultadobusquedainv_bodega_oms = mycursor.fetchall()
+                return resultadobusquedainv_bodega_oms
 
     except Exception as e:
         print(f"Ocurrió un error en def buscarInventarioBD_bodega_pro: {e}")
