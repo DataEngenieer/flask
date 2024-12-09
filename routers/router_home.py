@@ -50,6 +50,21 @@ def lista_inventario():
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
+@app.route('/inventario_oms', methods=['GET'])
+def lista_inventario_oms():
+    if 'conectado' in session:
+        return render_template(f'{PATH_URL}/listar_inventario_oms.html', inventario_oms=sql_lista_inventariobodegaBD_oms())
+    else:
+        flash('primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+@app.route('/token', methods=['GET'])
+def lista_token():
+    if 'conectado' in session:
+        return render_template(f'{PATH_URL}/listar_token.html', token=sql_lista_token())
+    else:
+        flash('primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
 
 @app.route("/detalles-empleado/", methods=['GET'])
 @app.route("/detalles-empleado/<int:idEmpleado>", methods=['GET'])
@@ -92,7 +107,14 @@ def viewBuscarInventarioBD_bodega():
     else:
         return jsonify({'fin': 0})
     
-
+@app.route("/buscando-inventario-bodega-oms", methods=['POST'])
+def viewBuscarInventarioBD_bodega_oms():
+    resultadobusquedainv_oms = buscarInventarioBD_bodega_oms(request.json['busqueda'])
+    if resultadobusquedainv_oms:
+        return render_template(f'{PATH_URL}/resultado_busqueda_inventario_oms.html', dataBusqueda_inv_oms=resultadobusquedainv_oms)
+    else:
+        return jsonify({'fin': 0})
+    
 
 @app.route("/buscando-inventario-bodega-pro", methods=['POST'])
 def viewBuscarInventarioBD_bodega_pro():
