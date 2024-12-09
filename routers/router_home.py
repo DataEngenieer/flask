@@ -109,7 +109,8 @@ def viewBuscarInventarioBD_bodega():
     
 @app.route("/buscando-inventario-bodega-oms", methods=['POST'])
 def viewBuscarInventarioBD_bodega_oms():
-    resultadobusquedainv_oms = buscarInventarioBD_bodega_oms(request.json['busqueda'])
+    busqueda = request.json.get('busqueda')
+    resultadobusquedainv_oms = buscarInventarioBD_bodega_oms(busqueda)
     if resultadobusquedainv_oms:
         return render_template(f'{PATH_URL}/resultado_busqueda_inventario_oms.html', dataBusqueda_inv_oms=resultadobusquedainv_oms)
     else:

@@ -355,17 +355,17 @@ def buscarInventarioBD_bodega_oms(search_producto):
                 querySQL = ("""
                         SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
                         FROM inventario_OMS e
-                        WHERE e.Subproducto LIKE %s
-                        order by e.NombreSku asc,e.Cantidad asc limit 20;
+                        WHERE e.NombreSku LIKE %s
+                        order by e.NombreSku asc,e.Cantidad asc limit 20
                     """)
                 
-                search_producto_pattern = f"%{search_producto}%"  # Para Producto
-                mycursor.execute(querySQL, (search_producto_pattern))
-                resultadobusquedainv_bodega_oms = mycursor.fetchall()
-                return resultadobusquedainv_bodega_oms
+                search_producto_pattern = f"%{search_producto}%"
+                mycursor.execute(querySQL, (search_producto_pattern,))
+                resultadobusquedainv_oms = mycursor.fetchall()
+                return resultadobusquedainv_oms
 
     except Exception as e:
-        print(f"Ocurrió un error en def buscarInventarioBD_bodega_pro: {e}")
+        print(f"Ocurrió un error en def buscarInventarioBD_bodega_oms: {e}")
         return []
 
 def buscarEmpleadoUnico(id):

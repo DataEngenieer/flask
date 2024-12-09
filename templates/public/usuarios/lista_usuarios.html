@@ -1,6 +1,6 @@
 {% extends 'public/base_cpanel.html' %}
 <!--Cambiando el title-->
-{% block title %}Crud - Python 🐍 | Lista de Usuarios{% endblock %}
+{% block title %}Claro | Qmas{% endblock %}
 <!---->
 {% block body %} {% if (resp_usuariosBD) %}
 
@@ -16,6 +16,7 @@
           <tr style="background-color: #ddd">
             <th>Usuario</th>
             <th>Email</th>
+            <th>Rol</th>
             <th>Fecha de creaci&oacute;n</th>
             <th>Accci&oacute;n</th>
           </tr>
@@ -25,6 +26,7 @@
           <tr>
             <td>{{ usuario.name_surname}}</td>
             <td>{{ usuario.email_user}}</td>
+            <td>{{ usuario.rol}}</td>
             <td>{{ usuario.created_user}}</td>
             <td>
               <button

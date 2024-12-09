@@ -11,16 +11,16 @@ import re
 from werkzeug.security import generate_password_hash
 
 
-def recibeInsertRegisterUser(name_surname, email_user, pass_user):
+def recibeInsertRegisterUser(name_surname, email_user, pass_user, rol):
     respuestaValidar = validarDataRegisterLogin(
-        name_surname, email_user, pass_user)
+        name_surname, email_user, pass_user, rol)
 
     if (respuestaValidar):
         nueva_password = generate_password_hash(pass_user, method='scrypt')
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                    sql = "INSERT INTO users(name_surname, email_user, pass_user) VALUES (%s, %s, %s)"
+                    sql = "INSERT INTO users(name_surname, email_user, pass_user, rol) VALUES (%s, %s, %s, %s)"
                     valores = (name_surname, email_user, nueva_password)
                     mycursor.execute(sql, valores)
                     conexion_MySQLdb.commit()
@@ -63,7 +63,7 @@ def info_perfil_session():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT name_surname, email_user FROM users WHERE id = %s"
+                querySQL = "SELECT name_surname, email_user, rol  FROM users WHERE id = %s"
                 cursor.execute(querySQL, (session['id'],))
                 info_perfil = cursor.fetchall()
         return info_perfil
@@ -146,6 +146,8 @@ def dataLoginSesion():
     inforLogin = {
         "id": session['id'],
         "name_surname": session['name_surname'],
-        "email_user": session['email_user']
+        "email_user": session['email_user'],
+        "rol": session.get('rol', None),
+        
     }
     return inforLogin

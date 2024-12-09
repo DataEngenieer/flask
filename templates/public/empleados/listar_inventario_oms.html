@@ -1,6 +1,6 @@
 {% extends 'public/base_cpanel.html' %}
 <!--Cambiando el title-->
-{% block title %}Claro - Qmas | Inventario T&T {% endblock %}
+{% block title %}Claro - Qmas | Inventario T&T OMS{% endblock %}
 <!--Inicio del block-->
 {% block body %}
 
@@ -22,7 +22,7 @@
             class="form-control"
             placeholder="Buscar equipo..."
             aria-describedby="floatingInputHelp"
-            onkeyup="buscadorTable_bodega_pro('inventario_OMS')" />
+            onkeyup="buscadorTable_bodega_oms('inventario_OMS')" />
         </div>
         </div>
         
@@ -37,8 +37,6 @@
             width="100%">
             <thead>
                 <tr>
-                
-                
                 <th>Cod_Material</th>
                 <th>Producto</th>
                 <th>Disponible</th>

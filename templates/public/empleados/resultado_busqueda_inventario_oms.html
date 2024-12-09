@@ -1,0 +1,13 @@
+{% for inventario in dataBusqueda_inv_oms %}
+<tr id="inventario_{{ inventario.Sku }}">
+  <td class="copyable" data-field="Cod_Material" data-material-id="{{ inventario.Sku }}">{{ inventario.Sku }}</td>
+  <td class="copyable" data-field="Producto">{{ inventario.NombreSku }}</td>
+  <td class="copyable" data-field="Disponible">{{ inventario.Cantidad }}</td>
+  <td class="copyable" data-field="fecha">{{ inventario.creation_date }}</td>
+</tr>
+{% endfor %}
+
+
+{% if dataBusqueda_inv_oms|length == 0 %}
+    <tr><td colspan="5" style="text-align:center;">No se encontraron resultados.</td></tr>
+{% endif %}

@@ -113,6 +113,7 @@ def loginCliente():
                     session['id'] = account['id']
                     session['name_surname'] = account['name_surname']
                     session['email_user'] = account['email_user']
+                    session['rol'] = account['rol']
 
                     flash('la sesión fue correcta.', 'success')
                     return redirect(url_for('inicio'))
@@ -137,6 +138,7 @@ def cerraSesion():
             session.pop('id', None)
             session.pop('name_surname', None)
             session.pop('email', None)
+            session.pop('rol', None)
             flash('tu sesión fue cerrada correctamente.', 'success')
             return redirect(url_for('inicio'))
         else:
