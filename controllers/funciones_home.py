@@ -25,7 +25,7 @@ def procesar_form_empleado(dataForm, foto_perfil):
 
                 # Creando una tupla con los valores del INSERT
                 valores = (dataForm['nombre_empleado'], dataForm['apellido_empleado'], dataForm['sexo_empleado'],
-                           dataForm['telefono_empleado'], dataForm['email_empleado'], dataForm['profesion_empleado'], result_foto_perfil, salario_entero)
+                            dataForm['telefono_empleado'], dataForm['email_empleado'], dataForm['profesion_empleado'], result_foto_perfil, salario_entero)
                 cursor.execute(sql, valores)
 
                 conexion_MySQLdb.commit()
@@ -102,7 +102,7 @@ def sql_lista_inventariobodegaBD():
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                     FROM inventario_bodega e
-                    order by e.Subproducto asc limit 20;
+                    order by e.Subproducto asc limit 10;
                     """)
                 cursor.execute(querySQL,)
                 inventarioBD = cursor.fetchall()
@@ -119,7 +119,7 @@ def sql_lista_inventariobodegaBD_oms():
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
                     FROM inventario_OMS e
-                    order by e.NombreSku asc limit 20;
+                    order by e.NombreSku asc limit 10;
                     """)
                 cursor.execute(querySQL,)
                 inventarioBD_oms = cursor.fetchall()
