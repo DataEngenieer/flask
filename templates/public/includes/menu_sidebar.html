@@ -37,9 +37,16 @@
     </li>
     <li
       class="menu-item {% if request.path == '/inventario_entrega' %} active{% endif %}">
-      <a href="/inventario_entrega" class="menu-link">
+      <a href="/inventario_oms" class="menu-link">
         <i class="menu-icon bi bi-person-lines-fill"></i>
         <div data-i18n="Boxicons">Inventario - OMS</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/token' %} active{% endif %}">
+      <a href="/token" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Boxicons">Token Poliedro</div>
       </a>
     </li>
     <!--

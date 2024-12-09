@@ -1,11 +1,10 @@
 {% for inventario in dataBusqueda_inv_bod_pro %}
 <tr id="inventario_{{ inventario.Bodega }}">
-  
-  <td>{{ inventario.Bodega }}</td>
-  <td>{{ inventario.Material }}</td>
-  <td>{{ inventario.Subproducto }}</td>
-  <td>{{ inventario.CantidadDisponible }}</td>
-  <td>{{ inventario.creation_date }}</td>
+  <td class="copyable" data-field="bodega">{{ inventario.Bodega }}</td>
+  <td class="copyable" data-field="material" data-material-id="{{ inventario.Material }}">{{ inventario.Material }}</td>
+  <td class="copyable" data-field="producto">{{ inventario.Subproducto }}</td>
+  <td class="copyable" data-field="disponible">{{ inventario.CantidadDisponible }}</td>
+  <td class="copyable" data-field="fecha">{{ inventario.creation_date }}</td>
 </tr>
 {% endfor %}
 

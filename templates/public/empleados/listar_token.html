@@ -1,0 +1,45 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Claro - Qmas | Token {% endblock %}
+<!--Inicio del block-->
+{% block body %}
+
+    <div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12 mb-4">
+        <div class="banner text-center">
+            <h3 class="banner-title mt-3 mb-3">Token Poliedro</h3>
+        </div>
+        <hr />
+        </div>
+
+        <div class="row justify-content-center mb-2">
+        <div class="table-responsive text-nowrap table-hover table-striped mt-4 mb-4 px-3">
+            <table
+            table-hover
+            id="token_poliedro"
+            class="table table-striped table-bordered table-hover "
+            cellspacing="0"
+            width="50%">
+            <thead>
+                <tr>
+                
+                <th>Token</th>
+                <th>Fecha Actualización</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for token in token %}
+                <tr id="token_{{ token.token }}">
+                <td>{{ token.token }}</td>
+                <td>{{ token.fecha_registro }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

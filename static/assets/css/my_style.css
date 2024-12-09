@@ -136,7 +136,7 @@ tbody tr:hover {
   justify-content: center;
 }
 
-/*Loader para precarga en botn cargar mas consignaciones*/
+/*Loader para precarga en boton cargar mas consignaciones*/
 .loader {
   position: fixed;
   top: 0;
@@ -244,7 +244,7 @@ tbody tr:hover {
 }
 
 .table th {
-  background-color: #f19e38; /* Azul para la cabecera */
+  background-color: #69d1c3; /* Azul para la cabecera */
   color: #ffffff; /* Texto blanco */
   font-weight: bold;
   text-align: center;
