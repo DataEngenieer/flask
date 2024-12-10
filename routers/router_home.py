@@ -61,7 +61,7 @@ def lista_inventario_oms():
 @app.route('/token', methods=['GET'])
 def lista_token():
     if 'conectado' in session:
-        return render_template(f'{PATH_URL}/listar_token.html', token=sql_lista_token())
+        return render_template(f'{PATH_URL}/listar_token.html', token=sql_lista_token(session.get('token'),session.get('campaing')))
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))

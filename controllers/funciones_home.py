@@ -129,7 +129,7 @@ def sql_lista_inventariobodegaBD_oms():
             f"Error en la función sql_lista_inventariobodegaBD_oms: {e}")
         return None
 
-def sql_lista_token():
+def sql_lista_tokenx():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
@@ -143,7 +143,25 @@ def sql_lista_token():
         print(
             f"Error en la función sql_lista_token: {e}")
         return None
+def sql_lista_token(tipo_token, campaing):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = ("""
+                        SELECT t.token,t.fecha_registro  
+                        FROM bd_claro.token_poliedro as t
+                        WHERE t.tipo_token LIKE %s AND t.campaing LIKE %s
+                        ORDER BY t.fecha_registro desc LIMIT 5
+                    """)
+                search_bodega_pattern = f"%{tipo_token}%"  # Para tipo token
+                search_producto_pattern = f"%{campaing}%"  # Para campaña
+                mycursor.execute(querySQL, (search_bodega_pattern, search_producto_pattern))
+                resultadobusquedainv_bodega_pro = mycursor.fetchall()
+                return resultadobusquedainv_bodega_pro
 
+    except Exception as e:
+        print(f"Error en la función sql_lista_token: {e}")
+        return None
 
 # Detalles del Empleado
 def sql_detalles_empleadosBD(idEmpleado):

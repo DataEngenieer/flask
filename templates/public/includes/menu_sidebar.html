@@ -57,42 +57,25 @@
       </a>
     </li>
     {% endif %}
-    {% if (session.get('campaing') == 'Claro TyT' and session.get('token') == '1') or session.get('rol') == 'admin' %}
+    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/token' %} active{% endif %}">
       <a href="/token" class="menu-link">
         <i class="menu-icon bi bi-shield-lock-fill"></i>
-        <div data-i18n="Boxicons">Token TyT - 1</div>
+        <div data-i18n="Boxicons">Token Claro TyT</div>
       </a>
     </li>
     {% endif %}
-    {% if (session.get('campaing') == 'Claro TyT' and session.get('token') == '2') or session.get('rol') == 'admin' %}
+    {% if session.get('campaing') == 'Portabilidad' or session.get('rol') == 'admin' %}
     <li
-      class="menu-item {% if request.path == '/token_2' %} active{% endif %}">
-      <a href="/token_2" class="menu-link">
-        <i class="menu-icon bi bi-shield-lock-fill"></i>
-        <div data-i18n="Boxicons">Token TyT - 2</div>
-      </a>
+    class="menu-item {% if request.path == '/token' %} active{% endif %}">
+    <a href="/token" class="menu-link">
+      <i class="menu-icon bi bi-shield-lock-fill"></i>
+      <div data-i18n="Boxicons">Token Portabilidad</div>
+    </a>
     </li>
     {% endif %}
-    {% if (session.get('campaing') == 'Portabilidad' and session.get('token') == '1') or session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/token_porta_1' %} active{% endif %}">
-      <a href="/token_porta_1" class="menu-link">
-        <i class="menu-icon bi bi-shield-lock-fill"></i>
-        <div data-i18n="Boxicons">Token Portabilidad - 1</div>
-      </a>
-    </li>
-    {% endif %}
-    {% if (session.get('campaing') == 'Portabilidad' and session.get('token') == '2') or session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/token_porta_2' %} active{% endif %}">
-      <a href="/token_porta_2" class="menu-link">
-        <i class="menu-icon bi bi-shield-lock-fill"></i>
-        <div data-i18n="Boxicons">Token Portabilidad - 2</div>
-      </a>
-    </li>
-    {% endif %}
+    
     <!--
     <li
       class="menu-item {% if request.path == '/lista-de-empleados' %} active{% endif %}">
