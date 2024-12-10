@@ -114,8 +114,12 @@ def loginCliente():
                     session['name_surname'] = account['name_surname']
                     session['email_user'] = account['email_user']
                     session['rol'] = account['rol']
+                    session['token'] = account['token']
+                    session['campaing'] = account['campaing']
 
                     flash('la sesión fue correcta.', 'success')
+                    # Registrar inicio de sesión
+                    registrar_inicio(account['id'],'Login')
                     return redirect(url_for('inicio'))
                 else:
                     # La cuenta no existe o el nombre de usuario/contraseña es incorrecto
@@ -129,18 +133,49 @@ def loginCliente():
             return render_template(f'{PATH_URL_LOGIN}/base_login.html')
 
 
-@app.route('/closed-session',  methods=['GET'])
+#@app.route('/closed-session',  methods=['GET'])
 def cerraSesion():
     if request.method == 'GET':
         if 'conectado' in session:
+            user_id = session.get('id', None)
             # Eliminar datos de sesión, esto cerrará la sesión del usuario
             session.pop('conectado', None)
             session.pop('id', None)
             session.pop('name_surname', None)
             session.pop('email', None)
             session.pop('rol', None)
+            session.pop('token', None)
+            session.pop('campaing', None)
             flash('tu sesión fue cerrada correctamente.', 'success')
+            registrar_inicio(user_id,'Logout')
             return redirect(url_for('inicio'))
         else:
             flash('recuerde debe iniciar sesión.', 'error')
+            return render_template(f'{PATH_URL_LOGIN}/base_login.html')
+
+@app.route('/closed-session', methods=['GET'])
+def cerraSesion():
+    if request.method == 'GET':
+        if 'conectado' in session:
+            try:
+                # Obtener el id del usuario antes de limpiar la sesión
+                user_id = session.get('id', None)
+
+                # Eliminar datos de sesión para cerrar la sesión
+                session.clear()
+
+                # Registrar el cierre de sesión si el id existe
+                if user_id:
+                    registrar_inicio(user_id,'Logout')  # Registrar el cierre de sesión
+                    flash('Tu sesión fue cerrada correctamente.', 'success')
+                else:
+                    flash('No se pudo registrar el cierre de sesión (ID no encontrado).', 'warning')
+
+                return redirect(url_for('inicio'))
+            except Exception as e:
+                print(f"Error al cerrar sesión: {e}")
+                flash('Hubo un error al cerrar la sesión.', 'error')
+                return redirect(url_for('inicio'))
+        else:
+            flash('Recuerde que debe iniciar sesión antes de cerrarla.', 'error')
             return render_template(f'{PATH_URL_LOGIN}/base_login.html')

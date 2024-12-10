@@ -20,7 +20,7 @@ def recibeInsertRegisterUser(name_surname, email_user, pass_user, rol):
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
-                    sql = "INSERT INTO users(name_surname, email_user, pass_user, rol) VALUES (%s, %s, %s, %s)"
+                    sql = "INSERT INTO users(name_surname, email_user, pass_user, rol ) VALUES (%s, %s, %s, %s)"
                     valores = (name_surname, email_user, nueva_password)
                     mycursor.execute(sql, valores)
                     conexion_MySQLdb.commit()
@@ -63,7 +63,7 @@ def info_perfil_session():
     try:
         with connectionBD() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT name_surname, email_user, rol  FROM users WHERE id = %s"
+                querySQL = "SELECT name_surname, email_user, rol, token, numero_token, campaing  FROM users WHERE id = %s"
                 cursor.execute(querySQL, (session['id'],))
                 info_perfil = cursor.fetchall()
         return info_perfil
@@ -117,7 +117,7 @@ def procesar_update_perfil(data_form):
                                 return cursor.rowcount or []
                             except Exception as e:
                                 print(
-                                    f"Ocurrió en procesar_update_perfil: {e}")
+                                    f"Ocurrió error en procesar_update_perfil: {e}")
                                 return []
             else:
                 return 0
@@ -148,6 +148,23 @@ def dataLoginSesion():
         "name_surname": session['name_surname'],
         "email_user": session['email_user'],
         "rol": session.get('rol', None),
-        
+        "token": session.get('token', None),
+        "numero_token": session.get('numero_token', None),
+        "campaing": session.get('campaing', None),
     }
     return inforLogin
+
+
+def registrar_inicio(id,tipo):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                sql = "INSERT INTO login_user(id_user,tipo) VALUES (%s,%s)"
+                valores = (id,tipo)
+                mycursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+                resultado_insert = mycursor.rowcount
+                return resultado_insert
+    except Exception as e:
+        print(f"Error en el Insert users: {e}")
+        return []

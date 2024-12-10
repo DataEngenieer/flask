@@ -1,6 +1,7 @@
 {% extends 'public/base_cpanel.html' %}
-<!--Cambiando el title-->
-{% block title %}Claro - Qmas | Token {% endblock %}
+<!--Cambiando el title
+{% block title %}Claro - Qmas | Token {% endblock %}-->
+<title>{% block crud %} Token Poliedro - Qmas {% endblock %}</title>
 <!--Inicio del block-->
 {% block body %}
 
@@ -23,7 +24,6 @@
             width="50%">
             <thead>
                 <tr>
-                
                 <th>Token</th>
                 <th>Fecha Actualización</th>
                 </tr>

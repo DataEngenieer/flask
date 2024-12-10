@@ -5,7 +5,7 @@
         <br></br>
         <br></br>
         <img
-          src="{{ url_for('static', filename ='assets/img/logo.png') }}"
+          src="{{ url_for('static', filename ='assets/img/logo.ico') }}"
           alt="Logo" />
       </span>
     </a>
@@ -15,6 +15,18 @@
       class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
       <i class="bx bx-chevron-left bx-sm align-middle"></i>
     </a>
+  </div>
+  <!-- Información del Usuario -->
+  <div class="user-info text-center my-3">
+    <div class="user-name fw-bold">
+      {{ session.get('name_surname', 'Usuario Desconocido') }}
+    </div>
+    <div class="user-campaign text-muted">
+      {{ session.get('campaing', 'Sin Campaña') }}
+    </div>
+    <div class="user-campaign text-muted">
+      {{ session.get('rol', 'Sin rol') }}
+    </div>
   </div>
 
   <div class="menu-inner-shadow"></div>
@@ -28,29 +40,61 @@
       </a>
     </li>
     -->
+    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/inventario' %} active{% endif %}">
       <a href="/inventario" class="menu-link">
-        <i class="menu-icon bi bi-box-seam"></i>
+        <i class="menu-icon bi bi-box-seam-fill"></i>
         <div data-i18n="Boxicons">Inventario - Bodega</div>
       </a>
     </li>
+    {% endif %}
+    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/inventario_oms' %} active{% endif %}">
       <a href="/inventario_oms" class="menu-link">
-        <i class="menu-icon bi bi-box-seam"></i>
+        <i class="menu-icon bi bi-box-seam-fill"></i>
         <div data-i18n="Boxicons">Inventario - OMS</div>
       </a>
     </li>
-    <!--
+    {% endif %}
+    {% if (session.get('campaing') == 'Claro TyT' and session.get('token') == '1') or session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/token' %} active{% endif %}">
       <a href="/token" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Boxicons">Token Poliedro</div>
+        <i class="menu-icon bi bi-shield-lock-fill"></i>
+        <div data-i18n="Boxicons">Token TyT - 1</div>
       </a>
     </li>
-    
+    {% endif %}
+    {% if (session.get('campaing') == 'Claro TyT' and session.get('token') == '2') or session.get('rol') == 'admin' %}
+    <li
+      class="menu-item {% if request.path == '/token_2' %} active{% endif %}">
+      <a href="/token_2" class="menu-link">
+        <i class="menu-icon bi bi-shield-lock-fill"></i>
+        <div data-i18n="Boxicons">Token TyT - 2</div>
+      </a>
+    </li>
+    {% endif %}
+    {% if (session.get('campaing') == 'Portabilidad' and session.get('token') == '1') or session.get('rol') == 'admin' %}
+    <li
+      class="menu-item {% if request.path == '/token_porta_1' %} active{% endif %}">
+      <a href="/token_porta_1" class="menu-link">
+        <i class="menu-icon bi bi-shield-lock-fill"></i>
+        <div data-i18n="Boxicons">Token Portabilidad - 1</div>
+      </a>
+    </li>
+    {% endif %}
+    {% if (session.get('campaing') == 'Portabilidad' and session.get('token') == '2') or session.get('rol') == 'admin' %}
+    <li
+      class="menu-item {% if request.path == '/token_porta_2' %} active{% endif %}">
+      <a href="/token_porta_2" class="menu-link">
+        <i class="menu-icon bi bi-shield-lock-fill"></i>
+        <div data-i18n="Boxicons">Token Portabilidad - 2</div>
+      </a>
+    </li>
+    {% endif %}
+    <!--
     <li
       class="menu-item {% if request.path == '/lista-de-empleados' %} active{% endif %}">
       <a href="/lista-de-empleados" class="menu-link">
@@ -66,7 +110,8 @@
         <div data-i18n="Tables">Reportes</div>
       </a>
     </li>
-    
+    -->
+    {% if session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
       <a href="/lista-de-usuarios" class="menu-link">
@@ -74,7 +119,7 @@
         <div data-i18n="Tables">Lista de Usuarios</div>
       </a>
     </li>
-    -->
+    {% endif %}
     <li
       class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
       <a href="/mi-perfil" class="menu-link">
