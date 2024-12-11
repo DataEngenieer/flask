@@ -66,3 +66,23 @@
   font-size: 0.9rem;
   color: #6c757d;
 }
+
+/* Estilo para los campos de entrada */
+input.form-control {
+  background-color: white;  /* Fondo blanco */
+  color: black;             /* Texto negro */
+  border-radius: 5px;       /* Bordes redondeados */
+  border: 1px solid #ccc;   /* Borde gris suave */
+  padding: 10px;            /* Espaciado interno para mayor comodidad */
+}
+
+/* Estilo para el placeholder */
+input::placeholder {
+  color: #999;              /* Color gris suave para el placeholder */
+}
+
+
+input:focus {
+  border-color: #4CAF50;  /* Borde verde */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);  /* Sombra verde */
+}
