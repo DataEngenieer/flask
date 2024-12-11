@@ -102,7 +102,7 @@ def sql_lista_inventariobodegaBD():
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                     FROM inventario_bodega e
-                    order by e.Subproducto asc limit 10;
+                    order by e.CantidadDisponible desc limit 10;
                     """)
                 cursor.execute(querySQL,)
                 inventarioBD = cursor.fetchall()
@@ -119,7 +119,8 @@ def sql_lista_inventariobodegaBD_oms():
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
                     FROM inventario_OMS e
-                    order by e.NombreSku asc limit 10;
+                    where e.NombreSku NOT LIKE '%PRESTAMO%' and e.NombreSku NOT LIKE '%REMOTO%' and e.NombreSku NOT LIKE '%SIM%'
+                    order by e.Cantidad desc limit 10;
                     """)
                 cursor.execute(querySQL,)
                 inventarioBD_oms = cursor.fetchall()

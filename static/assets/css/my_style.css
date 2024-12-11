@@ -278,3 +278,49 @@ tbody tr:hover {
   font-size: 24px; /* Tamaño del texto */
   font-weight: bold; /* Negrita */
 }
+
+.layout-menu {
+  background-color: #2b2d42; /* Fondo oscuro */
+  color: #fff; /* Texto claro */
+}
+
+.menu-icon {
+  color: #fff; /* Iconos blancos */
+}
+
+.menu-item.active .menu-icon {
+  color: #4e9af1; /* Un color brillante para los elementos activos */
+}
+
+.menu-item:hover .menu-link {
+  background-color: #69d1c3; /* Fondo brillante al pasar el mouse */
+  color: #fff; /* Texto brillante */
+}
+
+.menu-item:hover .menu-icon {
+  color: #fff; /* Icono brillante */
+}
+
+.menu-section {
+  color: #e1e1e1; /* Color más suave para los títulos de las secciones */
+}
+
+.user-info {
+  color: #fff; /* Texto del usuario en blanco */
+}
+
+.user-name {
+  color: #69d1c3; /* Nombre del usuario en color brillante */
+}
+
+.user-campaign {
+  color: #bdc3c7; /* Campaña en un tono gris más suave */
+}
+
+.menu-inner-shadow {
+  background-color: rgba(0, 0, 0, 0.2); /* Sombra más suave */
+}
+
+.app-brand {
+  padding-top: 20px; /* Ajusta el valor según lo necesario */
+}

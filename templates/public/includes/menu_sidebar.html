@@ -1,119 +1,97 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-  <div class="app-brand demo d-flex align-items-center justify-content-center flex-column">
+<aside id="layout-menu" class="layout-menu menu-vertical" style="background-color: #2b2d42; color: #fff;">
+<div class="app-brand demo d-flex align-items-center justify-content-center flex-column">
     <a href="{{ url_for('inicio') }}" class="app-brand-link d-flex align-items-center justify-content-center">
-      <span class="app-brand-logo demo">
-        <br></br>
-        <br></br>
-        <img
-          src="{{ url_for('static', filename ='assets/img/logo.ico') }}"
-          alt="Logo" 
-          class="user-logo mb-2"
-          />
-      </span>
+    <span class="app-brand-logo demo">
+        <img src="{{ url_for('static', filename='assets/img/logo-removebg.png') }}" alt="Logo" class="user-logo mb-2" />
+    </span>
     </a>
 
-    <a
-      href="javascript:void(0);"
-      class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+    <i class="bx bx-chevron-left bx-sm align-middle"></i>
     </a>
-  </div>
-  <!-- Información del Usuario -->
-  <div class="user-info text-center my-3">
-    <div class="user-name fw-bold">
-      {{ session.get('name_surname', 'Usuario Desconocido') }}
+</div>
+
+<div class="user-info text-center my-3">
+    <div class="user-name fw-bold" style="color: #69d1c3;">
+    {{ session.get('name_surname', 'Usuario Desconocido') }}
     </div>
     <div class="user-campaign text-muted">
-      {{ session.get('campaing', 'Sin Campaña') }}
+    {{ session.get('campaing', 'Sin Campaña') }}
     </div>
-  </div>
+</div>
 
-  <div class="menu-inner-shadow"></div>
-  <ul class="menu-inner py-5">
-    <!--
-    <li
-      class="menu-item {% if request.path == '/registrar-empleado' %} active {% endif %}">
-      <a href="{{ url_for('viewFormEmpleado') }}" class="menu-link">
-        <i class="menu-icon bi bi-person-bounding-box"></i>
-        <div data-i18n="Basic">Registrar Empleado</div>
-      </a>
+<div class="menu-inner-shadow" style="background-color: rgba(0, 0, 0, 0.2);"></div>
+
+<ul class="menu-inner py-4">
+    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+        Gestión de Inventarios
     </li>
-    -->
     {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/inventario' %} active{% endif %}">
-      <a href="/inventario" class="menu-link">
-        <i class="menu-icon bi bi-box-seam-fill"></i>
-        <div data-i18n="Boxicons">Inventario - Bodega</div>
-      </a>
-    </li>
+    <li class="menu-item {% if request.path == '/inventario' %} active {% endif %}">
+        <a href="/inventario" class="menu-link" style="color: #fff;">
+            <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
+            <div>Inventario - Bodega</div>
+        </a>
+        </li>
     {% endif %}
+
     {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
     <li
-      class="menu-item {% if request.path == '/inventario_oms' %} active{% endif %}">
-      <a href="/inventario_oms" class="menu-link">
-        <i class="menu-icon bi bi-box-seam-fill"></i>
+        class="menu-item {% if request.path == '/inventario_oms' %} active{% endif %}">
+        <a href="/inventario_oms" class="menu-link" style="color: #fff;">
+        
+        <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
         <div data-i18n="Boxicons">Inventario - OMS</div>
-      </a>
+        </a>
     </li>
     {% endif %}
+    
+    
+    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+        Tokens Poliedro
+    </li>
     {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/token' %} active{% endif %}">
-      <a href="/token" class="menu-link">
-        <i class="menu-icon bi bi-shield-lock-fill"></i>
-        <div data-i18n="Boxicons">Token Claro TyT</div>
-      </a>
+    <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
+    <a href="/token" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
+        <div>Token Claro TyT</div>
+    </a>
     </li>
     {% endif %}
     {% if session.get('campaing') == 'Portabilidad' or session.get('rol') == 'admin' %}
-    <li
-    class="menu-item {% if request.path == '/token' %} active{% endif %}">
-    <a href="/token" class="menu-link">
-      <i class="menu-icon bi bi-shield-lock-fill"></i>
-      <div data-i18n="Boxicons">Token Portabilidad</div>
+    <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
+    <a href="/token" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
+        <div>Token Portabilidad</div>
     </a>
     </li>
     {% endif %}
     
-    <!--
-    <li
-      class="menu-item {% if request.path == '/lista-de-empleados' %} active{% endif %}">
-      <a href="/lista-de-empleados" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
-        <div data-i18n="Boxicons">Lista de Empleados</div>
-      </a>
+    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+        Administración
     </li>
-    
-    <li
-      class="menu-item {% if request.path == '/descargar-informe-empleados' %} active {% endif %}">
-      <a href="/descargar-informe-empleados" class="menu-link">
-        <i class="menu-icon bi bi-file-earmark-spreadsheet-fill"></i>
-        <div data-i18n="Tables">Reportes</div>
-      </a>
-    </li>
-    -->
+
     {% if session.get('rol') == 'admin' %}
     <li
       class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
-      <a href="/lista-de-usuarios" class="menu-link">
-        <i class="menu-icon bi bi-person-lines-fill"></i>
+      <a href="/lista-de-usuarios" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-person-lines-fill" style="color: #fff;"></i>
         <div data-i18n="Tables">Lista de Usuarios</div>
       </a>
     </li>
     {% endif %}
     <li
       class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
-      <a href="/mi-perfil" class="menu-link">
-        <i class="menu-icon bi bi-person-fill-gear"></i>
+      <a href="/mi-perfil" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-person-fill-gear" style="color: #fff;"></i>
         <div data-i18n="Tables">Mi Perfil</div>
       </a>
     </li>
     <li class="menu-item">
-      <a href="{{ url_for('cerraSesion') }}" class="menu-link">
-        <i class="menu-icon bi bi-box-arrow-right"></i>
+      <a href="{{ url_for('cerraSesion') }}" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-box-arrow-right" style="color: #fff;"></i>
         <div data-i18n="Tables">Salir</div>
       </a>
     </li>
-  </ul>
+</ul>
 </aside>
