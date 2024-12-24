@@ -80,6 +80,15 @@
       </a>
     </li>
     {% endif %}
+    {% if session.get('rol') == 'admin' %}
+    <li
+      class="menu-item {% if request.path == '/reporte_what' %} active {% endif %}">
+      <a href="/reporte_what" class="menu-link" style="color: #fff;">
+        <i class="menu-icon bi bi-file-earmark-spreadsheet-fill" style="color: #fff;"></i>
+        <div data-i18n="Tables">Reporte WhatsApp TyT</div>
+      </a>
+    </li>
+    {% endif %}    
     <li
       class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
       <a href="/mi-perfil" class="menu-link" style="color: #fff;">

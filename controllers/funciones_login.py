@@ -2,7 +2,7 @@
 from flask import session, flash
 
 # Importando conexion a BD
-from conexion.conexionBD import connectionBD
+from conexion.conexionBD import connectionBD_railway
 # Para  validar contraseña
 from werkzeug.security import check_password_hash
 
@@ -18,7 +18,7 @@ def recibeInsertRegisterUser(name_surname, email_user, pass_user, rol):
     if (respuestaValidar):
         nueva_password = generate_password_hash(pass_user, method='scrypt')
         try:
-            with connectionBD() as conexion_MySQLdb:
+            with connectionBD_railway() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                     sql = "INSERT INTO users(name_surname, email_user, pass_user, rol ) VALUES (%s, %s, %s, %s)"
                     valores = (name_surname, email_user, nueva_password)
@@ -36,7 +36,7 @@ def recibeInsertRegisterUser(name_surname, email_user, pass_user, rol):
 # Validando la data del Registros para el login
 def validarDataRegisterLogin(name_surname, email_user, pass_user):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = "SELECT * FROM users WHERE email_user = %s"
                 cursor.execute(querySQL, (email_user,))
@@ -61,7 +61,7 @@ def validarDataRegisterLogin(name_surname, email_user, pass_user):
 
 def info_perfil_session():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = "SELECT name_surname, email_user, rol, token, numero_token, campaing  FROM users WHERE id = %s"
                 cursor.execute(querySQL, (session['id'],))
@@ -84,7 +84,7 @@ def procesar_update_perfil(data_form):
     if not pass_actual or not email_user:
         return 3
 
-    with connectionBD() as conexion_MySQLdb:
+    with connectionBD_railway() as conexion_MySQLdb:
         with conexion_MySQLdb.cursor(dictionary=True) as cursor:
             querySQL = """SELECT * FROM users WHERE email_user = %s LIMIT 1"""
             cursor.execute(querySQL, (email_user,))
@@ -101,7 +101,7 @@ def procesar_update_perfil(data_form):
                             try:
                                 nueva_password = generate_password_hash(
                                     new_pass_user, method='scrypt')
-                                with connectionBD() as conexion_MySQLdb:
+                                with connectionBD_railway() as conexion_MySQLdb:
                                     with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                                         querySQL = """
                                             UPDATE users
@@ -125,7 +125,7 @@ def procesar_update_perfil(data_form):
 
 def updatePefilSinPass(id_user, name_surname):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = """
                     UPDATE users
@@ -157,7 +157,7 @@ def dataLoginSesion():
 
 def registrar_inicio(id,tipo):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 sql = "INSERT INTO login_user(id_user,tipo) VALUES (%s,%s)"
                 valores = (id,tipo)

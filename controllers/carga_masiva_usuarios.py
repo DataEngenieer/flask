@@ -1,7 +1,7 @@
 # Importandopaquetes desde flask
 from flask import session, flash
 import pandas as pd
-from conexion.conexionBD import connectionBD
+from conexion.conexionBD import connectionBD_railway
 import sys
 import os
 
@@ -20,7 +20,7 @@ def recibeInsertRegisterUser(documento, name_surname, email_user, pass_user, rol
         # Generar hash de la contraseña
         nueva_password = generate_password_hash(pass_user, method='scrypt')
         try:
-            with connectionBD() as conexion_MySQLdb:
+            with connectionBD_railway() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                     sql = "INSERT INTO users(documento, name_surname, email_user, pass_user, rol,token,numero_token) VALUES (%s, %s, %s, %s, %s, %s, %s)"
                     valores = (documento, name_surname, email_user, nueva_password, rol, token, numero_token)

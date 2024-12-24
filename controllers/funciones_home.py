@@ -1,6 +1,6 @@
 from werkzeug.utils import secure_filename
 import uuid  # Modulo de python para crear un string
-from conexion.conexionBD import connectionBD  # Conexión a BD
+from conexion.conexionBD import *  # Conexión a BD
 import datetime
 import re
 import os
@@ -8,7 +8,6 @@ from os import remove  # Modulo  para remover archivo
 from os import path  # Modulo para obtener la ruta o directorio
 import openpyxl  # Para generar el excel
 from flask import send_file
-
 
 def procesar_form_empleado(dataForm, foto_perfil):
     # Formateando Salario
@@ -18,7 +17,7 @@ def procesar_form_empleado(dataForm, foto_perfil):
 
     result_foto_perfil = procesar_imagen_perfil(foto_perfil)
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
 
                 sql = "INSERT INTO tbl_empleados (nombre_empleado, apellido_empleado, sexo_empleado, telefono_empleado, email_empleado, profesion_empleado, foto_empleado, salario_empleado) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
@@ -70,7 +69,7 @@ def procesar_imagen_perfil(foto):
 # Lista de Empleados
 def sql_lista_empleadosBD():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = (f"""
                     SELECT 
@@ -97,7 +96,7 @@ def sql_lista_empleadosBD():
 # Lista de Empleados
 def sql_lista_inventariobodegaBD():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
@@ -110,11 +109,11 @@ def sql_lista_inventariobodegaBD():
     except Exception as e:
         print(
             f"Error en la función sql_lista_inventariobodegaBD: {e}")
-        return None
+        return []
 
 def sql_lista_inventariobodegaBD_oms():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = (f"""
                     SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
@@ -128,14 +127,14 @@ def sql_lista_inventariobodegaBD_oms():
     except Exception as e:
         print(
             f"Error en la función sql_lista_inventariobodegaBD_oms: {e}")
-        return None
+        return []
 
 def sql_lista_tokenx():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = (f"""
-                    SELECT * FROM bd_claro.token_poliedro ORDER BY `fecha_registro` desc LIMIT 10;
+                    SELECT * FROM token_poliedro ORDER BY `fecha_registro` desc LIMIT 10;
                     """)
                 cursor.execute(querySQL,)
                 token = cursor.fetchall()
@@ -146,11 +145,11 @@ def sql_lista_tokenx():
         return None
 def sql_lista_token(tipo_token, campaing):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT t.token,t.fecha_registro  
-                        FROM bd_claro.token_poliedro as t
+                        FROM token_poliedro as t
                         WHERE t.tipo_token LIKE %s AND t.campaing LIKE %s
                         ORDER BY t.fecha_registro desc LIMIT 5
                     """)
@@ -167,7 +166,7 @@ def sql_lista_token(tipo_token, campaing):
 # Detalles del Empleado
 def sql_detalles_empleadosBD(idEmpleado):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = ("""
                     SELECT 
@@ -200,7 +199,7 @@ def sql_detalles_empleadosBD(idEmpleado):
 # Funcion Empleados Informe (Reporte)
 def empleadosReporte():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = ("""
                     SELECT 
@@ -227,6 +226,27 @@ def empleadosReporte():
             f"Errro en la función empleadosReporte: {e}")
         return None
 
+def whatReporte():
+    try:
+        with connectionBD_railway() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = ("""
+                    SELECT 
+                        e.id,
+                        e.first_name, 
+                        e.phone,
+                        DATE_FORMAT(STR_TO_DATE(e.created_at, '%Y-%m-%dT%H:%i:%s.%fZ'), '%Y-%m-%d %H:%i:%s') AS fecha,
+                        e.nameLabels
+                    FROM Historial_Whatsapp AS e
+                    ORDER BY DATE(e.created_at) DESC
+                    """)
+                cursor.execute(querySQL,)
+                empleadosBD = cursor.fetchall()
+        return empleadosBD
+    except Exception as e:
+        print(
+            f"Errro en la función empleadosReporte: {e}")
+        return None
 
 def generarReporteExcel():
     dataEmpleados = empleadosReporte()
@@ -281,9 +301,47 @@ def generarReporteExcel():
     return send_file(ruta_archivo, as_attachment=True)
 
 
+def generarReporteExcelwhat():
+    dataEmpleados = whatReporte()
+    wb = openpyxl.Workbook()
+    hoja = wb.active
+
+    # Agregar la fila de encabezado con los títulos
+    cabeceraExcel = ("Id", "Nombre Cliente", "Telefono","Fecha de Ingreso","Etiquetas")
+
+    hoja.append(cabeceraExcel)
+
+    # Agregar los registros a la hoja
+    for registro in dataEmpleados:
+        Id = registro['Id']
+        Nombre_Cliente = registro['Nombre Cliente']
+        Telefono = registro['Telefono']
+        Fecha_de_Ingreso = registro['Fecha de Ingreso']
+        Etiquetas = registro['Etiquetas']
+
+        # Agregar los valores a la hoja
+        hoja.append((Id, Nombre_Cliente, Telefono, Fecha_de_Ingreso, Etiquetas))
+
+    fecha_actual = datetime.datetime.now()
+    archivoExcel = f"Reporte_whatsapp_{fecha_actual.strftime('%Y_%m_%d')}.xlsx"
+    carpeta_descarga = "../static/downloads-excel"
+    ruta_descarga = os.path.join(os.path.dirname(
+        os.path.abspath(__file__)), carpeta_descarga)
+
+    if not os.path.exists(ruta_descarga):
+        os.makedirs(ruta_descarga)
+        # Dando permisos a la carpeta
+        os.chmod(ruta_descarga, 0o755)
+
+    ruta_archivo = os.path.join(ruta_descarga, archivoExcel)
+    wb.save(ruta_archivo)
+
+    # Enviar el archivo como respuesta HTTP
+    return send_file(ruta_archivo, as_attachment=True)
+
 def buscarEmpleadoBD(search):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT 
@@ -311,7 +369,7 @@ def buscarEmpleadoBD(search):
 
 def buscarInventarioBD(search):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
@@ -330,7 +388,7 @@ def buscarInventarioBD(search):
     
 def buscarInventarioBD_bodega(search):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
@@ -349,7 +407,7 @@ def buscarInventarioBD_bodega(search):
     
 def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
@@ -369,7 +427,7 @@ def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
 
 def buscarInventarioBD_bodega_oms(search_producto):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
@@ -389,7 +447,7 @@ def buscarInventarioBD_bodega_oms(search_producto):
 
 def buscarEmpleadoUnico(id):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT 
@@ -416,7 +474,7 @@ def buscarEmpleadoUnico(id):
 
 def procesar_actualizacion_form(data):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 nombre_empleado = data.form['nombre_empleado']
                 apellido_empleado = data.form['apellido_empleado']
@@ -479,7 +537,7 @@ def procesar_actualizacion_form(data):
 # Lista de Usuarios creados
 def lista_usuariosBD():
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = "SELECT id, name_surname, email_user, rol, token, campaing, created_user FROM users"
                 cursor.execute(querySQL,)
@@ -493,7 +551,7 @@ def lista_usuariosBD():
 # Eliminar uEmpleado
 def eliminarEmpleado(id_empleado, foto_empleado):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = "DELETE FROM tbl_empleados WHERE id_empleado=%s"
                 cursor.execute(querySQL, (id_empleado,))
@@ -518,7 +576,7 @@ def eliminarEmpleado(id_empleado, foto_empleado):
 # Eliminar usuario
 def eliminarUsuario(id):
     try:
-        with connectionBD() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
                 querySQL = "DELETE FROM users WHERE id=%s"
                 cursor.execute(querySQL, (id,))

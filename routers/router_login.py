@@ -1,7 +1,7 @@
 
 from app import app
 from flask import render_template, request, flash, redirect, url_for, session
-from conexion.conexionBD import connectionBD
+from conexion.conexionBD import connectionBD_railway
 from werkzeug.security import check_password_hash
 from controllers.funciones_login import *
 PATH_URL_LOGIN = "public/login"
@@ -100,7 +100,7 @@ def loginCliente():
             pass_user = str(request.form['pass_user'])
 
             # Comprobando si existe una cuenta
-            conexion_MySQLdb = connectionBD()
+            conexion_MySQLdb = connectionBD_railway()
             cursor = conexion_MySQLdb.cursor(dictionary=True)
             cursor.execute(
                 "SELECT * FROM users WHERE email_user = %s", [email_user])
