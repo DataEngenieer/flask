@@ -56,7 +56,7 @@ def connectionBD_inv():
         )
         if connection.is_connected():
             # Conexión exitosa
-            print(connection)
+            #print(connection)
             return connection
 
     except mysql.connector.Error as error:
