@@ -325,3 +325,61 @@ tbody tr:hover {
   padding-top: 20px; /* Ajusta el valor según lo necesario */
 }
 
+.navbar {
+  position: fixed; /* Fija la barra en la parte superior */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050; /* Prioridad sobre la barra lateral */
+  height: 50px; /* Altura de la barra */
+  background-color: #2b2d42; /* Fondo oscuro */
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+.layout-container {
+  margin-top: 50px; /* Añade espacio para que el contenido no quede detrás de la barra */
+}
+
+.navbar .nav-link {
+  color: #ffffff !important; /* Asegura que los enlaces sean blancos */
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.navbar .nav-link:hover {
+  color: #d1d1d1 !important; /* Cambia de color al pasar el cursor */
+}
+
+.navbar .bx {
+  font-size: 1.5rem; /* Tamaño de los íconos */
+}
+
+.menu_sidebar {
+  margin-top: 50px; /* Ajusta el margen superior para evitar que se solape con la barra */
+}
+
+
+.image-grid {
+  display: flex; /* Cambiamos a grid para un control más preciso */
+  grid-template-columns: repeat(6, 1fr); /* 10 columnas */
+  gap: 20px; /* Espaciado entre imágenes */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  padding: 5px;
+}
+
+.image-grid img {
+  width: 40px; /* Ancho fijo */
+  height: 35px; /* Altura fija */
+  object-fit: cover; /* Ajustar la imagen dentro del cuadro sin deformarla */
+  margin: auto; /* Centrar dentro de cada celda */
+  border-radius: 2px; /* Opcional: Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional: Sombra */
+  transition: transform 0.2s ease-in-out; /* Opcional: Efecto al pasar el cursor */
+}
+
+.image-grid img:hover {
+  transform: scale(1.1); /* Opcional: Zoom al pasar el cursor */
+}

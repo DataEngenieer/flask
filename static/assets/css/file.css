@@ -86,3 +86,35 @@ input:focus {
   border-color: #4CAF50;  /* Borde verde */
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);  /* Sombra verde */
 }
+
+.navbar {
+  position: fixed; /* Fija la barra en la parte superior */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050; /* Asegura que la barra esté sobre otros elementos */
+  height: 50px; /* Altura de la barra */
+  background-color: #2b2d42; /* Fondo oscuro */
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+.layout-container {
+  margin-top: 50px; /* Ajusta el contenido para que no quede detrás de la barra superior */
+}
+
+.navbar .bx {
+  font-size: 1.5rem; /* Tamaño de los íconos */
+}
+
+.navbar .nav-link {
+  padding: 0 0.5rem; /* Espaciado entre los íconos */
+  color: #ffffff !important; /* Color del texto */
+  text-decoration: none;
+}
+
+.navbar .nav-link:hover {
+  color: #d1d1d1 !important; /* Color al pasar el cursor */
+}
