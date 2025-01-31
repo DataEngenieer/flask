@@ -9,7 +9,7 @@ def connectionBD_railway():
             passwd="JWMQuXLFTTdFinFiKswjdeXhscBqmAtg",
             database="crud_python",
             port=24048,
-            charset='utf8mb4',
+            charset='utf8',
             collation='utf8mb4_general_ci',
             raise_on_warnings=True
 
@@ -30,7 +30,7 @@ def connectionBD_invxx():
             passwd="mIh23A7EB3yE5A3uXApOgEwOFOkI68",
             database="bd_claro",
             port=3306,
-            charset='utf8mb4',
+            charset='utf8',
             collation='utf8mb4_general_ci',
             raise_on_warnings=True
 
@@ -50,8 +50,8 @@ def connectionBD_inv():
             passwd="mIh23A7EB3yE5A3uXApOgEwOFOkI68",
             database="bd_claro",
             port=3306,
-            charset='utf8mb4',
-            collation='utf8mb4_general_ci',# Solo usa charset
+            charset='utf8',
+            #collation='utf8mb4_general_ci',# Solo usa charset
             raise_on_warnings=True
         )
         if connection.is_connected():
