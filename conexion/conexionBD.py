@@ -9,7 +9,7 @@ def connectionBD_railway():
             passwd="JWMQuXLFTTdFinFiKswjdeXhscBqmAtg",
             database="crud_python",
             port=24048,
-            charset='utf8',
+            charset='utf8mb4',
             collation='utf8mb4_general_ci',
             raise_on_warnings=True
 
