@@ -50,8 +50,8 @@ def connectionBD_inv():
             passwd="mIh23A7EB3yE5A3uXApOgEwOFOkI68",
             database="bd_claro",
             port=3306,
-            charset='utf8mb4',
-            collation='utf8mb4_general_ci',# Solo usa charset
+            #charset='utf8mb4',
+            #collation='utf8mb4_general_ci',# Solo usa charset
             raise_on_warnings=True
         )
         if connection.is_connected():
