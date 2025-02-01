@@ -1,106 +1,124 @@
 <aside id="layout-menu" class="layout-menu menu-vertical" style="background-color: #2b2d42; color: #fff;">
-<div class="app-brand demo d-flex align-items-center justify-content-center flex-column">
-    <a href="{{ url_for('inicio') }}" class="app-brand-link d-flex align-items-center justify-content-center">
-    <span class="app-brand-logo demo">
-        <img src="{{ url_for('static', filename='assets/img/logo-removebg.png') }}" alt="Logo" class="user-logo mb-2" />
-    </span>
-    </a>
-
-    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-    <i class="bx bx-chevron-left bx-sm align-middle"></i>
-    </a>
-</div>
-
-<div class="user-info text-center my-3">
-    <div class="user-name fw-bold" style="color: #69d1c3;">
-    {{ session.get('name_surname', 'Usuario Desconocido') }}
-    </div>
-    <div class="user-campaign text-muted">
-    {{ session.get('campaing', 'Sin Campaña') }}
-    </div>
-</div>
-
-<div class="menu-inner-shadow" style="background-color: rgba(0, 0, 0, 0.2);"></div>
-
-<ul class="menu-inner py-4">
-    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
-        Gestión de Inventarios
-    </li>
-    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
-    <li class="menu-item {% if request.path == '/inventario' %} active {% endif %}">
-        <a href="/inventario" class="menu-link" style="color: #fff;">
-            <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
-            <div>Inventario - Bodega</div>
+  <div class="app-brand demo d-flex align-items-center justify-content-center flex-column">
+      <a href="{{ url_for('inicio') }}" class="app-brand-link d-flex align-items-center justify-content-center">
+      <span class="app-brand-logo demo">
+          <img src="{{ url_for('static', filename='assets/img/logo-removebg.png') }}" alt="Logo" class="user-logo mb-2" />
+      </span>
+      </a>
+  
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+      </a>
+  </div>
+  
+  <div class="user-info text-center my-3">
+      <div class="user-name fw-bold" style="color: #69d1c3;">
+      {{ session.get('name_surname', 'Usuario Desconocido') }}
+      </div>
+      <div class="user-campaign text-muted">
+      {{ session.get('campaing', 'Sin Campaña') }}
+      </div>
+  </div>
+  
+  <div class="menu-inner-shadow" style="background-color: rgba(0, 0, 0, 0.2);"></div>
+  
+  <ul class="menu-inner py-4">
+      <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+          Gestión de Inventarios
+      </li>
+      {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
+      <li class="menu-item {% if request.path == '/inventario' %} active {% endif %}">
+          <a href="/inventario" class="menu-link" style="color: #fff;">
+              <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
+              <div>Inventario - Bodega</div>
+          </a>
+          </li>
+      {% endif %}
+  
+      {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
+      <li
+          class="menu-item {% if request.path == '/inventario_oms' %} active {% endif %}">
+          <a href="/inventario_oms" class="menu-link" style="color: #fff;">
+          
+          <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
+          <div data-i18n="Boxicons">Inventario - OMS</div>
+          </a>
+      </li>
+      {% endif %}
+      {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
+      <li
+        class="menu-item {% if request.path == '/listar_equipos' %} active {% endif %}">
+        <a href="/listar_equipos" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-card-list" style="color: #fff;"></i>
+          <div data-i18n="Tables">Inventario Digital</div>
         </a>
-        </li>
-    {% endif %}
-
-    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
-    <li
-        class="menu-item {% if request.path == '/inventario_oms' %} active{% endif %}">
-        <a href="/inventario_oms" class="menu-link" style="color: #fff;">
-        
-        <i class="menu-icon bi bi-box-seam-fill" style="color: #fff;"></i>
-        <div data-i18n="Boxicons">Inventario - OMS</div>
+      </li>
+      {% endif %}
+      
+      <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+          Tokens Poliedro
+      </li>
+      {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
+      <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
+      <a href="/token" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
+          <div>Token Claro TyT</div>
+      </a>
+      </li>
+      {% endif %}
+      {% if session.get('campaing') == 'Portabilidad' or session.get('rol') == 'admin' %}
+      <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
+      <a href="/token" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
+          <div>Token Portabilidad</div>
+      </a>
+      </li>
+      {% endif %}
+      
+      <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
+          Administración
+      </li>
+  
+      {% if session.get('rol') == 'admin' %}
+      <li
+        class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
+        <a href="/lista-de-usuarios" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-person-lines-fill" style="color: #fff;"></i>
+          <div data-i18n="Tables">Lista de Usuarios</div>
         </a>
-    </li>
-    {% endif %}
-    
-    
-    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
-        Tokens Poliedro
-    </li>
-    {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
-    <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
-    <a href="/token" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
-        <div>Token Claro TyT</div>
-    </a>
-    </li>
-    {% endif %}
-    {% if session.get('campaing') == 'Portabilidad' or session.get('rol') == 'admin' %}
-    <li class="menu-item {% if request.path == '/token' %} active {% endif %}">
-    <a href="/token" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-shield-lock-fill" style="color: #fff;"></i>
-        <div>Token Portabilidad</div>
-    </a>
-    </li>
-    {% endif %}
-    
-    <li class="menu-section" style="color: #e1e1e1; padding: 10px 20px;">
-        Administración
-    </li>
-
-    {% if session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
-      <a href="/lista-de-usuarios" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-person-lines-fill" style="color: #fff;"></i>
-        <div data-i18n="Tables">Lista de Usuarios</div>
-      </a>
-    </li>
-    {% endif %}
-    {% if session.get('rol') == 'admin' %}
-    <li
-      class="menu-item {% if request.path == '/reporte_what' %} active {% endif %}">
-      <a href="/reporte_what" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-file-earmark-spreadsheet-fill" style="color: #fff;"></i>
-        <div data-i18n="Tables">Reporte WhatsApp TyT</div>
-      </a>
-    </li>
-    {% endif %}    
-    <li
-      class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
-      <a href="/mi-perfil" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-person-fill-gear" style="color: #fff;"></i>
-        <div data-i18n="Tables">Mi Perfil</div>
-      </a>
-    </li>
-    <li class="menu-item">
-      <a href="{{ url_for('cerraSesion') }}" class="menu-link" style="color: #fff;">
-        <i class="menu-icon bi bi-box-arrow-right" style="color: #fff;"></i>
-        <div data-i18n="Tables">Salir</div>
-      </a>
-    </li>
-</ul>
-</aside>
+      </li>
+      {% endif %}
+      {% if session.get('rol') == 'admin' %}
+      <li
+        class="menu-item {% if request.path == '/reporte_what' %} active {% endif %}">
+        <a href="/reporte_what" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-file-earmark-spreadsheet-fill" style="color: #fff;"></i>
+          <div data-i18n="Tables">Reporte WhatsApp TyT</div>
+        </a>
+      </li>
+      {% endif %}
+      {% if session.get('rol') == 'admin' %}
+      <li
+        class="menu-item {% if request.path == '/agregar_equipo' %} active {% endif %}">
+        <a href="/agregar_equipo" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-person-lines-fill" style="color: #fff;"></i>
+          <div data-i18n="Tables">Agregar Equipo</div>
+        </a>
+      </li>
+      {% endif %}    
+       
+      <li
+        class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
+        <a href="/mi-perfil" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-person-fill-gear" style="color: #fff;"></i>
+          <div data-i18n="Tables">Mi Perfil</div>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('cerraSesion') }}" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-box-arrow-right" style="color: #fff;"></i>
+          <div data-i18n="Tables">Salir</div>
+        </a>
+      </li>
+  </ul>
+  </aside>

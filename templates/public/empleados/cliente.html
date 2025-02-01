@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claro Colombia - Teléfonos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f08080;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+        header img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .gallery {
+            display: flex;
+            gap: 10px;
+        }
+        .gallery img {
+            width: 100px;
+            cursor: pointer;
+        }
+        .main-image img {
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .features {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .feature-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: calc(33% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .related-gallery {
+            margin-top: 20px;
+        }
+        .related-gallery img {
+            width: 80px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo Claro">
+        <h1>Claro Colombia</h1>
+    </header>
+    <div class="main-content">
+        <!-- Galería de imágenes del equipo seleccionado -->
+        <div class="main-image">
+            <img id="selectedImage" src="telefono1-grande.jpg" alt="Teléfono seleccionado">
+        </div>
+        <div class="gallery" id="mainGallery">
+            <img src="telefono1-mini1.jpg" alt="Miniatura 1" onclick="changeImage('telefono1-mini1.jpg')">
+            <img src="telefono1-mini2.jpg" alt="Miniatura 2" onclick="changeImage('telefono1-mini2.jpg')">
+            <img src="telefono1-mini3.jpg" alt="Miniatura 3" onclick="changeImage('telefono1-mini3.jpg')">
+            <img src="telefono1-mini4.jpg" alt="Miniatura 4" onclick="changeImage('telefono1-mini4.jpg')">
+            <img src="telefono1-mini5.jpg" alt="Miniatura 5" onclick="changeImage('telefono1-mini5.jpg')">
+        </div>
+
+        <!-- Características principales -->
+        <div class="features">
+            <div class="feature-card">Pantalla: 6.5 pulgadas</div>
+            <div class="feature-card">Cámara: 48MP</div>
+            <div class="feature-card">Batería: 5000mAh</div>
+            <div class="feature-card">RAM: 6GB</div>
+            <div class="feature-card">Almacenamiento: 128GB</div>
+            <div class="feature-card">Procesador: Snapdragon 720G</div>
+            <div class="feature-card">Sistema operativo: Android 12</div>
+        </div>
+
+        <!-- Detalles del equipo -->
+        <div>
+            <h2>Detalles del equipo</h2>
+            <p>Este equipo cuenta con tecnología avanzada para brindarte la mejor experiencia en comunicación y entretenimiento.</p>
+        </div>
+
+        <!-- Galería de equipos relacionados -->
+        <div class="related-gallery">
+            <h2>Otros equipos</h2>
+            <div class="gallery">
+                <img src="equipo2-mini.jpg" alt="Equipo 2" onclick="viewPhone('telefono2.html')">
+                <img src="equipo3-mini.jpg" alt="Equipo 3" onclick="viewPhone('telefono3.html')">
+                <img src="equipo4-mini.jpg" alt="Equipo 4" onclick="viewPhone('telefono4.html')">
+                <img src="equipo5-mini.jpg" alt="Equipo 5" onclick="viewPhone('telefono5.html')">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Disclaimer: Todos los derechos reservados. Bento.</p>
+        <a href="https://wa.me/00000000000" class="whatsapp-btn">Contáctanos por WhatsApp</a>
+    </footer>
+
+    <script>
+        function changeImage(src) {
+            document.getElementById('selectedImage').src = src;
+        }
+
+        function viewPhone(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

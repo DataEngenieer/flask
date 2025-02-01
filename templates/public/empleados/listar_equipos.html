@@ -1,0 +1,76 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+<title>{% block title %}Claro | Qmas{% endblock %}</title>
+<!---->
+{% block body %} {% if (resp_equiposBD) %}
+
+<div class="card content_consignaciones" style="border-radius: 0px !important">
+  <section id="respuestaFiltroMes">
+    <h2 class="text-center mt-5 mb-5">
+      Lista de Equipos Creados
+      <hr />
+    </h2>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover">
+        <thead>
+          <tr style="background-color: #ddd">
+            <th>Tipo Equipo</th>
+            <th>Marca</th>
+            <th>Producto</th>
+            <th>Gamma</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in resp_equiposBD %}
+          <tr>
+            <td>{{ usuario.tipo_equipo}}</td>
+            <td>{{ usuario.marca}}</td>
+            <td>{{ usuario.producto}}</td>
+            <td>{{ usuario.gamma}}</td>
+            <td>
+              <button
+                class="btn rounded-pill btn-danger"
+                onclick="eliminarUsuario('{{ usuario.id }}');">
+                <i class="bi bi-trash3"></i>
+                Eliminar
+              </button>
+              <button
+                class="btn rounded-pill btn-success"
+                onclick="Ver('{{ usuario.id }}');">
+                <i class="bi bi-chat-dots"></i>
+                Enviar SMS
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+{% else %}
+<div class="container mt-3 mb-3" style="width: 100% !important">
+  <div class="row justify-content-md-center mb-2">
+    <div class="col-12">
+      <h2 class="text-center">No hay Equipos creados 😭</h2>
+    </div>
+  </div>
+</div>
+{% endif %}
+<!--Fin del Block-->
+{% endblock %}
+
+<!--Script Custom-->
+{% block customJS %}
+<script>
+  function eliminarUsuario(id) {
+    if (confirm("¿Estas seguro que deseas eliminar el Equipo.?")) {
+      let url = `/borrar-usuario/${id}`;
+      if (url) {
+        window.location.href = url;
+      }
+    }
+  }
+</script>
+{% endblock %}

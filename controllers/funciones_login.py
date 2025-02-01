@@ -1,13 +1,8 @@
-# Importandopaquetes desde flask
+
 from flask import session, flash
-
-# Importando conexion a BD
 from conexion.conexionBD import connectionBD_railway
-# Para  validar contraseña
 from werkzeug.security import check_password_hash
-
 import re
-# Para encriptar contraseña generate_password_hash
 from werkzeug.security import generate_password_hash
 
 

@@ -1,0 +1,200 @@
+{% extends 'public/base_cpanel.html' %}
+<title>{% block crud %} Agregar Nuevo Equipo {% endblock %}</title>
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12 mb-4">
+            <div class="banner text-center">
+                <h3 class="banner-title mt-2 mb-2">Agregar Nuevo Equipo</h3>
+            </div>
+            <hr/>
+        </div>
+
+        <div class="row justify-content-center mb-2">
+            <div class="col-md-10">
+                <!-- Acción del formulario apunta a la ruta en Flask -->
+                <form action="/agregar_equipo" method="POST" enctype="multipart/form-data">
+                    <!-- CSRF Token para seguridad -->
+
+                    <div class="row">
+                        <!-- Columna 1 -->
+                        <div class="col-md-6">
+                            <!-- Tipo de equipo -->
+                            <div class="form-group mb-3">
+                                <label for="tipo_equipo">Tipo de Equipo</label>
+                                <select id="tipo_equipo" name="tipo_equipo" class="form-control" required>
+                                    <option value="terminal">Terminal</option>
+                                    <option value="portatil">Computador</option>
+                                    <option value="televisor">Televisor</option>
+                                    <option value="consola">Consola Video Juegos</option>
+                                    <option value="reloj">Reloj Inteligente</option>
+                                    <option value="audifono">Audifonos</option>
+                                </select>
+                            </div>
+
+                            <!-- Marca -->
+                            <div class="form-group mb-3">
+                                <label for="marca">Marca</label>
+                                <select id="marca" name="marca" class="form-control" required>
+                                    <option value="marca1">Samsung</option>
+                                    <option value="marca2">Oppo</option>
+                                    <option value="marca3">Honor</option>
+                                    <option value="marca4">Vivo</option>
+                                    <option value="marca5">Tecno</option>
+                                    <option value="marca6">Motorola</option>
+                                    <option value="marca7">Xiaomi</option>
+                                    <option value="marca8">Huawei</option>
+                                    <option value="marca9">Microsoft</option>
+                                </select>
+                            </div>
+
+                            <!-- Gamma -->
+                            <div class="form-group mb-3">
+                                <label for="gamma">Gama</label>
+                                <select id="gamma" name="gamma" class="form-control" required>
+                                    <option value="baja">Baja</option>
+                                    <option value="media">Media</option>
+                                    <option value="alta">Alta</option>
+                                </select>
+                            </div>
+
+                            <!-- Nombre del equipo -->
+                            <div class="form-group mb-3">
+                                <label for="nombre_equipo">Nombre del Equipo</label>
+                                <input type="text" id="nombre_equipo" name="nombre_equipo" class="form-control" required>
+                            </div>
+                        
+                            
+                        </div>
+                        <!-- Descripción -->
+
+                        <!-- Columna 2 -->
+                        <div class="col-md-6">
+                            
+
+                            <!-- Características -->
+                            <div class="row">
+                                <!-- Cuadro 1 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica1">Camara</label>
+                                        <input type="text" id="caracteristica1" name="caracteristica1" class="form-control" required>
+                                    </div>
+                                </div>
+                                
+                            
+                                <!-- Cuadro 2 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica2">Pantalla</label>
+                                        <input type="text" id="caracteristica2" name="caracteristica2" class="form-control" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Cuadro 3 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica3">Procesador</label>
+                                        <input type="text" id="caracteristica3" name="caracteristica3" class="form-control" required>
+                                    </div>
+                                </div>
+                        
+                            
+                            </div>
+                            <div class="row">
+                            
+                                <!-- Cuadro 4 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica4">Bateria</label>
+                                        <input type="text" id="caracteristica4" name="caracteristica4" class="form-control" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Cuadro 5 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica5">RAM</label>
+                                        <input type="text" id="caracteristica5" name="caracteristica5" class="form-control" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Cuadro 6 -->
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label for="caracteristica6">Memoria</label>
+                                        <input type="text" id="caracteristica6" name="caracteristica6" class="form-control" required>
+                                    </div>
+                                </div>
+                            
+                            </div>
+
+                            <!-- Red -->
+                            <div class="form-group mb-3">
+                                <label>Red</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="red" id="4g" value="4g" required>
+                                    <label class="form-check-label" for="4g"> 4G</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="red" id="5g" value="5g" required>
+                                    <label class="form-check-label" for="5g"> 5G</label>
+                                </div>
+                            </div>
+
+                            <!-- Colores -->
+                            <div class="form-group mb-3">
+                                <label for="colores">Colores</label>
+                                <select id="colores" name="colores" class="form-control" multiple required>
+                                    <option value="rojo">Rojo</option>
+                                    <option value="azul">Azul</option>
+                                    <option value="negro">Negro</option>
+                                    <option value="blanco">Blanco</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <!-- Campos para imágenes -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label for="imagen1">Imagen 1</label>
+                                <input type="file" id="imagen1" name="imagen1" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label for="imagen2">Imagen 2</label>
+                                <input type="file" id="imagen2" name="imagen2" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label for="imagen3">Imagen 3</label>
+                                <input type="file" id="imagen3" name="imagen3" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group mb-3">
+                                <label for="imagen4">Imagen 4</label>
+                                <input type="file" id="imagen4" name="imagen4" class="form-control" accept="image/*" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Guardar -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

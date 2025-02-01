@@ -1,5 +1,5 @@
 from werkzeug.utils import secure_filename
-import uuid  # Modulo de python para crear un string
+import uuid
 from conexion.conexionBD import *  # Conexión a BD
 import datetime
 import re
@@ -547,6 +547,18 @@ def lista_usuariosBD():
         print(f"Error en lista_usuariosBD : {e}")
         return []
 
+# Lista de equipos creados
+def lista_equiposBD():
+    try:
+        with connectionBD_railway() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "SELECT tipo_equipo,marca,producto,gamma FROM inventario_digital"
+                cursor.execute(querySQL,)
+                equiposBD = cursor.fetchall()
+        return equiposBD
+    except Exception as e:
+        print(f"Error en lista_usuariosBD : {e}")
+        return []
 
 # Eliminar uEmpleado
 def eliminarEmpleado(id_empleado, foto_empleado):

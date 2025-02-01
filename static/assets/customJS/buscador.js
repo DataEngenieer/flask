@@ -1,4 +1,4 @@
-async function buscadorTable(tableId) {
+async function buscadorTablee(tableId) {
   let input, busqueda, url;
   url = "/buscando-empleado";
 

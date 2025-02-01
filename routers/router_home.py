@@ -1,9 +1,8 @@
 from app import app
 from flask import render_template, request, flash, redirect, url_for, session,  jsonify
 from mysql.connector.errors import Error
-
-
-# Importando cenexión a BD
+import os
+from werkzeug.utils import secure_filename
 from controllers.funciones_home import *
 
 PATH_URL = "public/empleados"
@@ -192,3 +191,114 @@ def reporteBD():
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+
+@app.route("/listar_equipos", methods=['GET'])
+def listar_equipos():
+    if 'conectado' in session:
+        resp_equiposBD = lista_equiposBD()
+        return render_template('public/empleados/listar_equipos.html', resp_equiposBD=resp_equiposBD)
+    else:
+        return redirect(url_for('listar_equipos'))
+
+
+@app.route('/agregar_equipo', methods=['GET', 'POST'])
+def agregar_equipo():
+    if request.method == 'POST' and 'conectado' in session:
+        # Captura los datos del formulario
+        tipo_equipo = request.form.get('tipo_equipo')
+        marca = request.form.get('marca')
+        gamma = request.form.get('gamma')
+        nombre_equipo = request.form.get('nombre_equipo')
+        descripcion = request.form.get('descripcion')
+        caracteristicas = request.form.get('caracteristicas')
+        red = request.form.get('red')
+        colores = request.form.getlist('colores')  # Manejo de select múltiple
+        colores_str = ','.join(colores)
+
+        # Rutas para guardar las imágenes
+        UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
+        if not os.path.exists(UPLOAD_FOLDER):
+            os.makedirs(UPLOAD_FOLDER)  # Crea el directorio si no existe
+        
+        # Archivos de imágenes
+        imagen1 = request.files.get('imagen1')
+        imagen2 = request.files.get('imagen2')
+        imagen3 = request.files.get('imagen3')
+        imagen4 = request.files.get('imagen4')
+        
+        # Función para guardar imágenes
+        EN_RAILWAY = os.getenv("RAILWAY_ENV") is not None
+        UPLOAD_FOLDER_LOCAL = os.path.join(os.getcwd(), 'static', 'inventario_equipos')  # Local
+        UPLOAD_FOLDER_RAILWAY = "/inventario_digital"  # Volumen de Railway
+
+        def guardar_imagen(archivo, nombre_equipo, numero):
+            if archivo and archivo.filename:
+                # Asegura que el nombre del archivo sea seguro
+                filename = secure_filename(f"{nombre_equipo}_img{numero}{os.path.splitext(archivo.filename)[1]}")
+
+                # Selecciona la ruta según el entorno
+                if EN_RAILWAY:
+                    ruta_imagen = os.path.join(UPLOAD_FOLDER_RAILWAY, filename)
+                else:
+                    if not os.path.exists(UPLOAD_FOLDER_LOCAL):
+                        os.makedirs(UPLOAD_FOLDER_LOCAL)  # Crea la carpeta si no existe
+                    ruta_imagen = os.path.join(UPLOAD_FOLDER_LOCAL, filename)
+
+                archivo.save(ruta_imagen)  # Guarda la imagen en la ruta correspondiente
+
+                # Devuelve la ruta del archivo según el entorno
+                if EN_RAILWAY:
+                    return f"/inventario_digital/{filename}"
+                else:
+                    return f"static/inventario_equipos/{filename}"
+            
+            return None
+        
+        # Guarda las imágenes y obtén sus rutas
+        ruta_imagen1 = guardar_imagen(imagen1, nombre_equipo, 1)
+        ruta_imagen2 = guardar_imagen(imagen2, nombre_equipo, 2)
+        ruta_imagen3 = guardar_imagen(imagen3, nombre_equipo, 3)
+        ruta_imagen4 = guardar_imagen(imagen4, nombre_equipo, 4)
+        
+        try:
+            # Conexión a la base de datos SQL
+            try:
+                print("Intentando conectar a la base de datos...")
+                conexion = connectionBD_railway()  
+                print("Conexión exitosa")
+            except Exception as e:
+                print(f"Error al conectar a la BD: {e}")
+                return "Error de conexión a la base de datos", 500  # Cambia esto según tu método de conexión
+            cursor = conexion.cursor()
+
+            # Insertamos los datos en la tabla
+            query = """
+                INSERT INTO `inventario_digital` (`producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, `procesador`, `memoria_interna`, `bateria`, `ram`, `nfc`, `red`,`creator`) 
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+            """
+            cursor.execute(query, (
+                nombre_equipo, tipo_equipo, marca, gamma, descripcion, colores_str,
+                ruta_imagen1, ruta_imagen2, ruta_imagen3, ruta_imagen4,
+                request.form.get('caracteristica1'),  # Camara
+                request.form.get('caracteristica2'),  # Pantalla
+                request.form.get('caracteristica3'),  # Procesador
+                request.form.get('caracteristica4'),  # Memoria Interna
+                request.form.get('caracteristica5'),  # Batería
+                request.form.get('caracteristica6'),  # RAM
+                request.form.get('nfc', 'No'),  # NFC (opcional)
+                red,
+                session.get('user_id')  # ID del creador
+            ))
+            conexion.commit()
+            print(f"equipo guardado")
+
+            cursor.close()
+            conexion.close()
+
+            return redirect(url_for('listar_equipos'))
+        except Exception as e:
+            print(f"Error al guardar los datos: {e}")
+            return f"Error al guardar los datos: {str(e)}", 500   
+
+    return render_template('public/empleados/agregar_equipo.html')
+
