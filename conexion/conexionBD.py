@@ -54,6 +54,22 @@ def connectionBD_inv():
                 raise_on_warnings=True
             )
             if connection.is_connected():
+                print(f"Conectado con charset: {charset}")
+                return connection
+    charsets = ['utf8mb4', 'utf8']  # Lista de charset a probar
+
+    for charset in charsets:
+        try:
+            connection = mysql.connector.connect(
+                host="94.74.75.248",
+                user="rpa_inventario_2",
+                passwd="mIh23A7EB3yE5A3uXApOgEwOFOkI68",
+                database="bd_claro",
+                port=3306,
+                charset=charset,
+                raise_on_warnings=True
+            )
+            if connection.is_connected():
                 #print(f"Conectado con charset: {charset}")
                 return connection
 
