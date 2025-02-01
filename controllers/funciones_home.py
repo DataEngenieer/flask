@@ -8,6 +8,8 @@ from os import remove  # Modulo  para remover archivo
 from os import path  # Modulo para obtener la ruta o directorio
 import openpyxl  # Para generar el excel
 from flask import send_file
+import requests
+import base64
 
 def procesar_form_empleado(dataForm, foto_perfil):
     # Formateando Salario
@@ -559,8 +561,28 @@ def lista_equiposBD():
     except Exception as e:
         print(f"Error en lista_usuariosBD : {e}")
         return []
+    
+# buscar equipos creados
+def buscador_lista_equiposBD(search_producto):
+    try:
+        with connectionBD_inv() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
+                querySQL = ("""
+                        SELECT tipo_equipo,marca,producto,gamma FROM inventario_digital
+                        WHERE marca LIKE %s or producto LIKE %s
+                        limit 10
+                    """)
+                
+                search_producto_pattern = f"%{search_producto}%"
+                mycursor.execute(querySQL, (search_producto_pattern,))
+                resultadobusquedainv_oms = mycursor.fetchall()
+                return resultadobusquedainv_oms
 
-# Eliminar uEmpleado
+    except Exception as e:
+        print(f"Ocurrió un error en def buscador_lista_equiposBD: {e}")
+        return []
+
+# Eliminar Empleado
 def eliminarEmpleado(id_empleado, foto_empleado):
     try:
         with connectionBD_railway() as conexion_MySQLdb:
@@ -599,3 +621,62 @@ def eliminarUsuario(id):
     except Exception as e:
         print(f"Error en eliminarUsuario : {e}")
         return []
+    
+# Eliminar equipo digital
+def eliminarequipo(id):
+    try:
+        with connectionBD_railway() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "DELETE FROM inventario_digital WHERE id=%s"
+                cursor.execute(querySQL, (id,))
+                conexion_MySQLdb.commit()
+                resultado_eliminar = cursor.rowcount
+
+        return resultado_eliminar
+    except Exception as e:
+        print(f"Error en eliminarUsuario : {e}")
+        return []
+
+def guardar_url(id, url_larga, url_corta):
+    try:
+        with connectionBD_railway() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                querySQL = "UPDATE inventario_digital SET url_larga='%s',url_corta='%s' WHERE id=%s;"
+                cursor.execute(querySQL, (url_larga,url_corta,id,))
+                conexion_MySQLdb.commit()
+                resultado_agregar_url_corta = cursor.rowcount
+
+        return resultado_agregar_url_corta
+    except Exception as e:
+        print(f"Error modificando url´s cortas : {e}")
+        return []
+
+def enviar_sms(numero, mensaje):
+    
+    usuario = "api.pdzlr"
+    password = ".NQlu2t_GISxYWB@r3w1N2jsha3V.P"
+    credenciales = f"{usuario}:{password}"
+    token_base64 = base64.b64encode(credenciales.encode()).decode()
+
+    print(f"Authorization: Basic {token_base64}")
+    
+    url = "https://api-sms.masivapp.com/send-message"
+    
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Basic {token_base64}"
+    }
+    
+    data = {
+        "to": numero,
+        "text": mensaje,
+        "customData": "Pruebas SMS Innovacion"
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        print(f"📥 Respuesta de MasivApp: {response.status_code} - {response.text}")
+        return response.json()
+    except Exception as e:
+        print(f"❌ Error al enviar SMS: {str(e)}")
+        return {"error": "Error interno al enviar el SMS"}

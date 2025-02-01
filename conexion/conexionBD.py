@@ -54,7 +54,7 @@ def connectionBD_inv():
                 raise_on_warnings=True
             )
             if connection.is_connected():
-                print(f"Conectado con charset: {charset}")
+                #print(f"Conectado con charset: {charset}")
                 return connection
 
         except mysql.connector.Error as error:

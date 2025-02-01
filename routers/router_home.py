@@ -175,6 +175,31 @@ def borrarUsuario(id):
         flash('El Usuario fue eliminado correctamente', 'success')
         return redirect(url_for('usuarios'))
 
+# eliminar equipo digital
+@app.route('/borrar-equipo/<string:id>', methods=['GET'])
+def eliminar_equipo(id):
+    resp = eliminarequipo(id)
+    if resp:
+        flash('El Usuario fue eliminado correctamente', 'success')
+        return redirect(url_for('listar_equipos'))
+    
+# enviar sms equipo
+@app.route('/enviar-equipo', methods=['POST'])
+def enviar_equipo():
+    data = request.json  # Recibir datos en formato JSON
+    
+    # Obtener valores del JSON
+    id_equipo = data.get("id")
+    numero = data.get("telefono")
+
+    # Validaciones
+    if not numero or not numero.isdigit() or len(numero) != 10:
+        return jsonify({"error": "Número de teléfono inválido"}), 400
+    mensaje = f'Gracias por tu interes en el equipo: {id_equipo}'
+    # Enviar el SMS
+    resultado = enviar_sms(numero,mensaje)
+    return jsonify(resultado)  # Responder con el resultado
+
 
 @app.route('/borrar-empleado/<string:id_empleado>/<string:foto_empleado>', methods=['GET'])
 def borrarEmpleado(id_empleado, foto_empleado):
@@ -192,11 +217,12 @@ def reporteBD():
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
+
 @app.route("/listar_equipos", methods=['GET'])
 def listar_equipos():
     if 'conectado' in session:
         resp_equiposBD = lista_equiposBD()
-        return render_template('public/empleados/listar_equipos.html', resp_equiposBD=resp_equiposBD)
+        return render_template('public/empleados/listar_equipos2.html', resp_equiposBD=resp_equiposBD)
     else:
         return redirect(url_for('listar_equipos'))
 
@@ -210,7 +236,6 @@ def agregar_equipo():
         gamma = request.form.get('gamma')
         nombre_equipo = request.form.get('nombre_equipo')
         descripcion = request.form.get('descripcion')
-        caracteristicas = request.form.get('caracteristicas')
         red = request.form.get('red')
         colores = request.form.getlist('colores')  # Manejo de select múltiple
         colores_str = ','.join(colores)
