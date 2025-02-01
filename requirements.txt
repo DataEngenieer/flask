@@ -13,3 +13,4 @@ Werkzeug
 gunicorn
 flask-socketio
 pymysql
+requests
