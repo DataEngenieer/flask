@@ -317,11 +317,6 @@ def agregar_equipo():
             
             return None
         
-        # Guarda las imágenes y obtén sus rutas
-        #ruta_imagen1 = guardar_imagen(imagen1, nombre_equipo, 1)
-        #ruta_imagen2 = guardar_imagen(imagen2, nombre_equipo, 2)
-        #ruta_imagen3 = guardar_imagen(imagen3, nombre_equipo, 3)
-        #ruta_imagen4 = guardar_imagen(imagen4, nombre_equipo, 4)
         
                 # Imprime las rutas de las imágenes en la consola
         #print("Rutas de las imágenes:")
@@ -335,17 +330,15 @@ def agregar_equipo():
         #    print(f"Imagen 4: {ruta_imagen4}")
         
         try:
-            # Conexión a la base de datos SQL
             try:
                 print("Intentando conectar a la base de datos...")
                 conexion = connectionBD_railway()  
                 print("Conexión exitosa")
             except Exception as e:
                 print(f"Error al conectar a la BD: {e}")
-                return "Error de conexión a la base de datos", 500  # Cambia esto según tu método de conexión
+                return "Error de conexión a la base de datos", 500
             cursor = conexion.cursor()
 
-            # Insertamos los datos en la tabla
             query = """
                 INSERT INTO `inventario_digital` (`producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, `procesador`, `memoria_interna`, `bateria`, `ram`, `nfc`, `red`,`creator`) 
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
@@ -361,7 +354,7 @@ def agregar_equipo():
                 request.form.get('caracteristica6'),  # RAM
                 request.form.get('nfc', 'No'),  # NFC (opcional)
                 red,
-                session.get('email')  # ID del creador
+                session.get('email')
             ))
             conexion.commit()
             print(f"Equipo guardado en BD con imágenes en MinIO.")
