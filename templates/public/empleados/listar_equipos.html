@@ -5,11 +5,41 @@
 {% block body %} {% if (resp_equiposBD) %}
 
 <div class="card content_consignaciones" style="border-radius: 0px !important">
-  <section id="respuestaFiltroMes">
-    <h2 class="text-center mt-5 mb-5">
-      Lista de Equipos Creados
-      <hr />
-    </h2>
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12 mb-2">
+          <div class="banner text-center">
+            <h3 class="banner-title mt-2 mb-2">Inventario Digital - Qmas</h3>
+          </div>
+          <hr />
+        </div>
+    
+        <div class="row justify-content-center mb-2 gap-2">
+            <div class="col-md-6 col-lg-5">
+                <label for="search_bodega" class="form-label">Marca</label>
+                <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital(this.value)">
+                    <option value="">Selecciona una marca</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Oppo">Oppo</option>
+                    <option value="Honor">Honor</option>
+                    <option value="Vivo">Vivo</option>
+                    <option value="Tecno">Tecno</option>
+                    <option value="Motorola">Motorola</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                    <option value="Huawei">Huawei</option>
+                    <option value="Microsoft">Microsoft</option>
+                </select>
+            </div>
+            <div class="col-md-6 col-lg-5">
+                <label for="search_producto" class="form-label">Producto</label>
+                <input
+                type="search"
+                id="search_producto"
+                class="form-control"
+                placeholder="Buscar equipo..."
+                aria-describedby="floatingInputHelp"
+                onkeyup="buscador_equipo_digital('inventario_bodega')" />
+            </div>
+        </div>
     <div class="table-responsive text-nowrap">
       <table class="table table-hover">
         <thead>
@@ -29,18 +59,21 @@
             <td>{{ usuario.producto}}</td>
             <td>{{ usuario.gamma}}</td>
             <td>
+                {% if session.get('rol') == 'admin' %}
               <button
                 class="btn rounded-pill btn-danger"
                 onclick="eliminarUsuario('{{ usuario.id }}');">
                 <i class="bi bi-trash3"></i>
                 Eliminar
               </button>
+              {% endif %}
               <button
                 class="btn rounded-pill btn-success"
-                onclick="Ver('{{ usuario.id }}');">
+                onclick="enviar_sms_equipo('{{ usuario.id }}');">
                 <i class="bi bi-chat-dots"></i>
                 Enviar SMS
               </button>
+                
             </td>
           </tr>
           {% endfor %}
@@ -63,14 +96,89 @@
 
 <!--Script Custom-->
 {% block customJS %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  function eliminarUsuario(id) {
-    if (confirm("¿Estas seguro que deseas eliminar el Equipo.?")) {
-      let url = `/borrar-usuario/${id}`;
-      if (url) {
-        window.location.href = url;
-      }
+    function eliminarUsuario(id) {
+        if (confirm("¿Estas seguro que deseas eliminar el Equipo.?")) {
+        let url = `/borrar-equipo/${id}`;
+        if (url) {
+            window.location.href = url;
+        }
+        }
     }
-  }
-</script>
+
+
+    function enviar_sms_equipo2(id) {
+      Swal.fire({
+        title: "Enviar SMS",
+        text: "Ingresa el número de teléfono (10 dígitos sin +57):",
+        input: "text",
+        inputPlaceholder: "Ejemplo: 3123456789",
+        showCancelButton: true,
+        confirmButtonText: "Enviar",
+        cancelButtonText: "Cancelar",
+        inputValidator: (value) => {
+          if (!/^\d{10}$/.test(value)) {
+            return "Debes ingresar un número válido de 10 dígitos.";
+          }
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let numeroTelefono = result.value;
+          let url = `/enviar-equipo/${id}?telefono=${numeroTelefono}`;
+          window.location.href = url;
+        }
+      });
+    }
+
+    function enviar_sms_equipo(id) {
+        Swal.fire({
+            title: "Enviar SMS",
+            text: "Ingresa el número de teléfono (10 dígitos sin +57):",
+            input: "text",
+            inputPlaceholder: "Ejemplo: 3123456789",
+            showCancelButton: true,
+            confirmButtonText: "Enviar",
+            cancelButtonText: "Cancelar",
+            inputValidator: (value) => {
+                if (!/^\d{10}$/.test(value)) {
+                    return "Debes ingresar un número válido de 10 dígitos.";
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let numeroTelefono = result.value;
+                let data = { id: id, telefono: numeroTelefono };
+                console.log("📤 Enviando solicitud a Flask:", data);
+                // Petición fetch con método POST y JSON
+                fetch("/enviar-equipo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data) // Datos en JSON
+                })
+                .then(response => {
+                console.log("📥 Respuesta recibida de Flask:", response);
+                return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error("🚨 Error en respuesta:", data.error);
+                        Swal.fire("Error", data.error, "error");
+                    } else {
+                        Swal.fire("Éxito", "Mensaje enviado correctamente", "success");
+                    }
+                })
+                .catch(error => {
+                    Swal.fire("Error", "Hubo un problema al enviar el SMS", "error");
+                    console.error("Error en fetch de envio sms:", error);
+                });
+            }
+        });
+    }
+
+
+  </script>
 {% endblock %}

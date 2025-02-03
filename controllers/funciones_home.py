@@ -658,7 +658,7 @@ def enviar_sms(numero, mensaje):
     credenciales = f"{usuario}:{password}"
     token_base64 = base64.b64encode(credenciales.encode()).decode()
 
-    print(f"Authorization: Basic {token_base64}")
+    #print(f"Authorization: Basic {token_base64}")
     
     url = "https://api-sms.masivapp.com/send-message"
     

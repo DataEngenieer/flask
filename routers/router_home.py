@@ -252,30 +252,17 @@ def agregar_equipo():
         imagen4 = request.files.get('imagen4')
         
         # Función para guardar imágenes
-        EN_RAILWAY = os.getenv("RAILWAY_ENV") is not None
-        UPLOAD_FOLDER_LOCAL = os.path.join(os.getcwd(), 'static', 'inventario_equipos')  # Local
-        UPLOAD_FOLDER_RAILWAY = "/inventario_digital"  # Volumen de Railway
 
         def guardar_imagen(archivo, nombre_equipo, numero):
             if archivo and archivo.filename:
                 # Asegura que el nombre del archivo sea seguro
                 filename = secure_filename(f"{nombre_equipo}_img{numero}{os.path.splitext(archivo.filename)[1]}")
 
-                # Selecciona la ruta según el entorno
-                if EN_RAILWAY:
-                    ruta_imagen = os.path.join(UPLOAD_FOLDER_RAILWAY, filename)
-                else:
-                    if not os.path.exists(UPLOAD_FOLDER_LOCAL):
-                        os.makedirs(UPLOAD_FOLDER_LOCAL)  # Crea la carpeta si no existe
-                    ruta_imagen = os.path.join(UPLOAD_FOLDER_LOCAL, filename)
+                ruta_imagen = os.path.join(UPLOAD_FOLDER, filename)
 
                 archivo.save(ruta_imagen)  # Guarda la imagen en la ruta correspondiente
 
-                # Devuelve la ruta del archivo según el entorno
-                if EN_RAILWAY:
-                    return f"/inventario_digital/{filename}"
-                else:
-                    return f"static/inventario_equipos/{filename}"
+                return f"static/inventario_equipos/{filename}"
             
             return None
         
