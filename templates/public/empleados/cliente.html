@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claro Colombia - Teléfonos</title>
+    <title>Claro Colombia - Celulares y Tecnologia</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,12 +80,16 @@
 <body>
     <header>
         <img src="logo.png" alt="Logo Claro">
-        <h1>Claro Colombia</h1>
+        <h1>Claro Colombia - Celulares y Tecnologia</h1>
     </header>
     <div class="main-content">
         <!-- Galería de imágenes del equipo seleccionado -->
         <div class="main-image">
-            <img id="selectedImage" src="telefono1-grande.jpg" alt="Teléfono seleccionado">
+            {% if equipo.imagen1 %}
+                <img id="selectedImage" src="telefono1-grande.jpg" alt="Teléfono seleccionado">
+            {% else %}
+                <img id="selectedImage" src="no-image.jpg" alt="Teléfono seleccionado">
+            {% endif %}
         </div>
         <div class="gallery" id="mainGallery">
             <img src="telefono1-mini1.jpg" alt="Miniatura 1" onclick="changeImage('telefono1-mini1.jpg')">

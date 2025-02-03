@@ -226,6 +226,13 @@ def listar_equipos():
     else:
         return redirect(url_for('listar_equipos'))
 
+@app.route("/cliente", methods=['GET'])
+def cliente():
+    if 'conectado' in session:
+        
+        return render_template('public/empleados/cliente.html')
+    else:
+        return redirect(url_for('listar_equipos'))
 
 @app.route('/agregar_equipo', methods=['GET', 'POST'])
 def agregar_equipo():
@@ -325,3 +332,50 @@ def agregar_equipo():
 
     return render_template('public/empleados/agregar_equipo.html')
 
+@app.route('/ver_equipo/<int:id_equipo>')
+def ver_equipo(id_equipo):
+    try:
+        import sqlite3
+        conexion = sqlite3.connect('tu_base_de_datos.db')
+        cursor = conexion.cursor()
+
+        query = """
+            SELECT * FROM inventario_digital WHERE id = ?
+        """
+        cursor.execute(query, (id_equipo,))
+        equipo = cursor.fetchone()
+
+        if equipo:
+            # Crear un diccionario con los datos del equipo para pasar a la plantilla
+            datos_equipo = {
+                'id': equipo[0],
+                'producto': equipo[1],
+                'tipo_equipo': equipo[2],
+                'marca': equipo[3],
+                'gamma': equipo[4],
+                'descripcion': equipo[5],
+                'colores': equipo[6],
+                'imagen1': equipo[7],
+                'imagen2': equipo[8],
+                'imagen3': equipo[9],
+                'imagen4': equipo[10],
+                'camara': equipo[11],
+                'pantalla': equipo[12],
+                'procesador': equipo[13],
+                'memoria_interna': equipo[14],
+                'bateria': equipo[15],
+                'ram': equipo[16],
+                'nfc': equipo[17],
+                'red': equipo[18],
+                'creator': equipo[19]
+            }
+
+            return render_template('public/empleados/ver_equipo.html', equipo=datos_equipo)
+        else:
+            return "Equipo no encontrado", 404
+
+        cursor.close()
+        conexion.close()
+    except Exception as e:
+        print(f"Error al obtener los datos del equipo: {e}")
+        return f"Error al obtener los datos del equipo: {str(e)}", 500
