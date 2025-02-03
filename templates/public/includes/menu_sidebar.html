@@ -45,7 +45,7 @@
           </a>
       </li>
       {% endif %}
-      {% if session.get('rol') == 'admin' %}
+      {% if session.get('campaing') == 'Claro TyT' or session.get('rol') == 'admin' %}
       <li
         class="menu-item {% if request.path == '/listar_equipos' %} active {% endif %}">
         <a href="/listar_equipos" class="menu-link" style="color: #fff;">
@@ -97,7 +97,7 @@
         </a>
       </li>
       {% endif %}
-      {% if session.get('rol') == 'admin' %}
+      {% if session.get('rol') == 'admin' or session.get('rol') == 'push' %}
       <li
         class="menu-item {% if request.path == '/agregar_equipo' %} active {% endif %}">
         <a href="/agregar_equipo" class="menu-link" style="color: #fff;">

@@ -4,13 +4,12 @@
 <!---->
 {% block body %} {% if (resp_equiposBD) %}
 
-<div class="card content_consignaciones" style="border-radius: 0px !important">
+<div class="card content_consignaciones" style="border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
     <div class="row justify-content-center mb-2">
-        <div class="col-md-12 mb-2">
+        <div class="col-md-12">
           <div class="banner text-center">
-            <h3 class="banner-title mt-2 mb-2">Inventario Digital - Qmas</h3>
+            <h3 class="banner-title mt-1 mb-1">Inventario Digital - Qmas</h3>
           </div>
-          <hr />
         </div>
     
         <div class="row justify-content-center mb-2 gap-2">
@@ -41,7 +40,7 @@
             </div>
         </div>
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover" width="100%">
         <thead>
           <tr style="background-color: #ddd">
             <th>Tipo Equipo</th>
@@ -59,22 +58,27 @@
             <td>{{ usuario.producto}}</td>
             <td>{{ usuario.gamma}}</td>
             <td>
-                {% if session.get('rol') == 'admin' %}
+              {% if session.get('rol') == 'admin' %}
               <button
-                class="btn rounded-pill btn-danger"
-                onclick="eliminarUsuario('{{ usuario.id }}');">
-                <i class="bi bi-trash3"></i>
-                Eliminar
+                  class="btn rounded-pill btn-danger btn-sm me-2"
+                  onclick="eliminarUsuario('{{ usuario.id }}');"
+                  style="transition: all 0.3s;">
+                  <i class="bi bi-trash3"></i> Eliminar
               </button>
               {% endif %}
               <button
-                class="btn rounded-pill btn-success"
-                onclick="enviar_sms_equipo('{{ usuario.id }}');">
-                <i class="bi bi-chat-dots"></i>
-                Enviar SMS
+                  class="btn rounded-pill btn-success btn-sm me-2"
+                  onclick="enviar_sms_equipo('{{ usuario.id }}');"
+                  style="transition: all 0.3s;">
+                  <i class="bi bi-chat-dots"></i> Enviar SMS
               </button>
-                
-            </td>
+              <button
+                  class="btn rounded-pill btn-primary btn-sm"
+                  onclick="ver_equipo('{{ usuario.id }}');"
+                  style="transition: all 0.3s;">
+                  <i class="bi bi-eye"></i> Ver
+              </button>
+          </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -83,10 +87,11 @@
   </section>
 </div>
 {% else %}
-<div class="container mt-3 mb-3" style="width: 100% !important">
+<div class="container mt-3 mb-3">
   <div class="row justify-content-md-center mb-2">
-    <div class="col-12">
-      <h2 class="text-center">No hay Equipos creados 😭</h2>
+    <div class="col-12 text-center">
+      <h2 class="text-center" style="color: #2c3e50;">No hay Equipos creados 😭</h2>
+      <p class="text-center text-muted">Aún no se han registrado equipos en el sistema.</p>
     </div>
   </div>
 </div>
@@ -100,36 +105,23 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function eliminarUsuario(id) {
-        if (confirm("¿Estas seguro que deseas eliminar el Equipo.?")) {
-        let url = `/borrar-equipo/${id}`;
-        if (url) {
-            window.location.href = url;
-        }
-        }
-    }
-
-
-    function enviar_sms_equipo2(id) {
-      Swal.fire({
-        title: "Enviar SMS",
-        text: "Ingresa el número de teléfono (10 dígitos sin +57):",
-        input: "text",
-        inputPlaceholder: "Ejemplo: 3123456789",
-        showCancelButton: true,
-        confirmButtonText: "Enviar",
-        cancelButtonText: "Cancelar",
-        inputValidator: (value) => {
-          if (!/^\d{10}$/.test(value)) {
-            return "Debes ingresar un número válido de 10 dígitos.";
-          }
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          let numeroTelefono = result.value;
-          let url = `/enviar-equipo/${id}?telefono=${numeroTelefono}`;
-          window.location.href = url;
-        }
-      });
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Está a punto de eliminar un equipo. Esta acción no se puede deshacer.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = `/borrar-equipo/${id}`;
+                if (url) {
+                    window.location.href = url;
+                }
+            }
+        });
     }
 
     function enviar_sms_equipo(id) {

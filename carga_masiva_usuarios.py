@@ -1,13 +1,11 @@
 # Importandopaquetes desde flask
 from flask import session, flash
 import pandas as pd
-from conexion.conexionBD import connectionBD
+from conexion.conexionBD import connectionBD_railway
 import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-#from conexion.conexionBD import connectionBD
 
 from werkzeug.security import generate_password_hash
 from controllers.funciones_login import *
@@ -20,7 +18,7 @@ def recibeInsertRegisterUser(documento, name_surname, email_user, pass_user, rol
         # Generar hash de la contraseña
         nueva_password = generate_password_hash(pass_user, method='scrypt')
         try:
-            with connectionBD() as conexion_MySQLdb:
+            with connectionBD_railway() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                     sql = "INSERT INTO users(documento, name_surname, email_user, pass_user, rol, token, numero_token, campaing) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
                     valores = (documento, name_surname, email_user, nueva_password, rol, token, numero_token, campaing)
@@ -69,7 +67,7 @@ def registrar_usuarios_excel(ruta_excel, rol_predeterminado):
         print(f"Error al procesar el archivo Excel: {e}")
 
 
-ruta_excel = 'usuarios1.xlsx'  # Ruta del archivo Excel
-rol_predeterminado = 'agente'  # Rol predeterminado para los usuarios
+ruta_excel = r'C:\FLASH\flask\usuarios1.xlsx'  # Ruta del archivo Excel
+rol_predeterminado = 'push'  # Rol predeterminado para los usuarios
 
 registrar_usuarios_excel(ruta_excel, rol_predeterminado)

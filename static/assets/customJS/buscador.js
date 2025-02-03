@@ -243,10 +243,10 @@ function buscador_equipo_digital(marcaSeleccionada) {
   console.log("Marca seleccionada:", marcaSeleccionada);
   
   // Obtener todas las filas de la tabla
-  let filas = document.querySelectorAll("#inventario_bodega tbody tr");
+  let filas = document.querySelectorAll("#inventario_digital tbody tr");
 
   filas.forEach(fila => {
-      let marca = fila.querySelector(".columna-marca").textContent.trim();
+      let marca = fila.querySelector(".marca").textContent.trim();
 
       // Mostrar solo las filas que coincidan con la marca seleccionada
       if (marcaSeleccionada === "" || marca === marcaSeleccionada) {

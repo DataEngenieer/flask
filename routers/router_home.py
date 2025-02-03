@@ -224,7 +224,7 @@ def reporteBD():
 def listar_equipos():
     if 'conectado' in session:
         resp_equiposBD = lista_equiposBD()
-        return render_template('public/empleados/listar_equipos2.html', resp_equiposBD=resp_equiposBD)
+        return render_template('public/empleados/listar_equipos.html', resp_equiposBD=resp_equiposBD)
     else:
         return redirect(url_for('listar_equipos'))
 
@@ -361,7 +361,7 @@ def agregar_equipo():
                 request.form.get('caracteristica6'),  # RAM
                 request.form.get('nfc', 'No'),  # NFC (opcional)
                 red,
-                session.get('user_id')  # ID del creador
+                session.get('email')  # ID del creador
             ))
             conexion.commit()
             print(f"Equipo guardado en BD con imágenes en MinIO.")
@@ -379,8 +379,7 @@ def agregar_equipo():
 @app.route('/ver_equipo/<int:id_equipo>')
 def ver_equipo(id_equipo):
     try:
-        import sqlite3
-        conexion = sqlite3.connect('tu_base_de_datos.db')
+        conexion = connectionBD_railway()  
         cursor = conexion.cursor()
 
         query = """
