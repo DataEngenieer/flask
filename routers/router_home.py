@@ -272,6 +272,17 @@ def agregar_equipo():
         ruta_imagen3 = guardar_imagen(imagen3, nombre_equipo, 3)
         ruta_imagen4 = guardar_imagen(imagen4, nombre_equipo, 4)
         
+                # Imprime las rutas de las imágenes en la consola
+        print("Rutas de las imágenes:")
+        if ruta_imagen1:
+            print(f"Imagen 1: {ruta_imagen1}")
+        if ruta_imagen2:
+            print(f"Imagen 2: {ruta_imagen2}")
+        if ruta_imagen3:
+            print(f"Imagen 3: {ruta_imagen3}")
+        if ruta_imagen4:
+            print(f"Imagen 4: {ruta_imagen4}")
+        
         try:
             # Conexión a la base de datos SQL
             try:
