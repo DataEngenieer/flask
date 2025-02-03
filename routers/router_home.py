@@ -4,6 +4,8 @@ from mysql.connector.errors import Error
 import os
 from werkzeug.utils import secure_filename
 from controllers.funciones_home import *
+from minio import Minio
+from minio.error import S3Error
 
 PATH_URL = "public/empleados"
 
@@ -234,6 +236,10 @@ def cliente():
     else:
         return redirect(url_for('listar_equipos'))
 
+
+
+
+
 @app.route('/agregar_equipo', methods=['GET', 'POST'])
 def agregar_equipo():
     if request.method == 'POST' and 'conectado' in session:
@@ -247,16 +253,54 @@ def agregar_equipo():
         colores = request.form.getlist('colores')  # Manejo de select múltiple
         colores_str = ','.join(colores)
 
+        
+                # Configuración de MinIO
+        minio_client = Minio(
+            "bucket-production-6b48.up.railway.app",  # Dirección del servidor MinIO
+            access_key="QtuJZ2idPCTtD5RbRmWN",
+            secret_key="l7SoPJjtGQ2xGKdZdwIzCJkGD0lNINzpSegDe3Ai",
+            secure=True  # True si usas HTTPS
+        )
+
+        # Verificar que el bucket existe
+        bucket_name = "inventario-equipo"
+        if not minio_client.bucket_exists(bucket_name):
+            minio_client.make_bucket(bucket_name)
+    
+    
         # Rutas para guardar las imágenes
         UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
         if not os.path.exists(UPLOAD_FOLDER):
             os.makedirs(UPLOAD_FOLDER)  # Crea el directorio si no existe
         
+        # Función para subir imágenes a MinIO
+        def subir_a_minio(archivo, nombre_equipo, numero):
+            if archivo and archivo.filename:
+                extension = os.path.splitext(archivo.filename)[1]
+                filename = secure_filename(f"{nombre_equipo}_img{numero}{extension}")
+
+                # Subir a MinIO
+                minio_client.put_object(
+                    bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
+                )
+
+                # Retornar la URL de acceso
+                url_archivo = minio_client.presigned_get_object(bucket_name, filename)
+                return f"{url_archivo}"
+            
+            return None
+        
+        # Subir imágenes y obtener las URLs
+        ruta_imagen1 = subir_a_minio(request.files.get('imagen1'), nombre_equipo, 1)
+        ruta_imagen2 = subir_a_minio(request.files.get('imagen2'), nombre_equipo, 2)
+        ruta_imagen3 = subir_a_minio(request.files.get('imagen3'), nombre_equipo, 3)
+        ruta_imagen4 = subir_a_minio(request.files.get('imagen4'), nombre_equipo, 4)
+        
         # Archivos de imágenes
-        imagen1 = request.files.get('imagen1')
-        imagen2 = request.files.get('imagen2')
-        imagen3 = request.files.get('imagen3')
-        imagen4 = request.files.get('imagen4')
+        #imagen1 = request.files.get('imagen1')
+        #imagen2 = request.files.get('imagen2')
+        #imagen3 = request.files.get('imagen3')
+        #imagen4 = request.files.get('imagen4')
         
         # Función para guardar imágenes
 
@@ -274,21 +318,21 @@ def agregar_equipo():
             return None
         
         # Guarda las imágenes y obtén sus rutas
-        ruta_imagen1 = guardar_imagen(imagen1, nombre_equipo, 1)
-        ruta_imagen2 = guardar_imagen(imagen2, nombre_equipo, 2)
-        ruta_imagen3 = guardar_imagen(imagen3, nombre_equipo, 3)
-        ruta_imagen4 = guardar_imagen(imagen4, nombre_equipo, 4)
+        #ruta_imagen1 = guardar_imagen(imagen1, nombre_equipo, 1)
+        #ruta_imagen2 = guardar_imagen(imagen2, nombre_equipo, 2)
+        #ruta_imagen3 = guardar_imagen(imagen3, nombre_equipo, 3)
+        #ruta_imagen4 = guardar_imagen(imagen4, nombre_equipo, 4)
         
                 # Imprime las rutas de las imágenes en la consola
-        print("Rutas de las imágenes:")
-        if ruta_imagen1:
-            print(f"Imagen 1: {ruta_imagen1}")
-        if ruta_imagen2:
-            print(f"Imagen 2: {ruta_imagen2}")
-        if ruta_imagen3:
-            print(f"Imagen 3: {ruta_imagen3}")
-        if ruta_imagen4:
-            print(f"Imagen 4: {ruta_imagen4}")
+        #print("Rutas de las imágenes:")
+        #if ruta_imagen1:
+        #    print(f"Imagen 1: {ruta_imagen1}")
+        #if ruta_imagen2:
+        #    print(f"Imagen 2: {ruta_imagen2}")
+        #if ruta_imagen3:
+        #    print(f"Imagen 3: {ruta_imagen3}")
+        #if ruta_imagen4:
+        #    print(f"Imagen 4: {ruta_imagen4}")
         
         try:
             # Conexión a la base de datos SQL
@@ -320,7 +364,7 @@ def agregar_equipo():
                 session.get('user_id')  # ID del creador
             ))
             conexion.commit()
-            print(f"equipo guardado")
+            print(f"Equipo guardado en BD con imágenes en MinIO.")
 
             cursor.close()
             conexion.close()
