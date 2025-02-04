@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claro Colombia - Celulares y Tecnologia</title>
+    <title>Claro - Celulares y Tecnologia</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            margin: 10;
             padding: 0;
         }
         header {
-            background-color: #f08080;
+            background: linear-gradient(to right, #E03224, #AD1523);
             color: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
         }
         header img {
             height: 40px;
             margin-right: 15px;
+        }
+        header h1 {
+            flex-grow: 1; /* Hace que ocupe el espacio disponible */
+            text-align: center; /* Centra el texto */
+            margin: 0; /* Evita espacios extra */
         }
         .main-content {
             padding: 20px;
@@ -79,16 +84,16 @@
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="Logo Claro">
-        <h1>Claro Colombia - Celulares y Tecnologia</h1>
+        <img src="../static/assets/img/claro_logo.svg" alt="Logo Claro">
+        <h1>Celulares y Tecnologia</h1>
     </header>
     <div class="main-content">
         <!-- Galería de imágenes del equipo seleccionado -->
         <div class="main-image">
-            {% if equipo.imagen1 %}
-                <img id="selectedImage" src="telefono1-grande.jpg" alt="Teléfono seleccionado">
+            {% if equipo and equipo.imagen1 %}
+                <img src="{{ equipo.imagen1 }}" alt="Imagen del equipo">
             {% else %}
-                <img id="selectedImage" src="no-image.jpg" alt="Teléfono seleccionado">
+                <p>No hay imagen disponible.</p>
             {% endif %}
         </div>
         <div class="gallery" id="mainGallery">
@@ -129,8 +134,8 @@
     </div>
 
     <footer>
-        <p>Disclaimer: Todos los derechos reservados. Bento.</p>
-        <a href="https://wa.me/00000000000" class="whatsapp-btn">Contáctanos por WhatsApp</a>
+        <p>Desarrollo e Innovacion 2025 - Todos los derechos reservados Qmas</p>
+        <a href="https://wa.me/573108647211" class="whatsapp-btn">Contáctanos por WhatsApp</a>
     </footer>
 
     <script>

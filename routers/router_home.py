@@ -230,9 +230,9 @@ def listar_equipos():
 
 @app.route("/cliente", methods=['GET'])
 def cliente():
+    equipo = {"imagen1": "https://bucket-production-6b48.up.railway.app/inventario-equipo/prueba_img4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=QtuJZ2idPCTtD5RbRmWN%2F20250203%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T163606Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=534b3c8644fe5878bee8f473c6d9bcb06c318d33c0ae0ba83e12192004d713ff"}
     if 'conectado' in session:
-        
-        return render_template('public/empleados/cliente.html')
+        return render_template('public/empleados/cliente.html', equipo=equipo)
     else:
         return redirect(url_for('listar_equipos'))
 
@@ -242,132 +242,137 @@ def cliente():
 
 @app.route('/agregar_equipo', methods=['GET', 'POST'])
 def agregar_equipo():
-    if request.method == 'POST' and 'conectado' in session:
-        # Captura los datos del formulario
-        tipo_equipo = request.form.get('tipo_equipo')
-        marca = request.form.get('marca')
-        gamma = request.form.get('gamma')
-        nombre_equipo = request.form.get('nombre_equipo')
-        descripcion = request.form.get('descripcion')
-        red = request.form.get('red')
-        colores = request.form.getlist('colores')  # Manejo de select múltiple
-        colores_str = ','.join(colores)
+    if 'conectado' in session:
+        if request.method == 'POST':
+            # Captura los datos del formulario
+            tipo_equipo = request.form.get('tipo_equipo')
+            marca = request.form.get('marca')
+            gamma = request.form.get('gamma')
+            nombre_equipo = request.form.get('nombre_equipo')
+            descripcion = request.form.get('descripcion')
+            red = request.form.get('red')
+            colores = request.form.getlist('colores')  # Manejo de select múltiple
+            colores_str = ','.join(colores)
 
-        
-                # Configuración de MinIO
-        minio_client = Minio(
-            "bucket-production-6b48.up.railway.app",  # Dirección del servidor MinIO
-            access_key="QtuJZ2idPCTtD5RbRmWN",
-            secret_key="l7SoPJjtGQ2xGKdZdwIzCJkGD0lNINzpSegDe3Ai",
-            secure=True  # True si usas HTTPS
-        )
-
-        # Verificar que el bucket existe
-        bucket_name = "inventario-equipo"
-        if not minio_client.bucket_exists(bucket_name):
-            minio_client.make_bucket(bucket_name)
-    
-    
-        # Rutas para guardar las imágenes
-        UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
-        if not os.path.exists(UPLOAD_FOLDER):
-            os.makedirs(UPLOAD_FOLDER)  # Crea el directorio si no existe
-        
-        # Función para subir imágenes a MinIO
-        def subir_a_minio(archivo, nombre_equipo, numero):
-            if archivo and archivo.filename:
-                extension = os.path.splitext(archivo.filename)[1]
-                filename = secure_filename(f"{nombre_equipo}_img{numero}{extension}")
-
-                # Subir a MinIO
-                minio_client.put_object(
-                    bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
-                )
-
-                # Retornar la URL de acceso
-                url_archivo = minio_client.presigned_get_object(bucket_name, filename)
-                return f"{url_archivo}"
             
-            return None
+                    # Configuración de MinIO
+            minio_client = Minio(
+                "bucket-production-6b48.up.railway.app",  # Dirección del servidor MinIO
+                access_key="QtuJZ2idPCTtD5RbRmWN",
+                secret_key="l7SoPJjtGQ2xGKdZdwIzCJkGD0lNINzpSegDe3Ai",
+                secure=True  # True si usas HTTPS
+            )
+
+            # Verificar que el bucket existe
+            bucket_name = "inventario-equipo"
+            if not minio_client.bucket_exists(bucket_name):
+                minio_client.make_bucket(bucket_name)
         
-        # Subir imágenes y obtener las URLs
-        ruta_imagen1 = subir_a_minio(request.files.get('imagen1'), nombre_equipo, 1)
-        ruta_imagen2 = subir_a_minio(request.files.get('imagen2'), nombre_equipo, 2)
-        ruta_imagen3 = subir_a_minio(request.files.get('imagen3'), nombre_equipo, 3)
-        ruta_imagen4 = subir_a_minio(request.files.get('imagen4'), nombre_equipo, 4)
         
-        # Archivos de imágenes
-        #imagen1 = request.files.get('imagen1')
-        #imagen2 = request.files.get('imagen2')
-        #imagen3 = request.files.get('imagen3')
-        #imagen4 = request.files.get('imagen4')
-        
-        # Función para guardar imágenes
-
-        def guardar_imagen(archivo, nombre_equipo, numero):
-            if archivo and archivo.filename:
-                # Asegura que el nombre del archivo sea seguro
-                filename = secure_filename(f"{nombre_equipo}_img{numero}{os.path.splitext(archivo.filename)[1]}")
-
-                ruta_imagen = os.path.join(UPLOAD_FOLDER, filename)
-
-                archivo.save(ruta_imagen)  # Guarda la imagen en la ruta correspondiente
-
-                return f"static/inventario_equipos/{filename}"
+            # Rutas para guardar las imágenes
+            UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
+            if not os.path.exists(UPLOAD_FOLDER):
+                os.makedirs(UPLOAD_FOLDER)  # Crea el directorio si no existe
             
-            return None
-        
-        
-                # Imprime las rutas de las imágenes en la consola
-        #print("Rutas de las imágenes:")
-        #if ruta_imagen1:
-        #    print(f"Imagen 1: {ruta_imagen1}")
-        #if ruta_imagen2:
-        #    print(f"Imagen 2: {ruta_imagen2}")
-        #if ruta_imagen3:
-        #    print(f"Imagen 3: {ruta_imagen3}")
-        #if ruta_imagen4:
-        #    print(f"Imagen 4: {ruta_imagen4}")
-        
-        try:
+            # Función para subir imágenes a MinIO
+            def subir_a_minio(archivo, nombre_equipo, numero):
+                if archivo and archivo.filename:
+                    extension = os.path.splitext(archivo.filename)[1]
+                    filename = secure_filename(f"{nombre_equipo}_img{numero}{extension}")
+
+                    # Subir a MinIO
+                    minio_client.put_object(
+                        bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
+                    )
+
+                    # Retornar la URL de acceso
+                    url_archivo = minio_client.presigned_get_object(bucket_name, filename)
+                    return f"{url_archivo}"
+                
+                return None
+            
+            # Subir imágenes y obtener las URLs
+            ruta_imagen1 = subir_a_minio(request.files.get('imagen1'), nombre_equipo, 1)
+            ruta_imagen2 = subir_a_minio(request.files.get('imagen2'), nombre_equipo, 2)
+            ruta_imagen3 = subir_a_minio(request.files.get('imagen3'), nombre_equipo, 3)
+            ruta_imagen4 = subir_a_minio(request.files.get('imagen4'), nombre_equipo, 4)
+            
+            # Archivos de imágenes
+            #imagen1 = request.files.get('imagen1')
+            #imagen2 = request.files.get('imagen2')
+            #imagen3 = request.files.get('imagen3')
+            #imagen4 = request.files.get('imagen4')
+            
+            # Función para guardar imágenes
+
+            def guardar_imagen(archivo, nombre_equipo, numero):
+                if archivo and archivo.filename:
+                    # Asegura que el nombre del archivo sea seguro
+                    filename = secure_filename(f"{nombre_equipo}_img{numero}{os.path.splitext(archivo.filename)[1]}")
+
+                    ruta_imagen = os.path.join(UPLOAD_FOLDER, filename)
+
+                    archivo.save(ruta_imagen)  # Guarda la imagen en la ruta correspondiente
+
+                    return f"static/inventario_equipos/{filename}"
+                
+                return None
+            
+            
+                    # Imprime las rutas de las imágenes en la consola
+            #print("Rutas de las imágenes:")
+            #if ruta_imagen1:
+            #    print(f"Imagen 1: {ruta_imagen1}")
+            #if ruta_imagen2:
+            #    print(f"Imagen 2: {ruta_imagen2}")
+            #if ruta_imagen3:
+            #    print(f"Imagen 3: {ruta_imagen3}")
+            #if ruta_imagen4:
+            #    print(f"Imagen 4: {ruta_imagen4}")
+            
             try:
-                print("Intentando conectar a la base de datos...")
-                conexion = connectionBD_railway()  
-                print("Conexión exitosa")
+                try:
+                    print("Intentando conectar a la base de datos...")
+                    conexion = connectionBD_railway()  
+                    print("Conexión exitosa")
+                except Exception as e:
+                    print(f"Error al conectar a la BD: {e}")
+                    return "Error de conexión a la base de datos", 500
+                cursor = conexion.cursor()
+
+                query = """
+                    INSERT INTO `inventario_digital` (`producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, `procesador`, `memoria_interna`, `bateria`, `ram`, `nfc`, `red`,`creator`) 
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+                """
+                cursor.execute(query, (
+                    nombre_equipo, tipo_equipo, marca, gamma, descripcion, colores_str,
+                    ruta_imagen1, ruta_imagen2, ruta_imagen3, ruta_imagen4,
+                    request.form.get('caracteristica1'),  # Camara
+                    request.form.get('caracteristica2'),  # Pantalla
+                    request.form.get('caracteristica3'),  # Procesador
+                    request.form.get('caracteristica4'),  # Memoria Interna
+                    request.form.get('caracteristica5'),  # Batería
+                    request.form.get('caracteristica6'),  # RAM
+                    request.form.get('nfc', 'No'),  # NFC (opcional)
+                    red,
+                    session.get('email')
+                ))
+                conexion.commit()
+                print(f"Equipo guardado en BD con imágenes en MinIO.")
+
+                cursor.close()
+                conexion.close()
+
+                return redirect(url_for('listar_equipos'))
             except Exception as e:
-                print(f"Error al conectar a la BD: {e}")
-                return "Error de conexión a la base de datos", 500
-            cursor = conexion.cursor()
-
-            query = """
-                INSERT INTO `inventario_digital` (`producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, `procesador`, `memoria_interna`, `bateria`, `ram`, `nfc`, `red`,`creator`) 
-                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
-            """
-            cursor.execute(query, (
-                nombre_equipo, tipo_equipo, marca, gamma, descripcion, colores_str,
-                ruta_imagen1, ruta_imagen2, ruta_imagen3, ruta_imagen4,
-                request.form.get('caracteristica1'),  # Camara
-                request.form.get('caracteristica2'),  # Pantalla
-                request.form.get('caracteristica3'),  # Procesador
-                request.form.get('caracteristica4'),  # Memoria Interna
-                request.form.get('caracteristica5'),  # Batería
-                request.form.get('caracteristica6'),  # RAM
-                request.form.get('nfc', 'No'),  # NFC (opcional)
-                red,
-                session.get('email')
-            ))
-            conexion.commit()
-            print(f"Equipo guardado en BD con imágenes en MinIO.")
-
-            cursor.close()
-            conexion.close()
-
-            return redirect(url_for('listar_equipos'))
-        except Exception as e:
-            print(f"Error al guardar los datos: {e}")
-            return f"Error al guardar los datos: {str(e)}", 500   
-
-    return render_template('public/empleados/agregar_equipo.html')
+                print(f"Error al guardar los datos: {e}")
+                return f"Error al guardar los datos: {str(e)}", 500  
+        
+        return render_template('public/empleados/agregar_equipo.html') 
+    else:
+        return redirect(url_for('loginCliente'))
+    
+    
 
 @app.route('/ver_equipo/<int:id_equipo>')
 def ver_equipo(id_equipo):

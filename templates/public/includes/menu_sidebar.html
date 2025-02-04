@@ -106,7 +106,15 @@
         </a>
       </li>
       {% endif %}    
-       
+      {% if session.get('rol') == 'admin' %}
+      <li
+        class="menu-item {% if request.path == '/agregar_equipo' %} active {% endif %}">
+        <a href="/cliente" class="menu-link" style="color: #fff;">
+          <i class="menu-icon bi bi-person-lines-fill" style="color: #fff;"></i>
+          <div data-i18n="Tables">Ver Pagina Cliente</div>
+        </a>
+      </li>
+      {% endif %}        
       <li
         class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
         <a href="/mi-perfil" class="menu-link" style="color: #fff;">
