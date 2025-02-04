@@ -8,7 +8,19 @@
   data-template="vertical-menu-template-free">
   <head>
     {% include 'public/includes/head.html' %}
-    <!---->
+    <style>
+      /* Estilos para que el menú de imágenes solo se muestre en pantallas grandes */
+      @media (max-width: 991px) {
+        .image-grid {
+          display: none;
+        }
+
+        .icon-grid {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    </style>
     {% block customCSS %} {% endblock %}
   </head>
   <body>

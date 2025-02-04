@@ -68,6 +68,6 @@ def registrar_usuarios_excel(ruta_excel, rol_predeterminado):
 
 
 ruta_excel = r'C:\FLASH\flask\usuarios1.xlsx'  # Ruta del archivo Excel
-rol_predeterminado = 'push'  # Rol predeterminado para los usuarios
+rol_predeterminado = 'agente'  # Rol predeterminado para los usuarios
 
 registrar_usuarios_excel(ruta_excel, rol_predeterminado)

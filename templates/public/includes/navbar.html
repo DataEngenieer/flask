@@ -1,8 +1,10 @@
 <nav class="navbar navbar-light bg-dark justify-content-md-center py-1">
   <div class="container-fluid text-center">
     <span class="text-light small me-3">Herramientas Qmas</span>
+    
     <div class="d-flex align-items-center">
-      <div class="image-grid">
+      <!-- Menú de imágenes (visible solo en pantallas grandes) -->
+      <div class="image-grid d-none d-lg-flex">
         <a href="http://poliedro.comcel.com.co/" target="_blank" title="Poliedro">
           <img src="../static/assets/img/poliedro.png" alt="Poliedro" class="img-fluid mx-2">
         </a>
@@ -18,22 +20,36 @@
         <a href="https://conectados.com.co/" target="_blank" title="Conectados">
           <img src="../static/assets/img/conectados.png" alt="Conectados" class="img-fluid mx-2" style="width: auto; height: 40px; background-color: white; padding: 5px; border-radius: 4px;">
         </a>
-        </a>
         <a href="https://tienda.claro.com.co/" target="_blank" title="Tienda Claro">
           <img src="../static/assets/img/claro.png" alt="Tienda Claro" class="img-fluid mx-2">
         </a>
       </div>
-    
+
+      <!-- Menú de iconos (visible solo en pantallas pequeñas) -->
+      <div class="icon-grid d-flex d-lg-none">
+        {% if session.get('rol') == 'admin' or session.get('rol') == 'push' %}
+        <a href="/agregar_equipo" class="mx-3 text-light" title="Agregar Equipo">
+          <i class="bx bx-plus-circle" style="font-size: 24px;"></i>
+        </a>
+        {% endif %}
+        {% if session.get('rol') == 'admin' or session.get('rol') == 'push' %}
+        <a href="/listar_equipos" class="mx-3 text-light" title="Listar Equipos">
+          <i class="bx bx-box" style="font-size: 24px;"></i>
+        </a>
+        {% endif %}
+        {% if session.get('rol') == 'admin' or session.get('rol') == 'push' %}
+        <a href="{{ url_for('cerraSesion') }}" class="mx-3 text-light" title="Cerrar Sesion">
+          <i class="bx bx-log-out" style="font-size: 24px;"></i>
+        </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>
 
-<div
-  class="layout-menu-toggle navbar-nav align-items-xl-center me-xl-0 d-xl-none btnMovil">
-  <a
-    class="nav-item nav-link px-0 me-xl-4"
-    href="javascript:void(0)"
-    style="margin-right: 15px">
-    <i class="bx bx-menu"></i>
+<!-- Botón de menú en móviles -->
+<div class="layout-menu-toggle navbar-nav align-items-center me-0 d-lg-none btnMovil">
+  <a class="nav-item nav-link px-0 me-3" href="javascript:void(0)">
+    <i class="bx bx-menu" style="font-size: 28px;"></i>
   </a>
 </div>
