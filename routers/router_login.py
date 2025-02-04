@@ -91,7 +91,7 @@ def actualizarPerfil():
 # Validar sesión
 @app.route('/login', methods=['GET', 'POST'])
 def loginCliente():
-    if 'conectado' in session:
+    if 'conectado' in session:      
         return redirect(url_for('inicio'))
     else:
         if request.method == 'POST' and 'email_user' in request.form and 'pass_user' in request.form:

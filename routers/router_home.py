@@ -253,9 +253,8 @@ def agregar_equipo():
             red = request.form.get('red')
             colores = request.form.getlist('colores')  # Manejo de select múltiple
             colores_str = ','.join(colores)
-
             
-                    # Configuración de MinIO
+            # Configuración de MinIO
             minio_client = Minio(
                 "bucket-production-6b48.up.railway.app",  # Dirección del servidor MinIO
                 access_key="QtuJZ2idPCTtD5RbRmWN",
@@ -267,7 +266,6 @@ def agregar_equipo():
             bucket_name = "inventario-equipo"
             if not minio_client.bucket_exists(bucket_name):
                 minio_client.make_bucket(bucket_name)
-        
         
             # Rutas para guardar las imágenes
             UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
@@ -371,8 +369,6 @@ def agregar_equipo():
         return render_template('public/empleados/agregar_equipo.html') 
     else:
         return redirect(url_for('loginCliente'))
-    
-    
 
 @app.route('/ver_equipo/<int:id_equipo>')
 def ver_equipo(id_equipo):
