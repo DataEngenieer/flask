@@ -108,6 +108,7 @@ def viewBuscarInventarioBD_bodega():
     else:
         return jsonify({'fin': 0})
     
+    
 @app.route("/buscando-inventario-bodega-oms", methods=['POST'])
 def viewBuscarInventarioBD_bodega_oms():
     busqueda = request.json.get('busqueda')
@@ -182,25 +183,23 @@ def borrarUsuario(id):
 def eliminar_equipo(id):
     resp = eliminarequipo(id)
     if resp:
-        flash('El Usuario fue eliminado correctamente', 'success')
+        flash('El Equipo fue eliminado correctamente', 'success')
         return redirect(url_for('listar_equipos'))
     
-# enviar sms equipo
+
 @app.route('/enviar-equipo', methods=['POST'])
 def enviar_equipo():
-    data = request.json  # Recibir datos en formato JSON
+    data = request.json
     
-    # Obtener valores del JSON
     id_equipo = data.get("id")
     numero = data.get("telefono")
-
-    # Validaciones
+    
     if not numero or not numero.isdigit() or len(numero) != 10:
         return jsonify({"error": "Número de teléfono inválido"}), 400
     mensaje = f'Gracias por tu interes en el equipo: {id_equipo}'
-    # Enviar el SMS
+    
     resultado = enviar_sms(numero,mensaje)
-    return jsonify(resultado)  # Responder con el resultado
+    return jsonify(resultado)  
 
 
 @app.route('/borrar-empleado/<string:id_empleado>/<string:foto_empleado>', methods=['GET'])
@@ -227,17 +226,6 @@ def listar_equipos():
         return render_template('public/empleados/listar_equipos.html', resp_equiposBD=resp_equiposBD)
     else:
         return redirect(url_for('listar_equipos'))
-
-@app.route("/cliente", methods=['GET'])
-def cliente():
-    equipo = {"imagen1": "https://bucket-production-6b48.up.railway.app/inventario-equipo/prueba_img4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=QtuJZ2idPCTtD5RbRmWN%2F20250203%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T163606Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=534b3c8644fe5878bee8f473c6d9bcb06c318d33c0ae0ba83e12192004d713ff"}
-    if 'conectado' in session:
-        return render_template('public/empleados/cliente.html', equipo=equipo)
-    else:
-        return redirect(url_for('listar_equipos'))
-
-
-
 
 
 @app.route('/agregar_equipo', methods=['GET', 'POST'])
@@ -317,7 +305,7 @@ def agregar_equipo():
                 return None
             
             
-                    # Imprime las rutas de las imágenes en la consola
+            # Imprime las rutas de las imágenes en la consola
             #print("Rutas de las imágenes:")
             #if ruta_imagen1:
             #    print(f"Imagen 1: {ruta_imagen1}")
@@ -370,14 +358,15 @@ def agregar_equipo():
     else:
         return redirect(url_for('loginCliente'))
 
-@app.route('/ver_equipo/<int:id_equipo>')
+
+@app.route('/inventario_claro/<int:id_equipo>')
 def ver_equipo(id_equipo):
     try:
         conexion = connectionBD_railway()  
         cursor = conexion.cursor()
 
         query = """
-            SELECT * FROM inventario_digital WHERE id = ?
+            SELECT  `id`,  `producto`,  `tipo_equipo`,  `marca`,  `gamma`, `descripcion`,  `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`,  `camara`,  `pantalla`,  `procesador`,  `memoria_interna`,  `bateria`,  `ram`,  `nfc`,  `red`,  `creator` FROM `inventario_digital` WHERE id = %s LIMIT 1;
         """
         cursor.execute(query, (id_equipo,))
         equipo = cursor.fetchone()
@@ -407,7 +396,7 @@ def ver_equipo(id_equipo):
                 'creator': equipo[19]
             }
 
-            return render_template('public/empleados/ver_equipo.html', equipo=datos_equipo)
+            return render_template('public/empleados/cliente.html', equipo=datos_equipo)
         else:
             return "Equipo no encontrado", 404
 

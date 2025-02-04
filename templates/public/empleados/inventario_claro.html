@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ equipo.producto }} - Detalles</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #E03224, #AD1523);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+        header img {
+            height: 40px;
+            margin-right: 15px;
+        }
+        .main-image img {
+            width: 100%;
+            max-width: 500px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .price-section {
+            margin: 20px 0;
+        }
+        .discounted-price {
+            color: red;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .original-price {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .colors {
+            display: flex;
+            gap: 10px;
+        }
+        .colors span {
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+        .add-to-cart-btn {
+            background-color: #E03224;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <img src="/static/assets/img/claro_logo.svg" alt="Logo Claro">
+        <h1>{{ equipo.producto }}</h1>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sección de imágenes -->
+            <div class="col-md-6">
+                <div class="main-image">
+                    {% if equipo.imagen1 %}
+                        <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal">
+                    {% else %}
+                        <p>No hay imagen disponible.</p>
+                    {% endif %}
+                </div>
+                <div class="gallery d-flex">
+                    {% if equipo.imagen2 %}
+                        <img src="{{ equipo.imagen2 }}" alt="Miniatura 2" onclick="changeImage('{{ equipo.imagen2 }}')" class="img-thumbnail">
+                    {% endif %}
+                    {% if equipo.imagen3 %}
+                        <img src="{{ equipo.imagen3 }}" alt="Miniatura 3" onclick="changeImage('{{ equipo.imagen3 }}')" class="img-thumbnail">
+                    {% endif %}
+                    {% if equipo.imagen4 %}
+                        <img src="{{ equipo.imagen4 }}" alt="Miniatura 4" onclick="changeImage('{{ equipo.imagen4 }}')" class="img-thumbnail">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="features">
+                <div class="feature-card">Pantalla: {{ equipo.pantalla }}</div>
+                <div class="feature-card">Cámara: {{ equipo.pantalla }}</div>
+                <div class="feature-card">Batería: {{ equipo.pantalla }}</div>
+                <div class="feature-card">RAM: {{ equipo.pantalla }}</div>
+                <div class="feature-card">Almacenamiento: {{ equipo.pantalla }}</div>
+                <div class="feature-card">Procesador: {{ equipo.pantalla }}</div>
+            </div>
+
+            <!-- Sección de detalles -->
+            <div class="col-md-6">
+                <h2>{{ equipo.marca }} - {{ equipo.tipo_equipo }}</h2>
+                <p>{{ equipo.descripcion }}</p>
+
+                <!-- Colores disponibles -->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Desarrollado por Qmas - Todos los derechos reservados 2025</p>
+    </footer>
+
+    <!-- Script para cambiar imagen -->
+    <script>
+        function changeImage(src) {
+            document.getElementById('mainImage').src = src;
+        }
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claro - Celulares y Tecnologia</title>
+    <title>Celulares y Tecnologia</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,17 +31,33 @@
         }
         .gallery {
             display: flex;
+            justify-content: center;
             gap: 10px;
+            margin-top: 15px;
         }
+
         .gallery img {
-            width: 100px;
+            width: 80px; /* Tamaño estándar de miniaturas */
+            height: 80px;
+            object-fit: cover; /* Mantiene proporción */
             cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.2s ease-in-out;
         }
+
+        .gallery img:hover {
+            transform: scale(1.1); /* Efecto al pasar el mouse */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
         .main-image img {
-            width: 100%;
-            max-width: 400px;
-            display: block;
-            margin: 0 auto 20px;
+            width: 100%; /* Se ajusta al contenedor */
+            max-width: 500px; /* Tamaño máximo de la imagen principal */
+            height: 350px; /* Altura fija */
+            object-fit: contain; /* Muestra toda la imagen sin recortarla */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+            background-color: #f5f5f5; /* Fondo para imágenes más pequeñas */
         }
         .features {
             display: flex;
@@ -49,6 +65,7 @@
             flex-wrap: wrap;
             margin-bottom: 20px;
         }
+
         .feature-card {
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -69,7 +86,7 @@
             color: white;
             text-align: center;
             padding: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .whatsapp-btn {
             display: inline-block;
@@ -80,39 +97,48 @@
             text-decoration: none;
             margin-top: 10px;
         }
+
     </style>
 </head>
 <body>
     <header>
         <img src="../static/assets/img/claro_logo.svg" alt="Logo Claro">
-        <h1>Celulares y Tecnologia</h1>
+        <h1>{{ equipo.producto }}</h1>
     </header>
     <div class="main-content">
         <!-- Galería de imágenes del equipo seleccionado -->
-        <div class="main-image">
-            {% if equipo and equipo.imagen1 %}
-                <img src="{{ equipo.imagen1 }}" alt="Imagen del equipo">
-            {% else %}
-                <p>No hay imagen disponible.</p>
-            {% endif %}
+        <div class="col-md-6">
+            <div class="main-image text-center">
+                {% if equipo.imagen1 %}
+                    <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal">
+                {% else %}
+                    <p>No hay imagen disponible.</p>
+                {% endif %}
+            </div>
+            <div class="gallery">
+                {% if equipo.imagen1 %}
+                    <img src="{{ equipo.imagen1 }}" alt="Miniatura 1" onclick="changeImage('{{ equipo.imagen1 }}')">
+                {% endif %}
+                {% if equipo.imagen2 %}
+                    <img src="{{ equipo.imagen2 }}" alt="Miniatura 2" onclick="changeImage('{{ equipo.imagen2 }}')">
+                {% endif %}
+                {% if equipo.imagen3 %}
+                    <img src="{{ equipo.imagen3 }}" alt="Miniatura 3" onclick="changeImage('{{ equipo.imagen3 }}')">
+                {% endif %}
+                {% if equipo.imagen4 %}
+                    <img src="{{ equipo.imagen4 }}" alt="Miniatura 4" onclick="changeImage('{{ equipo.imagen4 }}')">
+                {% endif %}
+            </div>
         </div>
-        <div class="gallery" id="mainGallery">
-            <img src="telefono1-mini1.jpg" alt="Miniatura 1" onclick="changeImage('telefono1-mini1.jpg')">
-            <img src="telefono1-mini2.jpg" alt="Miniatura 2" onclick="changeImage('telefono1-mini2.jpg')">
-            <img src="telefono1-mini3.jpg" alt="Miniatura 3" onclick="changeImage('telefono1-mini3.jpg')">
-            <img src="telefono1-mini4.jpg" alt="Miniatura 4" onclick="changeImage('telefono1-mini4.jpg')">
-            <img src="telefono1-mini5.jpg" alt="Miniatura 5" onclick="changeImage('telefono1-mini5.jpg')">
-        </div>
-
+        <br>
         <!-- Características principales -->
         <div class="features">
-            <div class="feature-card">Pantalla: 6.5 pulgadas</div>
-            <div class="feature-card">Cámara: 48MP</div>
-            <div class="feature-card">Batería: 5000mAh</div>
-            <div class="feature-card">RAM: 6GB</div>
-            <div class="feature-card">Almacenamiento: 128GB</div>
-            <div class="feature-card">Procesador: Snapdragon 720G</div>
-            <div class="feature-card">Sistema operativo: Android 12</div>
+            <div class="feature-card">Pantalla: {{ equipo.pantalla }}</div>
+            <div class="feature-card">Cámara: {{ equipo.camara }}</div>
+            <div class="feature-card">Batería: {{ equipo.bateria }}</div>
+            <div class="feature-card">RAM: {{ equipo.ram }}</div>
+            <div class="feature-card">Almacenamiento: {{ equipo.memoria_interna }}</div>
+            <div class="feature-card">Procesador: {{ equipo.procesador }}</div>
         </div>
 
         <!-- Detalles del equipo -->
@@ -120,6 +146,7 @@
             <h2>Detalles del equipo</h2>
             <p>Este equipo cuenta con tecnología avanzada para brindarte la mejor experiencia en comunicación y entretenimiento.</p>
         </div>
+        
 
         <!-- Galería de equipos relacionados -->
         <div class="related-gallery">
@@ -134,13 +161,14 @@
     </div>
 
     <footer>
-        <p>Desarrollo e Innovacion 2025 - Todos los derechos reservados Qmas</p>
+        
         <a href="https://wa.me/573108647211" class="whatsapp-btn">Contáctanos por WhatsApp</a>
+        <h5>Desarrollo e Innovacion 2025 - Todos los derechos reservados Qmas</h5>
     </footer>
 
     <script>
-        function changeImage(src) {
-            document.getElementById('selectedImage').src = src;
+        function changeImage(newSrc) {
+            document.getElementById('mainImage').src = newSrc;
         }
 
         function viewPhone(url) {
