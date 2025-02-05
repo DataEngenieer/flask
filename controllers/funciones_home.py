@@ -554,7 +554,7 @@ def lista_equiposBD():
     try:
         with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT tipo_equipo,marca,producto,gamma FROM inventario_digital"
+                querySQL = "SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital"
                 cursor.execute(querySQL,)
                 equiposBD = cursor.fetchall()
         return equiposBD

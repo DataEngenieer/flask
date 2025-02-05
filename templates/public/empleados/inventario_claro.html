@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Celulares y Tecnologia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/assets/css/pag_cliente.css">
+    <link rel="icon" href="../static/assets/img/favicon_cliente.ico" type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,6 +39,7 @@
 
         .main-content {
             padding: 20px;
+            text-align: center;
         }
 
         .gallery {
@@ -79,19 +83,27 @@
             /* Fondo para imágenes más pequeñas */
         }
 
+        .main-image {
+            text-align: center; /* Centra el contenido */
+        }
+
         .features {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+            gap: 15px; /* Espacio entre elementos */
+            max-width: 90%; /* Ajusta según tu diseño */
+            margin: 0 auto; /* Centrar el contenedor */
+            text-align: center;
         }
 
         .feature-card {
             border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            width: calc(33% - 20px);
+            border-radius: 8px;
+            padding: 15px;
+            
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: #fff;
         }
 
         .related-gallery {
@@ -108,19 +120,26 @@
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             margin-top: 10px;
+            font-family: Arial, sans-serif;
         }
 
         .whatsapp-btn {
             display: inline-block;
             background-color: #25d366;
             color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
             text-decoration: none;
-            margin-top: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
         }
+        .whatsapp-btn:hover {
+            background-color: #1ebe5d;
+        }
+        
     </style>
 </head>
 
@@ -132,9 +151,9 @@
     <div class="main-content">
         <!-- Galería de imágenes del equipo seleccionado -->
         <div class="col-md-6">
-            <div class="main-image text-center">
+            <div class="main-image">
                 {% if equipo.imagen1 %}
-                <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal">
+                <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal" class="mx-auto d-block">
                 {% else %}
                 <p>No hay imagen disponible.</p>
                 {% endif %}
@@ -159,17 +178,16 @@
         <div class="features">
             <div class="feature-card">Pantalla: {{ equipo.pantalla }}</div>
             <div class="feature-card">Cámara: {{ equipo.camara }}</div>
-            <div class="feature-card">Batería: {{ equipo.bateria }}</div>
-            <div class="feature-card">RAM: {{ equipo.ram }}</div>
-            <div class="feature-card">Almacenamiento: {{ equipo.memoria_interna }}</div>
+            <div class="feature-card">Batería: {{ equipo.memoria_interna }}</div>
+            <div class="feature-card">RAM: {{ equipo.bateria }}</div>
+            <div class="feature-card">Almacenamiento: {{ equipo.ram }}</div>
             <div class="feature-card">Procesador: {{ equipo.procesador }}</div>
         </div>
 
         <!-- Detalles del equipo -->
         <div>
             <h2>Detalles del equipo</h2>
-            <p>Este equipo cuenta con tecnología avanzada para brindarte la mejor experiencia en comunicación y
-                entretenimiento.</p>
+            <p>{{ equipo.descripcion }}</p>
         </div>
 
 
@@ -177,18 +195,33 @@
         <div class="related-gallery">
             <h2>Otros equipos</h2>
             <div class="gallery">
-                <img src="equipo2-mini.jpg" alt="Equipo 2" onclick="viewPhone('telefono2.html')">
-                <img src="equipo3-mini.jpg" alt="Equipo 3" onclick="viewPhone('telefono3.html')">
-                <img src="equipo4-mini.jpg" alt="Equipo 4" onclick="viewPhone('telefono4.html')">
-                <img src="equipo5-mini.jpg" alt="Equipo 5" onclick="viewPhone('telefono5.html')">
+                {% for equipo in otros_equipos %}
+                <a href="/inventario_claro/{{ equipo.id }}">
+                    <img src="{{ equipo.imagen1 }}" alt="{{ equipo.producto }}">
+                    <p>{{ equipo.producto }}</p>
+                </a>
+                {% endfor %}
             </div>
         </div>
     </div>
 
     <footer>
-
-        <a href="https://wa.me/573108647211" class="whatsapp-btn">Contáctanos por WhatsApp</a>
-        <h5>Desarrollo e Innovacion 2025 - Todos los derechos reservados Qmas</h5>
+        <div class="footer-content">
+            <!-- Botón de WhatsApp -->
+            <a href="https://wa.me/573138081829" class="whatsapp-btn" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Contáctanos por WhatsApp
+            </a>
+            <!-- Logo y Disclaimer -->
+            <div class="footer-logo-disclaimer">
+                <img src="../static/assets/img/qmas_logo.webp" alt="Logo Qmas" class="footer-logo">
+                <h5>
+                    GSC Outsourcing - Qmas en representación de Claro (Comunicación Celular S.A.) para la venta de equipos 
+                    terminales y de tecnología en Colombia
+                </h5>
+            </div>
+            <!-- Derechos reservados -->
+            <h6>© GSC - QMAS | Dto. Desarrollo e Innovación. Todos los derechos reservados 2025</h6>
+        </div>
     </footer>
 
     <script>
