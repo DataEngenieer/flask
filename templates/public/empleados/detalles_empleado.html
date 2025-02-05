@@ -3,9 +3,7 @@
 {% block title %}Crud con Python 🐍 | Registrar Empleado{% endblock %}
 <!---->
 {% block customCSS %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename ='assets/css/file.css') }}" />
 {% endblock %}
 
 <!--Inicio del block-->
@@ -92,9 +90,7 @@
           <div class="col-md-6">
             <label for="" class="form-label"> IMAGEN DEL EMPLEADO </label>
             <br />
-            <img
-              style="width: 200px"
-              src="/static/fotos_empleados/{{ detalle_empleado.foto_empleado }}"
+            <img style="width: 200px" src="/static/fotos_empleados/{{ detalle_empleado.foto_empleado }}"
               alt="imagen-empleado" />
           </div>
         </div>

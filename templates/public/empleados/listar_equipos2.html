@@ -11,12 +11,13 @@
             </div>
             <hr style="margin: 20px 0;" />
         </div>
-    
+
         <div class="row justify-content-center mb-4 gap-3">
             <div class="col-md-6 col-lg-5">
                 <div class="form-group">
                     <label for="search_bodega" class="form-label" style="font-weight: 500;">Marca</label>
-                    <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital(this.value)" style="border-radius: 8px;">
+                    <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital(this.value)"
+                        style="border-radius: 8px;">
                         <option value="">Selecciona una marca</option>
                         <option value="Samsung">Samsung</option>
                         <option value="Oppo">Oppo</option>
@@ -33,76 +34,64 @@
             <div class="col-md-6 col-lg-5">
                 <div class="form-group">
                     <label for="search_producto" class="form-label" style="font-weight: 500;">Producto</label>
-                    <input
-                        type="search"
-                        id="search_producto"
-                        class="form-control"
-                        placeholder="Buscar equipo..."
-                        aria-describedby="floatingInputHelp"
-                        onkeyup="buscador_equipo_digital('inventario_bodega')"
-                        style="border-radius: 8px; padding: 8px;"
-                    />
+                    <input type="search" id="search_producto" class="form-control" placeholder="Buscar equipo..."
+                        aria-describedby="floatingInputHelp" onkeyup="buscador_equipo_digital('inventario_bodega')"
+                        style="border-radius: 8px; padding: 8px;" />
                 </div>
             </div>
         </div>
 
-    <div class="table-responsive text-nowrap">
-      <div class="table-container" style="background-color: #ffffff; border-radius: 15px; overflow: hidden;">
-        <table class="table table-hover mb-0">
-            <thead style="background-color: #f8f9fa;">
-                <tr>
-                    <th>Tipo Equipo</th>
-                    <th>Marca</th>
-                    <th>Producto</th>
-                    <th>Gamma</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for usuario in resp_equiposBD %}
-                <tr style="transition: all 0.3s;">
-                    <td>{{ usuario.tipo_equipo}}</td>
-                    <td>{{ usuario.marca}}</td>
-                    <td>{{ usuario.producto}}</td>
-                    <td>{{ usuario.gamma}}</td>
-                    <td>
-                        {% if session.get('rol') == 'admin' %}
-                        <button
-                            class="btn rounded-pill btn-danger btn-sm me-2"
-                            onclick="eliminarUsuario('{{ usuario.id }}');"
-                            style="transition: all 0.3s;">
-                            <i class="bi bi-trash3"></i> Eliminar
-                        </button>
-                        {% endif %}
-                        <button
-                            class="btn rounded-pill btn-success btn-sm me-2"
-                            onclick="enviar_sms_equipo('{{ usuario.id }}');"
-                            style="transition: all 0.3s;">
-                            <i class="bi bi-chat-dots"></i> Enviar SMS
-                        </button>
-                        <button
-                            class="btn rounded-pill btn-primary btn-sm"
-                            onclick="ver_equipo('{{ usuario.id }}');"
-                            style="transition: all 0.3s;">
-                            <i class="bi bi-eye"></i> Ver
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-      </div>
+        <div class="table-responsive text-nowrap">
+            <div class="table-container" style="background-color: #ffffff; border-radius: 15px; overflow: hidden;">
+                <table class="table table-hover mb-0">
+                    <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th>Tipo Equipo</th>
+                            <th>Marca</th>
+                            <th>Producto</th>
+                            <th>Gamma</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in resp_equiposBD %}
+                        <tr style="transition: all 0.3s;">
+                            <td>{{ usuario.tipo_equipo}}</td>
+                            <td>{{ usuario.marca}}</td>
+                            <td>{{ usuario.producto}}</td>
+                            <td>{{ usuario.gamma}}</td>
+                            <td>
+                                {% if session.get('rol') == 'admin' %}
+                                <button class="btn rounded-pill btn-danger btn-sm me-2"
+                                    onclick="eliminarUsuario('{{ usuario.id }}');" style="transition: all 0.3s;">
+                                    <i class="bi bi-trash3"></i> Eliminar
+                                </button>
+                                {% endif %}
+                                <button class="btn rounded-pill btn-success btn-sm me-2"
+                                    onclick="enviar_sms_equipo('{{ usuario.id }}');" style="transition: all 0.3s;">
+                                    <i class="bi bi-chat-dots"></i> Enviar SMS
+                                </button>
+                                <button class="btn rounded-pill btn-primary btn-sm"
+                                    onclick="ver_equipo('{{ usuario.id }}');" style="transition: all 0.3s;">
+                                    <i class="bi bi-eye"></i> Ver
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% else %}
 <div class="container mt-3 mb-3">
-  <div class="row justify-content-md-center mb-2">
-    <div class="col-12 text-center">
-      <h2 class="text-center" style="color: #2c3e50;">No hay Equipos creados 😭</h2>
-      <p class="text-center text-muted">Aún no se han registrado equipos en el sistema.</p>
+    <div class="row justify-content-md-center mb-2">
+        <div class="col-12 text-center">
+            <h2 class="text-center" style="color: #2c3e50;">No hay Equipos creados 😭</h2>
+            <p class="text-center text-muted">Aún no se han registrado equipos en el sistema.</p>
+        </div>
     </div>
-  </div>
 </div>
 {% endif %}
 {% endblock %}
@@ -151,7 +140,7 @@
             if (result.isConfirmed) {
                 let numeroTelefono = result.value;
                 let data = { id: id, telefono: numeroTelefono };
-                
+
                 fetch("/enviar-equipo", {
                     method: "POST",
                     headers: {
@@ -159,19 +148,19 @@
                     },
                     body: JSON.stringify(data)
                 })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.error) {
-                        Swal.fire("Error", data.error, "error");
-                    } else {
-                        Swal.fire("Éxito", "Mensaje enviado correctamente", "success");
-                    }
-                })
-                .catch(error => {
-                    Swal.fire("Error", "Hubo un problema al enviar el SMS", "error");
-                });
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            Swal.fire("Error", data.error, "error");
+                        } else {
+                            Swal.fire("Éxito", "Mensaje enviado correctamente", "success");
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire("Error", "Hubo un problema al enviar el SMS", "error");
+                    });
             }
         });
     }

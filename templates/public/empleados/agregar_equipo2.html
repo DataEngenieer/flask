@@ -3,174 +3,174 @@
 {% block body %}
 
 <div class="container-fluid py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Agregar Nuevo Equipo</h3>
-                </div>
-                
-                <form action="/agregar_equipo" method="POST" enctype="multipart/form-data" id="formEquipo">
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Columna 1 -->
-                            <div class="col-md-6">
-                                <!-- Tipo de equipo -->
-                                <div class="mb-3">
-                                    <label for="tipo_equipo" class="form-label">Tipo de Equipo</label>
-                                    <select class="form-select" id="tipo_equipo" name="tipo_equipo" required>
-                                        <option value="terminal">Terminal</option>
-                                        <option value="portatil">Computador</option>
-                                        <option value="televisor">Televisor</option>
-                                        <option value="consola">Consola Video Juegos</option>
-                                        <option value="reloj">Reloj Inteligente</option>
-                                        <option value="audifono">Audifonos</option>
-                                    </select>
-                                </div>
-
-                                <!-- Marca -->
-                                <div class="mb-3">
-                                    <label for="marca" class="form-label">Marca</label>
-                                    <select class="form-select" id="marca" name="marca" required>
-                                        <option value="Samsung">Samsung</option>
-                                        <option value="Oppo">Oppo</option>
-                                        <option value="Honor">Honor</option>
-                                        <option value="Vivo">Vivo</option>
-                                        <option value="Tecno">Tecno</option>
-                                        <option value="Motorola">Motorola</option>
-                                        <option value="Xiaomi">Xiaomi</option>
-                                        <option value="Huawei">Huawei</option>
-                                        <option value="Microsoft">Microsoft</option>
-                                    </select>
-                                </div>
-
-                                <!-- Gamma -->
-                                <div class="mb-3">
-                                    <label for="gamma" class="form-label">Gama</label>
-                                    <select class="form-select" id="gamma" name="gamma" required>
-                                        <option value="Baja">Baja</option>
-                                        <option value="Media">Media</option>
-                                        <option value="Alta">Alta</option>
-                                    </select>
-                                </div>
-
-                                <!-- Nombre del equipo -->
-                                <div class="mb-3">
-                                    <label for="nombre_equipo" class="form-label">Nombre del Equipo</label>
-                                    <input type="text" class="form-control" id="nombre_equipo" name="nombre_equipo" required>
-                                </div>
-                            </div>
-
-                            <!-- Columna 2 -->
-                            <div class="col-md-6">
-                                <!-- Características -->
-                                <div class="card mb-3">
-                                    <div class="card-header">
-                                        <i class="bi bi-gear"></i> Características
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <!-- Características individuales -->
-                                            <div class="col-md-4 mb-3">
-                                                <label for="caracteristica1" class="form-label">Cámara</label>
-                                                <input type="text" class="form-control" id="caracteristica1" name="caracteristica1" required>
-                                            </div>
-                                            <!-- ... más características -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Red -->
-                                <div class="mb-3">
-                                    <label class="form-label">Red</label>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="red" id="4g" value="4g" required>
-                                        <label class="form-check-label" for="4g">4G</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="red" id="5g" value="5g" required>
-                                        <label class="form-check-label" for="5g">5G</label>
-                                    </div>
-                                </div>
-
-                                <!-- Colores -->
-                                <div class="mb-3">
-                                    <label class="form-label">Colores</label>
-                                    <div class="d-grid gap-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="rojo" id="rojo">
-                                            <label class="form-check-label" for="rojo">Rojo</label>
-                                        </div>
-                                        <!-- ... más colores -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Descripción -->
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-                        </div>
-
-                        <!-- Imágenes -->
-                        <div class="row row-cols-1 row-cols-md-4 g-4">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="imagen1" class="form-label">Imagen 1</label>
-                                    <input type="file" class="form-control" id="imagen1" name="imagen1" accept="image/*">
-                                    <div class="preview-img mt-2" id="preview1"></div>
-                                </div>
-                            </div>
-                            <!-- ... más imágenes -->
-                        </div>
-                    </div>
-
-                    <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save"></i> Guardar
-                        </button>
-                    </div>
-                </form>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Agregar Nuevo Equipo</h3>
         </div>
+
+        <form action="/agregar_equipo" method="POST" enctype="multipart/form-data" id="formEquipo">
+          <div class="card-body">
+            <div class="row">
+              <!-- Columna 1 -->
+              <div class="col-md-6">
+                <!-- Tipo de equipo -->
+                <div class="mb-3">
+                  <label for="tipo_equipo" class="form-label">Tipo de Equipo</label>
+                  <select class="form-select" id="tipo_equipo" name="tipo_equipo" required>
+                    <option value="terminal">Terminal</option>
+                    <option value="portatil">Computador</option>
+                    <option value="televisor">Televisor</option>
+                    <option value="consola">Consola Video Juegos</option>
+                    <option value="reloj">Reloj Inteligente</option>
+                    <option value="audifono">Audifonos</option>
+                  </select>
+                </div>
+
+                <!-- Marca -->
+                <div class="mb-3">
+                  <label for="marca" class="form-label">Marca</label>
+                  <select class="form-select" id="marca" name="marca" required>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Oppo">Oppo</option>
+                    <option value="Honor">Honor</option>
+                    <option value="Vivo">Vivo</option>
+                    <option value="Tecno">Tecno</option>
+                    <option value="Motorola">Motorola</option>
+                    <option value="Xiaomi">Xiaomi</option>
+                    <option value="Huawei">Huawei</option>
+                    <option value="Microsoft">Microsoft</option>
+                  </select>
+                </div>
+
+                <!-- Gamma -->
+                <div class="mb-3">
+                  <label for="gamma" class="form-label">Gama</label>
+                  <select class="form-select" id="gamma" name="gamma" required>
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                  </select>
+                </div>
+
+                <!-- Nombre del equipo -->
+                <div class="mb-3">
+                  <label for="nombre_equipo" class="form-label">Nombre del Equipo</label>
+                  <input type="text" class="form-control" id="nombre_equipo" name="nombre_equipo" required />
+                </div>
+              </div>
+
+              <!-- Columna 2 -->
+              <div class="col-md-6">
+                <!-- Características -->
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <i class="bi bi-gear"></i> Características
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <!-- Características individuales -->
+                      <div class="col-md-4 mb-3">
+                        <label for="caracteristica1" class="form-label">Cámara</label>
+                        <input type="text" class="form-control" id="caracteristica1" name="caracteristica1" required />
+                      </div>
+                      <!-- ... más características -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Red -->
+                <div class="mb-3">
+                  <label class="form-label">Red</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="red" id="4g" value="4g" required />
+                    <label class="form-check-label" for="4g">4G</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="red" id="5g" value="5g" required />
+                    <label class="form-check-label" for="5g">5G</label>
+                  </div>
+                </div>
+
+                <!-- Colores -->
+                <div class="mb-3">
+                  <label class="form-label">Colores</label>
+                  <div class="d-grid gap-2">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="rojo" id="rojo" />
+                      <label class="form-check-label" for="rojo">Rojo</label>
+                    </div>
+                    <!-- ... más colores -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+            </div>
+
+            <!-- Imágenes -->
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="imagen1" class="form-label">Imagen 1</label>
+                  <input type="file" class="form-control" id="imagen1" name="imagen1" accept="image/*" />
+                  <div class="preview-img mt-2" id="preview1"></div>
+                </div>
+              </div>
+              <!-- ... más imágenes -->
+            </div>
+          </div>
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save"></i> Guardar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
-{% endblock %}
-
-{% block customJS %}
+{% endblock %} {% block customJS %}
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Previsualización de imágenes
-        const inputImagenes = document.querySelectorAll('input[type="file"]');
-        inputImagenes.forEach(input => {
-            input.addEventListener('change', function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.getElementById(`preview${this.id.slice(-1)}`);
-                        preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded" width="100%"/>`;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-
-        // Validación del formulario
-        const form = document.getElementById('formEquipo');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (validarForm()) {
-                this.submit();
-            }
-        });
-
-        function validarForm() {
-            // Implementar validación personalizada
-            return true;
+  document.addEventListener("DOMContentLoaded", function () {
+    // Previsualización de imágenes
+    const inputImagenes = document.querySelectorAll('input[type="file"]');
+    inputImagenes.forEach((input) => {
+      input.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const preview = document.getElementById(
+              `preview${this.id.slice(-1)}`
+            );
+            preview.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded" width="100%"/>`;
+          };
+          reader.readAsDataURL(file);
         }
+      });
     });
+
+    // Validación del formulario
+    const form = document.getElementById("formEquipo");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (validarForm()) {
+        this.submit();
+      }
+    });
+
+    function validarForm() {
+      // Implementar validación personalizada
+      return true;
+    }
+  });
 </script>
 {% endblock %}

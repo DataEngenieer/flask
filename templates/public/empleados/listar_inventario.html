@@ -16,38 +16,24 @@
     <div class="row justify-content-center mb-2 gap-2">
       <div class="col-md-6 col-lg-5">
         <label for="search_bodega" class="form-label">Bodega o Ciudad</label>
-        <input
-          type="search"
-          id="search_bodega"
-          class="form-control"
-          placeholder="Buscar Bodega..."
-          aria-describedby="floatingInputHelp"
-          onkeyup="buscadorTable_bodega_pro('inventario_bodega')" />
+        <input type="search" id="search_bodega" class="form-control" placeholder="Buscar Bodega..."
+          aria-describedby="floatingInputHelp" onkeyup="buscadorTable_bodega_pro('inventario_bodega')" />
       </div>
       <div class="col-md-6 col-lg-5">
         <label for="search_producto" class="form-label">Producto</label>
-        <input
-          type="search"
-          id="search_producto"
-          class="form-control"
-          placeholder="Buscar equipo..."
-          aria-describedby="floatingInputHelp"
-          onkeyup="buscadorTable_bodega_pro('inventario_bodega')" />
+        <input type="search" id="search_producto" class="form-control" placeholder="Buscar equipo..."
+          aria-describedby="floatingInputHelp" onkeyup="buscadorTable_bodega_pro('inventario_bodega')" />
       </div>
     </div>
-    
+
 
     <div class="row justify-content-center mb-2">
       <div class="table-responsive text-nowrap table-hover table-striped mt-2 mb-2 px-3">
-        <table
-          table-hover
-          id="inventario_bodega"
-          class="table table-striped table-bordered table-hover "
-          cellspacing="0"
-          width="100%">
+        <table table-hover id="inventario_bodega" class="table table-striped table-bordered table-hover "
+          cellspacing="0" width="100%">
           <thead>
             <tr>
-              
+
               <th>Bodega</th>
               <th>Cod_Material</th>
               <th>Producto</th>
@@ -58,7 +44,7 @@
           <tbody>
             {% for inventario in inventario %}
             <tr id="inventario_{{ inventario.Subproducto }}">
-              
+
               <td>{{ inventario.Bodega }}</td>
               <td>{{ inventario.Material }}</td>
               <td>{{ inventario.Subproducto }}</td>

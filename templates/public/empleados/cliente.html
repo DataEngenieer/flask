@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
             margin: 10;
             padding: 0;
         }
+
         header {
             background: linear-gradient(to right, #E03224, #AD1523);
             color: white;
@@ -17,18 +19,26 @@
             display: flex;
             align-items: center;
         }
+
         header img {
             height: 40px;
             margin-right: 15px;
         }
+
         header h1 {
-            flex-grow: 1; /* Hace que ocupe el espacio disponible */
-            text-align: center; /* Centra el texto */
-            margin: 0; /* Evita espacios extra */
+            flex-grow: 1;
+            /* Hace que ocupe el espacio disponible */
+            text-align: center;
+            /* Centra el texto */
+            margin: 0;
+            /* Evita espacios extra */
         }
+
         .main-content {
             padding: 20px;
+            text-align: center;
         }
+
         .gallery {
             display: flex;
             justify-content: center;
@@ -37,33 +47,49 @@
         }
 
         .gallery img {
-            width: 80px; /* Tamaño estándar de miniaturas */
+            width: 80px;
+            /* Tamaño estándar de miniaturas */
             height: 80px;
-            object-fit: cover; /* Mantiene proporción */
+            object-fit: cover;
+            /* Mantiene proporción */
             cursor: pointer;
             border-radius: 5px;
             transition: transform 0.2s ease-in-out;
         }
 
         .gallery img:hover {
-            transform: scale(1.1); /* Efecto al pasar el mouse */
+            transform: scale(1.1);
+            /* Efecto al pasar el mouse */
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .main-image img {
-            width: 100%; /* Se ajusta al contenedor */
-            max-width: 500px; /* Tamaño máximo de la imagen principal */
-            height: 350px; /* Altura fija */
-            object-fit: contain; /* Muestra toda la imagen sin recortarla */
-            border-radius: 8px; /* Bordes redondeados */
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); /* Sombra ligera */
-            background-color: #f5f5f5; /* Fondo para imágenes más pequeñas */
+            width: 100%;
+            /* Se ajusta al contenedor */
+            max-width: 500px;
+            /* Tamaño máximo de la imagen principal */
+            height: 350px;
+            /* Altura fija */
+            object-fit: contain;
+            /* Muestra toda la imagen sin recortarla */
+            border-radius: 8px;
+            /* Bordes redondeados */
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            /* Sombra ligera */
+            background-color: #f5f5f5;
+            /* Fondo para imágenes más pequeñas */
         }
+
+        .main-image {
+            text-align: center; /* Centra el contenido */
+        }
+
         .features {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .feature-card {
@@ -72,15 +98,19 @@
             padding: 10px;
             width: calc(33% - 20px);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
+
         .related-gallery {
             margin-top: 20px;
         }
+
         .related-gallery img {
             width: 80px;
             cursor: pointer;
             margin: 5px;
         }
+
         footer {
             background-color: #333;
             color: white;
@@ -88,6 +118,7 @@
             padding: 10px;
             margin-top: 10px;
         }
+
         .whatsapp-btn {
             display: inline-block;
             background-color: #25d366;
@@ -97,9 +128,9 @@
             text-decoration: none;
             margin-top: 10px;
         }
-
     </style>
 </head>
+
 <body>
     <header>
         <img src="../static/assets/img/claro_logo.svg" alt="Logo Claro">
@@ -108,25 +139,25 @@
     <div class="main-content">
         <!-- Galería de imágenes del equipo seleccionado -->
         <div class="col-md-6">
-            <div class="main-image text-center">
+            <div class="main-image">
                 {% if equipo.imagen1 %}
-                    <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal">
+                <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal" class="mx-auto d-block">
                 {% else %}
-                    <p>No hay imagen disponible.</p>
+                <p>No hay imagen disponible.</p>
                 {% endif %}
             </div>
             <div class="gallery">
                 {% if equipo.imagen1 %}
-                    <img src="{{ equipo.imagen1 }}" alt="Miniatura 1" onclick="changeImage('{{ equipo.imagen1 }}')">
+                <img src="{{ equipo.imagen1 }}" alt="Miniatura 1" onclick="changeImage('{{ equipo.imagen1 }}')">
                 {% endif %}
                 {% if equipo.imagen2 %}
-                    <img src="{{ equipo.imagen2 }}" alt="Miniatura 2" onclick="changeImage('{{ equipo.imagen2 }}')">
+                <img src="{{ equipo.imagen2 }}" alt="Miniatura 2" onclick="changeImage('{{ equipo.imagen2 }}')">
                 {% endif %}
                 {% if equipo.imagen3 %}
-                    <img src="{{ equipo.imagen3 }}" alt="Miniatura 3" onclick="changeImage('{{ equipo.imagen3 }}')">
+                <img src="{{ equipo.imagen3 }}" alt="Miniatura 3" onclick="changeImage('{{ equipo.imagen3 }}')">
                 {% endif %}
                 {% if equipo.imagen4 %}
-                    <img src="{{ equipo.imagen4 }}" alt="Miniatura 4" onclick="changeImage('{{ equipo.imagen4 }}')">
+                <img src="{{ equipo.imagen4 }}" alt="Miniatura 4" onclick="changeImage('{{ equipo.imagen4 }}')">
                 {% endif %}
             </div>
         </div>
@@ -135,18 +166,18 @@
         <div class="features">
             <div class="feature-card">Pantalla: {{ equipo.pantalla }}</div>
             <div class="feature-card">Cámara: {{ equipo.camara }}</div>
-            <div class="feature-card">Batería: {{ equipo.bateria }}</div>
-            <div class="feature-card">RAM: {{ equipo.ram }}</div>
-            <div class="feature-card">Almacenamiento: {{ equipo.memoria_interna }}</div>
+            <div class="feature-card">Batería: {{ equipo.memoria_interna }}</div>
+            <div class="feature-card">RAM: {{ equipo.bateria }}</div>
+            <div class="feature-card">Almacenamiento: {{ equipo.ram }}</div>
             <div class="feature-card">Procesador: {{ equipo.procesador }}</div>
         </div>
 
         <!-- Detalles del equipo -->
         <div>
             <h2>Detalles del equipo</h2>
-            <p>Este equipo cuenta con tecnología avanzada para brindarte la mejor experiencia en comunicación y entretenimiento.</p>
+            <p>{{ equipo.descripcion }}</p>
         </div>
-        
+
 
         <!-- Galería de equipos relacionados -->
         <div class="related-gallery">
@@ -161,7 +192,7 @@
     </div>
 
     <footer>
-        
+
         <a href="https://wa.me/573108647211" class="whatsapp-btn">Contáctanos por WhatsApp</a>
         <h5>Desarrollo e Innovacion 2025 - Todos los derechos reservados Qmas</h5>
     </footer>
@@ -176,4 +207,5 @@
         }
     </script>
 </body>
+
 </html>

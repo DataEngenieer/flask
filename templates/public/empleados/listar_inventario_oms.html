@@ -4,60 +4,51 @@
 <!--Inicio del block-->
 {% block body %}
 
-    <div class="card" style="border-radius: 0px !important">
+<div class="card" style="border-radius: 0px !important">
     <div class="row justify-content-center mb-2">
         <div class="col-md-12 mb-2">
-        <div class="banner text-center">
-            <h3 class="banner-title mt-2 mb-2">Inventario Claro TyT - OMS</h3>
-        </div>
-        <hr />
+            <div class="banner text-center">
+                <h3 class="banner-title mt-2 mb-2">Inventario Claro TyT - OMS</h3>
+            </div>
+            <hr />
         </div>
 
         <div class="row justify-content-center mb-2 gap-2">
-        <div class="col-md-6 col-lg-5">
-            <label for="search_producto" class="form-label">Producto</label>
-            <input
-            type="search"
-            id="search_producto"
-            class="form-control"
-            placeholder="Buscar equipo..."
-            aria-describedby="floatingInputHelp"
-            onkeyup="buscadorTable_bodega_oms('inventario_OMS')" />
+            <div class="col-md-6 col-lg-5">
+                <label for="search_producto" class="form-label">Producto</label>
+                <input type="search" id="search_producto" class="form-control" placeholder="Buscar equipo..."
+                    aria-describedby="floatingInputHelp" onkeyup="buscadorTable_bodega_oms('inventario_OMS')" />
+            </div>
         </div>
-        </div>
-        
+
 
         <div class="row justify-content-center mb-2">
-        <div class="table-responsive text-nowrap table-hover table-striped mt-4 mb-4 px-3">
-            <table
-            table-hover
-            id="inventario_OMS"
-            class="table table-striped table-bordered table-hover "
-            cellspacing="0"
-            width="100%">
-            <thead>
-                <tr>
-                <th>Cod_Material</th>
-                <th>Producto</th>
-                <th>Disponible</th>
-                <th>Fecha Actualización</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for inventario_oms in inventario_oms %}
-                <tr id="inventario_oms_{{ inventario_oms.NombreSku }}">
-                
-                <td>{{ inventario_oms.Sku }}</td>
-                <td>{{ inventario_oms.NombreSku }}</td>
-                <td>{{ inventario_oms.Cantidad }}</td>
-                <td>{{ inventario_oms.creation_date }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            </table>
-        </div>
+            <div class="table-responsive text-nowrap table-hover table-striped mt-4 mb-4 px-3">
+                <table table-hover id="inventario_OMS" class="table table-striped table-bordered table-hover "
+                    cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Cod_Material</th>
+                            <th>Producto</th>
+                            <th>Disponible</th>
+                            <th>Fecha Actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inventario_oms in inventario_oms %}
+                        <tr id="inventario_oms_{{ inventario_oms.NombreSku }}">
+
+                            <td>{{ inventario_oms.Sku }}</td>
+                            <td>{{ inventario_oms.NombreSku }}</td>
+                            <td>{{ inventario_oms.Cantidad }}</td>
+                            <td>{{ inventario_oms.creation_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
+</div>
 
 {% endblock %}
