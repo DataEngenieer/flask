@@ -668,11 +668,11 @@ def enviar_sms(numero, mensaje):
     }
     
     data = {
-        "to": numero,
+        "to": f'57{numero}',
         "text": mensaje,
-        "customData": "Pruebas SMS Innovacion"
+        "customData": "Envio inventario digital"
     }
-
+    print(data)
     try:
         response = requests.post(url, headers=headers, json=data)
         print(f"📥 Respuesta de MasivApp: {response.status_code} - {response.text}")

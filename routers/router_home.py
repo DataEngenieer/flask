@@ -190,15 +190,17 @@ def eliminar_equipo(id):
 @app.route('/enviar-equipo', methods=['POST'])
 def enviar_equipo():
     data = request.json
-    
-    id_equipo = data.get("id")
+    print(data)
+    id_equipo = data.get("id_e")
     numero = data.get("telefono")
-    
+    equipo = data.get("equipo")
+    print(id_equipo)
     if not numero or not numero.isdigit() or len(numero) != 10:
         return jsonify({"error": "Número de teléfono inválido"}), 400
-    mensaje = f'Gracias por tu interes en el equipo: {id_equipo}'
+    mensaje = f'Gracias por tu interes en el {equipo}, para ver mas https://herramientas-qmas.up.railway.app/inventario_claro/{id_equipo}'
     
     resultado = enviar_sms(numero,mensaje)
+    print(resultado)
     return jsonify(resultado)  
 
 
@@ -359,49 +361,82 @@ def agregar_equipo():
         return redirect(url_for('loginCliente'))
 
 
+
+    
 @app.route('/inventario_claro/<int:id_equipo>')
-def ver_equipo(id_equipo):
+def inventario_claro(id_equipo):
     try:
-        conexion = connectionBD_railway()  
+        conexion = connectionBD_railway()
         cursor = conexion.cursor()
 
-        query = """
-            SELECT  `id`,  `producto`,  `tipo_equipo`,  `marca`,  `gamma`, `descripcion`,  `colores`, `imagen1`, `imagen2`, `imagen3`, `imagen4`,  `camara`,  `pantalla`,  `procesador`,  `memoria_interna`,  `bateria`,  `ram`,  `nfc`,  `red`,  `creator` FROM `inventario_digital` WHERE id = %s LIMIT 1;
+        # Consulta para obtener los datos del equipo principal
+        query_equipo = """
+            SELECT `id`, `producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, 
+                   `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, 
+                   `procesador`, `memoria_interna`, `bateria`, `ram`, `nfc`, `red`, `creator` 
+            FROM `inventario_digital` 
+            WHERE id = %s 
+            LIMIT 1;
         """
-        cursor.execute(query, (id_equipo,))
+        cursor.execute(query_equipo, (id_equipo,))
         equipo = cursor.fetchone()
 
-        if equipo:
-            # Crear un diccionario con los datos del equipo para pasar a la plantilla
-            datos_equipo = {
-                'id': equipo[0],
-                'producto': equipo[1],
-                'tipo_equipo': equipo[2],
-                'marca': equipo[3],
-                'gamma': equipo[4],
-                'descripcion': equipo[5],
-                'colores': equipo[6],
-                'imagen1': equipo[7],
-                'imagen2': equipo[8],
-                'imagen3': equipo[9],
-                'imagen4': equipo[10],
-                'camara': equipo[11],
-                'pantalla': equipo[12],
-                'procesador': equipo[13],
-                'memoria_interna': equipo[14],
-                'bateria': equipo[15],
-                'ram': equipo[16],
-                'nfc': equipo[17],
-                'red': equipo[18],
-                'creator': equipo[19]
-            }
-
-            return render_template('public/empleados/cliente.html', equipo=datos_equipo)
-        else:
+        if not equipo:
             return "Equipo no encontrado", 404
 
+        # Crear un diccionario con los datos del equipo principal
+        datos_equipo = {
+            'id': equipo[0],
+            'producto': equipo[1],
+            'tipo_equipo': equipo[2],
+            'marca': equipo[3],
+            'gamma': equipo[4],
+            'descripcion': equipo[5],
+            'colores': equipo[6],
+            'imagen1': equipo[7],
+            'imagen2': equipo[8],
+            'imagen3': equipo[9],
+            'imagen4': equipo[10],
+            'camara': equipo[11],
+            'pantalla': equipo[12],
+            'procesador': equipo[13],
+            'memoria_interna': equipo[14],
+            'bateria': equipo[15],
+            'ram': equipo[16],
+            'nfc': equipo[17],
+            'red': equipo[18],
+            'creator': equipo[19]
+        }
+
+        gamma_equipo = equipo[4]  # Obtener el valor de gamma del equipo principal
+
+        # Consulta para obtener datos de otros equipos con la misma gamma
+        query_otros_equipos = """
+            SELECT `id`, `producto`, `imagen1` 
+            FROM `inventario_digital` 
+            WHERE id != %s AND gamma = %s 
+            LIMIT 4;
+        """
+        cursor.execute(query_otros_equipos, (id_equipo, gamma_equipo))
+        otros_equipos = cursor.fetchall()
+
+        # Crear una lista de diccionarios para los equipos relacionados
+        lista_otros_equipos = [
+            {'id': equipo[0], 'producto': equipo[1], 'imagen1': equipo[2]}
+            for equipo in otros_equipos
+        ]
+
+        # Renderizar la plantilla con los dos conjuntos de datos
+        return render_template(
+            'public/empleados/cliente.html',
+            equipo=datos_equipo,
+            otros_equipos=lista_otros_equipos
+        )
+
+    except Exception as e:
+        print(f"Error al obtener los datos: {e}")
+        return f"Error al obtener los datos: {str(e)}", 500
+
+    finally:
         cursor.close()
         conexion.close()
-    except Exception as e:
-        print(f"Error al obtener los datos del equipo: {e}")
-        return f"Error al obtener los datos del equipo: {str(e)}", 500

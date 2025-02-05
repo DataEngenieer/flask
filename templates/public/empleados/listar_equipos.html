@@ -60,11 +60,11 @@
                             </button>
                             {% endif %}
                             <button class="btn rounded-pill btn-success btn-sm me-2"
-                                onclick="enviar_sms_equipo('{{ usuario.id }}');" style="transition: all 0.3s;">
+                                onclick="enviar_sms_equipo('{{ usuario.id }}','{{ usuario.producto }}');"  style="transition: all 0.3s;">
                                 <i class="bi bi-chat-dots"></i> Enviar SMS
                             </button>
                             <button class="btn rounded-pill btn-primary btn-sm"
-                                onclick="ver_equipo('{{ usuario.id }}');" style="transition: all 0.3s;">
+                                onclick="inventario_claro('{{ usuario.id }}');" style="transition: all 0.3s;">
                                 <i class="bi bi-eye"></i> Ver
                             </button>
                         </td>
@@ -113,7 +113,7 @@
             });
         }
 
-        function enviar_sms_equipo(id) {
+        function enviar_sms_equipo(id,producto) {
             Swal.fire({
                 title: "Enviar SMS",
                 text: "Ingresa el número de teléfono (10 dígitos sin +57):",
@@ -130,7 +130,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     let numeroTelefono = result.value;
-                    let data = { id: id, telefono: numeroTelefono };
+                    let data = { id_e: id, telefono: numeroTelefono, equipo:producto };
                     console.log("📤 Enviando solicitud a Flask:", data);
                     // Petición fetch con método POST y JSON
                     fetch("/enviar-equipo", {
