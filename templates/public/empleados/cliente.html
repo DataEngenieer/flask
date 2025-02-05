@@ -44,25 +44,25 @@
         <br>
         <!-- Características principales -->
         <div class="features">
-            <div class="feature-card">Pantalla: {{ equipo.pantalla }}</div>
-            <div class="feature-card">Cámara: {{ equipo.camara }}</div>
-            <div class="feature-card">Batería: {{ equipo.memoria_interna }}</div>
-            <div class="feature-card">RAM: {{ equipo.bateria }}</div>
-            <div class="feature-card">Almacenamiento: {{ equipo.ram }}</div>
-            <div class="feature-card">Procesador: {{ equipo.procesador }}</div>
+            <div class="feature-card"><strong>Pantalla:</strong> {{ equipo.pantalla }}</div>
+            <div class="feature-card"><strong>Cámara: </strong>{{ equipo.camara }}</div>
+            <div class="feature-card"><strong>Batería: </strong>{{ equipo.memoria_interna }}</div>
+            <div class="feature-card"><strong>RAM: </strong>{{ equipo.bateria }}</div>
+            <div class="feature-card"><strong>Almacenamiento: </strong>{{ equipo.ram }}</div>
+            <div class="feature-card"><strong>Procesador: </strong>{{ equipo.procesador }}</div>
         </div>
 
         <!-- Detalles del equipo -->
         <div>
-            <h2>Detalles del equipo</h2>
+            <h3>Detalles del equipo</h3>
             <p>{{ equipo.descripcion }}</p>
         </div>
 
 
         <!-- Galería de equipos relacionados -->
-        <div class="related-gallery">
-            <h2>Otros equipos</h2>
-            <div class="gallery">
+        <div class="sub_related-gallery">
+            <h3>Otros equipos</h3>
+            <div class="sub_gallery">
                 {% for equipo in otros_equipos %}
                 <a href="/inventario_claro/{{ equipo.id }}">
                     <img src="{{ equipo.imagen1 }}" alt="{{ equipo.producto }}">
@@ -84,8 +84,7 @@
                 <img src="../static/assets/img/qmas_logo.webp" alt="Logo Qmas" class="footer-logo">
                 <h5>
                     GSC Outsourcing - Qmas en representación de Claro (Comunicación Celular S.A.) para la venta de
-                    equipos
-                    terminales y de tecnología en Colombia
+                    equipos terminales y de tecnología en Colombia
                 </h5>
             </div>
             <!-- Derechos reservados -->
@@ -116,7 +115,9 @@
             image.classList.remove('zoomed');
             overlay.style.display = 'none';
         }
+
         document.getElementById('mainImage').addEventListener('click', zoomImage);
+        document.querySelector('.overlay').addEventListener('click', closeZoom);
 
         function viewPhone(url) {
             window.location.href = url;
