@@ -570,7 +570,7 @@ def buscador_lista_equiposBD(search_producto):
                 querySQL = ("""
                         SELECT tipo_equipo,marca,producto,gamma FROM inventario_digital
                         WHERE marca LIKE %s or producto LIKE %s
-                        limit 10
+                        limit 20
                     """)
                 
                 search_producto_pattern = f"%{search_producto}%"

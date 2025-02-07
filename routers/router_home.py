@@ -415,7 +415,7 @@ def inventario_claro(id_equipo):
             SELECT `id`, `producto`, `imagen1` 
             FROM `inventario_digital` 
             WHERE id != %s AND gamma = %s 
-            LIMIT 4;
+            LIMIT 3;
         """
         cursor.execute(query_otros_equipos, (id_equipo, gamma_equipo))
         otros_equipos = cursor.fetchall()
