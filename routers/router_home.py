@@ -415,6 +415,7 @@ def inventario_claro(id_equipo):
             SELECT `id`, `producto`, `imagen1` 
             FROM `inventario_digital` 
             WHERE id != %s AND gamma = %s 
+            ORDER BY RAND() 
             LIMIT 3;
         """
         cursor.execute(query_otros_equipos, (id_equipo, gamma_equipo))

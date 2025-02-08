@@ -60,19 +60,19 @@
 
 
         <!-- Galería de equipos relacionados -->
-        <div class="sub_related-gallery">
-            <h3>Otros equipos</h3>
-            <div class="sub_gallery">
-                {% for equipo in otros_equipos %}
-                <a href="/inventario_claro/{{ equipo.id }}">
-                    <img src="{{ equipo.imagen1 }}" alt="{{ equipo.producto }}">
-                    <p>{{ equipo.producto }}</p>
-                </a>
-                {% endfor %}
-            </div>
+        
+    </div>
+    <div class="sub_related-gallery">
+        <h3>Otros equipos</h3>
+        <div class="sub_gallery">
+            {% for equipo in otros_equipos %}
+            <a href="/inventario_claro/{{ equipo.id }}">
+                <img src="{{ equipo.imagen1 }}" alt="{{ equipo.producto }}">
+                <p>{{ equipo.producto }}</p>
+            </a>
+            {% endfor %}
         </div>
     </div>
-
     <footer>
         <div class="footer-content">
             <!-- Botón de WhatsApp -->

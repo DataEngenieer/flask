@@ -160,6 +160,14 @@
             });
         }
 
+        function inventario_claro(id) {
+            if (id) {
+                let url = `/inventario_claro/${id}`;
+                window.open(url, '_blank');
+            } else {
+                console.error("El ID del equipo no está definido.");
+            }
+        }
 
     </script>
     {% endblock %}
