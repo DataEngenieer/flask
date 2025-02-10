@@ -554,32 +554,33 @@ def lista_equiposBD():
     try:
         with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital"
+                querySQL = "SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital order by marca desc"
                 cursor.execute(querySQL,)
                 equiposBD = cursor.fetchall()
         return equiposBD
     except Exception as e:
-        print(f"Error en lista_usuariosBD : {e}")
+        print(f"Error en lista_equiposBD : {e}")
         return []
     
 # buscar equipos creados
-def buscador_lista_equiposBD(search_producto):
+def buscarInventario_digital(search_bodega):
     try:
-        with connectionBD_inv() as conexion_MySQLdb:
+        with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
-                        SELECT tipo_equipo,marca,producto,gamma FROM inventario_digital
-                        WHERE marca LIKE %s or producto LIKE %s
-                        limit 20
+                        SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital
+                        WHERE marca LIKE %s order by producto desc
+                        limit 10
                     """)
                 
-                search_producto_pattern = f"%{search_producto}%"
-                mycursor.execute(querySQL, (search_producto_pattern,))
-                resultadobusquedainv_oms = mycursor.fetchall()
-                return resultadobusquedainv_oms
+                search_bodega_pattern = f"%{search_bodega}%"  # Para Bodega
+                mycursor.execute(querySQL, (search_bodega_pattern,))
+                resultadobusquedainv_digital = mycursor.fetchall()
+                #print(resultadobusquedainv_digital)
+                return resultadobusquedainv_digital
 
     except Exception as e:
-        print(f"Ocurrió un error en def buscador_lista_equiposBD: {e}")
+        print(f"Ocurrió un error en def buscarInventario_digital: {e}")
         return []
 
 # Eliminar Empleado

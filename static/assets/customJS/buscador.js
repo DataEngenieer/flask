@@ -199,16 +199,15 @@ async function buscadorTable_bodega_oms(tableId) {
 }
 
 
-async function buscador_equipo_digital_j(tableId) {
-  let input,input2, busqueda,busqueda2, url;
+async function buscador_equipo_digital(tableId) {
+  let input, busqueda, url;
   url = "/buscando-inventario-digital";
 
   input = document.getElementById("search_bodega");
-  input2 = document.getElementById("search_producto");
-  busqueda = input.value
-  busqueda2 = input2.value
 
-  const dataPeticion = { busqueda,busqueda2 };
+  busqueda = input.value
+  
+  const dataPeticion = { busqueda };
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -237,22 +236,4 @@ async function buscador_equipo_digital_j(tableId) {
   } catch (error) {
     console.error(error);
   }
-}
-
-function buscador_equipo_digital(marcaSeleccionada) {
-  console.log("Marca seleccionada:", marcaSeleccionada);
-  
-  // Obtener todas las filas de la tabla
-  let filas = document.querySelectorAll("#inventario_digital tbody tr");
-
-  filas.forEach(fila => {
-      let marca = fila.querySelector(".marca").textContent.trim();
-
-      // Mostrar solo las filas que coincidan con la marca seleccionada
-      if (marcaSeleccionada === "" || marca === marcaSeleccionada) {
-          fila.style.display = "";
-      } else {
-          fila.style.display = "none";
-      }
-  });
 }

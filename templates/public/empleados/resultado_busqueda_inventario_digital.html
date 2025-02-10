@@ -1,9 +1,116 @@
-{% for inventario in dataBusqueda_inv %}
-<tr id="inventario_{{ inventario.Subproducto }}">
-  <td>{{ inventario.Bodega }}</td>
-  <td>{{ inventario.Material }}</td>
-  <td>{{ inventario.Subproducto }}</td>
-  <td>{{ inventario.CantidadDisponible }}</td>
-  <td>{{ inventario.creation_date }}</td>
+{% for inventario in dataBusqueda_inv_bod_pro %}
+<tr id="inventario_{{ inventario.Bodega }}">
+  
+  <td>{{ inventario.tipo_equipo }}</td>
+  <td>{{ inventario.marca }}</td>
+  <td>{{ inventario.producto }}</td>
+  <td>{{ inventario.gamma }}</td>
+  <td>
+    {% if session.get('rol') == 'admin' %}
+    <button class="btn rounded-pill btn-danger btn-sm me-2"
+        onclick="eliminarUsuario('{{ inventario.id }}');" style="transition: all 0.3s;">
+        <i class="bi bi-trash3"></i> Eliminar
+    </button>
+    {% endif %}
+    <button class="btn rounded-pill btn-success btn-sm me-2"
+        onclick="enviar_sms_equipo('{{ inventario.id }}','{{ inventario.producto }}');"  style="transition: all 0.3s;">
+        <i class="bi bi-chat-dots"></i> Enviar SMS
+    </button>
+    <button class="btn rounded-pill btn-primary btn-sm"
+        onclick="inventario_claro('{{ inventario.id }}');" style="transition: all 0.3s;">
+        <i class="bi bi-eye"></i> Ver
+    </button>
+  </td>
 </tr>
 {% endfor %}
+
+
+{% if dataBusqueda_inv_bod_pro|length == 0 %}
+<tr>
+  <td colspan="5" style="text-align:center;">No se encontraron resultados.</td>
+</tr>
+{% endif %}
+
+<!--Script Custom-->
+{% block customJS %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function eliminarUsuario(id) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "Está a punto de eliminar un equipo. Esta acción no se puede deshacer.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let url = `/borrar-equipo/${id}`;
+                if (url) {
+                    window.location.href = url;
+                }
+            }
+        });
+    }
+
+    function enviar_sms_equipo(id,producto) {
+        Swal.fire({
+            title: "Enviar SMS",
+            text: "Ingresa el número de teléfono (10 dígitos sin +57):",
+            input: "text",
+            inputPlaceholder: "Ejemplo: 3123456789",
+            showCancelButton: true,
+            confirmButtonText: "Enviar",
+            cancelButtonText: "Cancelar",
+            inputValidator: (value) => {
+                if (!/^\d{10}$/.test(value)) {
+                    return "Debes ingresar un número válido de 10 dígitos.";
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let numeroTelefono = result.value;
+                let data = { id_e: id, telefono: numeroTelefono, equipo:producto };
+                console.log("📤 Enviando solicitud a Flask:", data);
+                // Petición fetch con método POST y JSON
+                fetch("/enviar-equipo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data) // Datos en JSON
+                })
+                    .then(response => {
+                        console.log("📥 Respuesta recibida de Flask:", response);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            console.error("🚨 Error en respuesta:", data.error);
+                            Swal.fire("Error", data.error, "error");
+                        } else {
+                            Swal.fire("Éxito", "Mensaje enviado correctamente", "success");
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire("Error", "Hubo un problema al enviar el SMS", "error");
+                        console.error("Error en fetch de envio sms:", error);
+                    });
+            }
+        });
+    }
+
+    function inventario_claro(id) {
+        if (id) {
+            let url = `/inventario_claro/${id}`;
+            window.open(url, '_blank');
+        } else {
+            console.error("El ID del equipo no está definido.");
+        }
+    }
+
+</script>
+{% endblock %}

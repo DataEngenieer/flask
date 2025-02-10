@@ -42,8 +42,8 @@
         <div data-i18n="Boxicons">Inventario - OMS</div>
       </a>
     </li>
-    {% endif %} {% if session.get('rol') == 'admin' or session.get('rol') ==
-    'push' %}
+    {% endif %} {% if session.get('campaing') == 'Claro TyT' or
+    session.get('rol') == 'admin' %}
     <li class="menu-item {% if request.path == '/listar_equipos' %} active {% endif %}">
       <a href="/listar_equipos" class="menu-link" style="color: #fff">
         <i class="menu-icon bi bi-card-list" style="color: #fff"></i>
@@ -91,7 +91,8 @@
         <div data-i18n="Tables">Reporte WhatsApp TyT</div>
       </a>
     </li>
-    {% endif %} {% if session.get('rol') == 'admin' or session.get('rol') ==
+    {% endif %} 
+    {% if session.get('rol') == 'admin' or session.get('rol') ==
     'push' %}
     <li class="menu-item {% if request.path == '/agregar_equipo' %} active {% endif %}">
       <a href="/agregar_equipo" class="menu-link" style="color: #fff">
@@ -99,14 +100,7 @@
         <div data-i18n="Tables">Agregar Equipo</div>
       </a>
     </li>
-    {% endif %} {% if session.get('rol') == 'admin' %}
-    <li class="menu-item {% if request.path == '/inventario_claro' %} active {% endif %}">
-      <a href="/inventario_claro" class="menu-link" style="color: #fff">
-        <i class="menu-icon bi bi-person-lines-fill" style="color: #fff"></i>
-        <div data-i18n="Tables">Ver Pagina Cliente</div>
-      </a>
-    </li>
-    {% endif %}
+    {% endif %} 
     <li class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
       <a href="/mi-perfil" class="menu-link" style="color: #fff">
         <i class="menu-icon bi bi-person-fill-gear" style="color: #fff"></i>

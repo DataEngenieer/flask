@@ -15,7 +15,7 @@
         <div class="row justify-content-center mb-2 gap-2">
             <div class="col-md-6 col-lg-5">
                 <label for="search_bodega" class="form-label">Marca</label>
-                <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital(this.value)">
+                <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital('inventario_bodega')">
                     <option value="">Selecciona una marca</option>
                     <option value="Samsung">Samsung</option>
                     <option value="Oppo">Oppo</option>
@@ -28,14 +28,10 @@
                     <option value="Microsoft">Microsoft</option>
                 </select>
             </div>
-            <div class="col-md-6 col-lg-5">
-                <label for="search_producto" class="form-label">Producto</label>
-                <input type="search" id="search_producto" class="form-control" placeholder="Buscar equipo..."
-                    aria-describedby="floatingInputHelp" onkeyup="buscador_equipo_digital('inventario_bodega')" />
-            </div>
+            
         </div>
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover" width="100%">
+            <table id="inventario_bodega" class="table table-hover" width="100%">
                 <thead>
                     <tr style="background-color: #ddd">
                         <th>Tipo Equipo</th>

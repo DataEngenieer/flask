@@ -361,7 +361,24 @@ def agregar_equipo():
         return redirect(url_for('loginCliente'))
 
 
-
+@app.route("/buscando-inventario-digital", methods=['POST'])
+def viewBuscarInventario_digital():
+    try:
+        # Obtenemos ambos parámetros de búsqueda desde el JSON
+        busqueda = request.json.get('busqueda')  # bodega
+        
+        # Llamamos a la función de búsqueda pasando ambos parámetros
+        resultadobusquedainv_digital = buscarInventario_digital(busqueda)
+        
+        if resultadobusquedainv_digital:
+            # Si hay resultados, los pasamos a la plantilla para que se rendericen
+            return render_template(f'{PATH_URL}/resultado_busqueda_inventario_digital.html', dataBusqueda_inv_bod_pro=resultadobusquedainv_digital)
+        else:
+            # Si no hay resultados, devolvemos un JSON indicando que no se encontraron resultados
+            return jsonify({'fin': 0})
+    except Exception as e:
+        # Manejo de errores, en caso de algún fallo
+        return jsonify({'error': str(e)}), 500
     
 @app.route('/inventario_claro/<int:id_equipo>')
 def inventario_claro(id_equipo):

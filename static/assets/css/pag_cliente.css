@@ -60,9 +60,9 @@ header h1 {
 }
 
 .sub_gallery img {
-  width: 140px;
+  width: 130px;
   /* Tamaño estándar de miniaturas */
-  height: 140px;
+  height: 130px;
   object-fit: cover;
   /* Mantiene proporción */
   cursor: pointer;
@@ -134,7 +134,7 @@ header h1 {
 }
 
 .sub_related-gallery img {
-  width: 140px;
+  width: 130px;
   cursor: pointer;
   margin: 10px;
 }
