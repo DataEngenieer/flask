@@ -415,7 +415,7 @@ def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                         FROM inventario_bodega AS e
                         WHERE e.Bodega LIKE %s AND e.Subproducto LIKE %s
-                        ORDER BY e.Subproducto asc,e.CantidadDisponible asc LIMIT 20
+                        ORDER BY e.CantidadDisponible desc LIMIT 30
                     """)
                 search_bodega_pattern = f"%{search_bodega}%"  # Para Bodega
                 search_producto_pattern = f"%{search_producto}%"  # Para Producto
@@ -432,10 +432,11 @@ def buscarInventarioBD_bodega_oms(search_producto):
         with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
-                        SELECT  e.creation_date, e.Sku, e.NombreSku, e.Cantidad
+                        SELECT  e.creation_date, e.Sku, e.NombreSku, SUM(e.Cantidad) as Cantidad
                         FROM inventario_OMS e
                         WHERE e.NombreSku LIKE %s
-                        order by e.NombreSku asc,e.Cantidad asc limit 20
+                        group by e.creation_date, e.Sku, e.NombreSku
+                        order by e.Cantidad desc limit 30
                     """)
                 
                 search_producto_pattern = f"%{search_producto}%"
