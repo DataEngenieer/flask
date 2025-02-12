@@ -414,8 +414,10 @@ def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
                 querySQL = ("""
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
                         FROM inventario_bodega AS e
-                        WHERE e.Bodega LIKE %s AND e.Subproducto LIKE %s
-                        ORDER BY e.CantidadDisponible desc LIMIT 30
+                        WHERE e.Bodega NOT LIKE '%CAV LA CENTRAL MEDELLIN%'
+                        AND e.Bodega LIKE %s 
+                        AND e.Subproducto LIKE %s
+                        ORDER BY e.CantidadDisponible desc, e.Subproducto asc LIMIT 30
                     """)
                 search_bodega_pattern = f"%{search_bodega}%"  # Para Bodega
                 search_producto_pattern = f"%{search_producto}%"  # Para Producto
@@ -432,12 +434,22 @@ def buscarInventarioBD_bodega_oms(search_producto):
         with connectionBD_inv() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
-                        SELECT  e.creation_date, e.Sku, e.NombreSku, SUM(e.Cantidad) as Cantidad
+                        SELECT e.creation_date, e.Sku, e.NombreSku, SUM(e.Cantidad) as Cantidad
                         FROM inventario_OMS e
-                        WHERE e.NombreSku LIKE %s
-                        group by e.creation_date, e.Sku, e.NombreSku
-                        order by e.Cantidad desc limit 30
-                    """)
+                        WHERE e.NombreSku NOT LIKE '%Kit prepago%'
+                        AND e.NombreSku NOT LIKE '%Prestamo usado%'
+                        AND e.NombreSku NOT LIKE '%Sim%'
+                        AND e.NombreSku NOT LIKE '%Vacias%'
+                        AND e.NombreSku NOT LIKE '%Control Remoto%'
+                        AND e.NombreSku NOT LIKE '%PROMO%'
+                        AND e.NombreSku NOT LIKE '%EQUIPO RECICLAJE DAÑADO GSM%'
+                        AND e.NombreSku NOT LIKE '%DEMO%'
+                        AND e.NombreAlmacen NOT LIKE '%CAV%'
+                        AND e.NombreSku LIKE %s
+                        GROUP BY e.creation_date, e.Sku, e.NombreSku
+                        ORDER BY Cantidad DESC, e.NombreSku ASC
+                        LIMIT 30;
+                        """)
                 
                 search_producto_pattern = f"%{search_producto}%"
                 mycursor.execute(querySQL, (search_producto_pattern,))
