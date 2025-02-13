@@ -413,7 +413,7 @@ def buscarInventarioBD_bodega_pro(search_bodega, search_producto):
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT  e.creation_date, e.Bodega, e.Material, e.Subproducto, e.CantidadDisponible, e.Ubicacion 
-                        FROM inventario_bodega AS e
+                        FROM inventario_bodega AS e 
                         WHERE e.Bodega NOT LIKE '%CAV LA CENTRAL MEDELLIN%'
                         AND e.Bodega LIKE %s 
                         AND e.Subproducto LIKE %s

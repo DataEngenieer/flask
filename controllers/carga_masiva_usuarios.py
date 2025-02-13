@@ -14,7 +14,7 @@ from controllers.funciones_login import *
 
 def recibeInsertRegisterUser(documento, name_surname, email_user, pass_user, rol, token, numero_token):
     # Validar los datos del usuario
-    respuestaValidar = validarDataRegisterLogin(name_surname, email_user, pass_user, rol)
+    respuestaValidar = validarDataRegisterLogin(name_surname, email_user, pass_user)
 
     if respuestaValidar:
         # Generar hash de la contraseña
