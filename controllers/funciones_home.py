@@ -145,6 +145,7 @@ def sql_lista_tokenx():
         print(
             f"Error en la función sql_lista_token: {e}")
         return None
+    
 def sql_lista_token(tipo_token, campaing):
     try:
         with connectionBD_railway() as conexion_MySQLdb:
@@ -567,7 +568,7 @@ def lista_equiposBD():
     try:
         with connectionBD_railway() as conexion_MySQLdb:
             with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                querySQL = "SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital order by marca desc"
+                querySQL = "SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital order by marca desc limit 15;"
                 cursor.execute(querySQL,)
                 equiposBD = cursor.fetchall()
         return equiposBD
@@ -582,14 +583,16 @@ def buscarInventario_digital(search_bodega):
             with conexion_MySQLdb.cursor(dictionary=True) as mycursor:
                 querySQL = ("""
                         SELECT id,tipo_equipo,marca,producto,gamma FROM inventario_digital
-                        WHERE marca LIKE %s order by producto desc
-                        limit 10
+                        WHERE producto LIKE %s
+                        order by marca desc
+                        limit 10;
                     """)
                 
-                search_bodega_pattern = f"%{search_bodega}%"  # Para Bodega
+                search_bodega_pattern = f"%{search_bodega}%"  # Para producto
+                
                 mycursor.execute(querySQL, (search_bodega_pattern,))
                 resultadobusquedainv_digital = mycursor.fetchall()
-                #print(resultadobusquedainv_digital)
+                print(resultadobusquedainv_digital)
                 return resultadobusquedainv_digital
 
     except Exception as e:

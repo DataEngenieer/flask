@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celulares y Tecnologia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../static/assets/css/pag_cliente.css">
+    <link rel="icon" href="../static/assets/img/favicon_cliente.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <img src="../static/assets/img/claro_logo.svg" alt="Logo Claro">
+        <h1>{{ equipo.producto }}</h1>
+    </header>
+    <div class="overlay" onclick="closeZoom()"></div>
+    <div class="main-content">
+        <!-- Galería de imágenes del equipo seleccionado -->
+        <div class="col-md-6">
+            <div class="main-image">
+                {% if equipo.imagen1 %}
+                <img id="mainImage" src="{{ equipo.imagen1 }}" alt="Imagen principal" class="mx-auto d-block">
+                {% else %}
+                <p>No hay imagen disponible.</p>
+                {% endif %}
+            </div>
+            <div class="gallery">
+                {% if equipo.imagen1 %}
+                <img src="{{ equipo.imagen1 }}" alt="Miniatura 1" onclick="changeImage('{{ equipo.imagen1 }}')">
+                {% endif %}
+                {% if equipo.imagen2 %}
+                <img src="{{ equipo.imagen2 }}" alt="Miniatura 2" onclick="changeImage('{{ equipo.imagen2 }}')">
+                {% endif %}
+                {% if equipo.imagen3 %}
+                <img src="{{ equipo.imagen3 }}" alt="Miniatura 3" onclick="changeImage('{{ equipo.imagen3 }}')">
+                {% endif %}
+                {% if equipo.imagen4 %}
+                <img src="{{ equipo.imagen4 }}" alt="Miniatura 4" onclick="changeImage('{{ equipo.imagen4 }}')">
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <!-- Características principales -->
+        <div class="features">
+            <div class="feature-card"><strong>Pantalla:</strong> {{ equipo.pantalla }}</div>
+            <div class="feature-card"><strong>Cámara: </strong>{{ equipo.camara }}</div>
+            <div class="feature-card"><strong>Batería: </strong>{{ equipo.memoria_interna }}</div>
+            <div class="feature-card"><strong>RAM: </strong>{{ equipo.bateria }}</div>
+            <div class="feature-card"><strong>Almacenamiento: </strong>{{ equipo.ram }}</div>
+            <div class="feature-card"><strong>Procesador: </strong>{{ equipo.procesador }}</div>
+        </div>
+
+        <!-- Detalles del equipo -->
+        <div>
+            <h3>Detalles del equipo</h3>
+            <p>{{ equipo.descripcion }}</p>
+        </div>
+
+
+        <!-- Galería de equipos relacionados -->
+        
+    </div>
+    <div class="sub_related-gallery">
+        <h3>Otros equipos</h3>
+        <div class="sub_gallery">
+            {% for equipo in otros_equipos %}
+            <a href="/inventario_claro/{{ equipo.id }}">
+                <img src="{{ equipo.imagen1 }}" alt="{{ equipo.producto }}">
+                <p>{{ equipo.producto }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <!-- Botón de WhatsApp -->
+            <a href="https://wa.me/573138081829" class="whatsapp-btn" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Contáctanos por WhatsApp
+            </a>
+            <!-- Logo y Disclaimer -->
+            <div class="footer-logo-disclaimer">
+                <img src="../static/assets/img/qmas_logo.webp" alt="Logo Qmas" class="footer-logo">
+                <h5>
+                    GSC Outsourcing - Qmas en representación de Claro (Comunicación Celular S.A.) para la venta de
+                    equipos terminales y de tecnología en Colombia
+                </h5>
+            </div>
+            <!-- Derechos reservados -->
+            <h6>© GSC - QMAS | Dto. Desarrollo e Innovación. Todos los derechos reservados 2025</h6>
+        </div>
+    </footer>
+
+    <script>
+        function changeImage(newSrc) {
+            document.getElementById('mainImage').src = newSrc;
+        }
+        function zoomImage() {
+            const image = document.getElementById('mainImage');
+            const overlay = document.querySelector('.overlay');
+
+            if (!image.classList.contains('zoomed')) {
+                image.classList.add('zoomed');
+                overlay.style.display = 'block';
+            } else {
+                image.classList.remove('zoomed');
+                overlay.style.display = 'none';
+            }
+        }
+
+        function closeZoom() {
+            const image = document.getElementById('mainImage');
+            const overlay = document.querySelector('.overlay');
+            image.classList.remove('zoomed');
+            overlay.style.display = 'none';
+        }
+
+        document.getElementById('mainImage').addEventListener('click', zoomImage);
+        document.querySelector('.overlay').addEventListener('click', closeZoom);
+
+        function viewPhone(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>

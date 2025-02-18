@@ -15,188 +15,210 @@
                 <!-- Acción del formulario apunta a la ruta en Flask -->
                 <form action="/agregar_equipo" method="POST" enctype="multipart/form-data">
                     <!-- CSRF Token para seguridad -->
-
-                    <div class="row">
-                        <!-- Columna 1 -->
-                        <div class="col-md-6">
-                            <!-- Tipo de equipo -->
-                            <div class="form-group mb-3">
-                                <label for="tipo_equipo">Tipo de Equipo</label>
-                                <select id="tipo_equipo" name="tipo_equipo" class="form-control" required>
-                                    <option value="terminal">Terminal</option>
-                                    <option value="portatil">Computador</option>
-                                    <option value="televisor">Televisor</option>
-                                    <option value="consola">Consola Video Juegos</option>
-                                    <option value="reloj">Reloj Inteligente</option>
-                                    <option value="audifono">Audifonos</option>
-                                </select>
-                            </div>
-
-                            <!-- Marca -->
-                            <div class="form-group mb-3">
-                                <label for="marca">Marca</label>
-                                <select id="marca" name="marca" class="form-control" required>
-                                    <option value="Samsung">Samsung</option>
-                                    <option value="Oppo">Oppo</option>
-                                    <option value="Honor">Honor</option>
-                                    <option value="Vivo">Vivo</option>
-                                    <option value="Tecno">Tecno</option>
-                                    <option value="Motorola">Motorola</option>
-                                    <option value="Xiaomi">Xiaomi</option>
-                                    <option value="Huawei">Huawei</option>
-                                    <option value="Microsoft">Microsoft</option>
-                                </select>
-                            </div>
-
-                            <!-- Gamma -->
-                            <div class="form-group mb-3">
-                                <label for="gamma">Gama</label>
-                                <select id="gamma" name="gamma" class="form-control" required>
-                                    <option value="Baja">Baja</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Alta">Alta</option>
-                                </select>
-                            </div>
-
-                            <!-- Nombre del equipo -->
-                            <div class="form-group mb-3">
-                                <label for="nombre_equipo">Nombre del Equipo</label>
-                                <input type="text" id="nombre_equipo" name="nombre_equipo" class="form-control"
-                                    required>
-                            </div>
-
-
-                        </div>
-                        <!-- Descripción -->
-
-                        <!-- Columna 2 -->
-                        <div class="col-md-6">
-
-
-                            <!-- Características -->
-                            <div class="row">
-                                <!-- Cuadro 1 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica1">Camara</label>
-                                        <input type="text" id="caracteristica1" name="caracteristica1"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-
-                                <!-- Cuadro 2 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica2">Pantalla</label>
-                                        <input type="text" id="caracteristica2" name="caracteristica2"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <!-- Cuadro 3 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica3">Procesador</label>
-                                        <input type="text" id="caracteristica3" name="caracteristica3"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="row">
-
-                                <!-- Cuadro 4 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica4">Bateria</label>
-                                        <input type="text" id="caracteristica4" name="caracteristica4"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <!-- Cuadro 5 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica5">RAM</label>
-                                        <input type="text" id="caracteristica5" name="caracteristica5"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <!-- Cuadro 6 -->
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label for="caracteristica6">Memoria</label>
-                                        <input type="text" id="caracteristica6" name="caracteristica6"
-                                            class="form-control" required>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- Red -->
-                            <div class="form-group mb-3">
-                                <label>Red</label><br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="red" id="4g" value="4g" required>
-                                    <label class="form-check-label" for="4g"> 4G</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="red" id="5g" value="5g" required>
-                                    <label class="form-check-label" for="5g"> 5G</label>
-                                </div>
-                            </div>
-
-                            <!-- Colores -->
-                            <div class="form-group mb-3">
-                                <label for="colores">Colores</label>
-                                <select id="colores" name="colores" class="form-control" multiple required>
-                                    <option value="rojo">Rojo</option>
-                                    <option value="azul">Azul</option>
-                                    <option value="negro">Negro</option>
-                                    <option value="blanco">Blanco</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-group mb-3">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
+                        <!-- Tipo de equipo -->
+                        <label for="tipo_equipo">Tipo de Equipo</label>
+                        <select id="tipo_equipo" name="tipo_equipo" class="form-control" required>
+                            <option value="terminal">Terminal</option>
+                            <option value="portatil">Computador</option>
+                            <option value="televisor">Televisor</option>
+                            <option value="consola">Consola Video Juegos</option>
+                            <option value="reloj">Reloj Inteligente</option>
+                            <option value="audifono">Audifonos</option>
+                        </select>
                     </div>
-                    <!-- Campos para imágenes -->
+
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group mb-3">
-                                <label for="imagen1">Imagen 1</label>
-                                <input type="file" id="imagen1" name="imagen1" class="form-control" accept="image/*"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group mb-3">
-                                <label for="imagen2">Imagen 2</label>
-                                <input type="file" id="imagen2" name="imagen2" class="form-control" accept="image/*"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group mb-3">
-                                <label for="imagen3">Imagen 3</label>
-                                <input type="file" id="imagen3" name="imagen3" class="form-control" accept="image/*"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group mb-3">
-                                <label for="imagen4">Imagen 4</label>
-                                <input type="file" id="imagen4" name="imagen4" class="form-control" accept="image/*"
-                                    required>
+                        <div id="form-terminal">
+                            <div class="row">
+                                <!-- Columna 1 -->
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="marca">Marca</label>
+                                        <select id="marca" name="marca" class="form-control" required>
+                                            <option value="Samsung">Samsung</option>
+                                            <option value="Oppo">Oppo</option>
+                                            <option value="Honor">Honor</option>
+                                            <option value="Vivo">Vivo</option>
+                                            <option value="Tecno">Tecno</option>
+                                            <option value="Motorola">Motorola</option>
+                                            <option value="Xiaomi">Xiaomi</option>
+                                            <option value="Huawei">Huawei</option>
+                                            <option value="Microsoft">Microsoft</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="gamma">Gama</label>
+                                        <select id="gamma" name="gamma" class="form-control" required>
+                                            <option value="Baja">Baja</option>
+                                            <option value="Media">Media</option>
+                                            <option value="Alta">Alta</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="nombre_equipo">Nombre del Equipo</label>
+                                        <input type="text" id="nombre_equipo" name="nombre_equipo" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label for="descripcion">Descripción</label>
+                                        <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
+                                            required></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Columna 2 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica1">Camara</label>
+                                                <input type="text" id="caracteristica1" name="caracteristica1"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica2">Pantalla</label>
+                                                <input type="text" id="caracteristica2" name="caracteristica2"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica3">Procesador</label>
+                                                <input type="text" id="caracteristica3" name="caracteristica3"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica4">Bateria</label>
+                                                <input type="text" id="caracteristica4" name="caracteristica4"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica5">RAM</label>
+                                                <input type="text" id="caracteristica5" name="caracteristica5"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group mb-3">
+                                                <label for="caracteristica6">Memoria</label>
+                                                <input type="text" id="caracteristica6" name="caracteristica6"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label>Red</label><br>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="red" id="4g"
+                                                value="4g" required>
+                                            <label class="form-check-label" for="4g"> 4G</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="red" id="5g"
+                                                value="5g" required>
+                                            <label class="form-check-label" for="5g"> 5G</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="colores">Colores</label>
+                                        <select id="colores" name="colores" class="form-control" multiple required>
+                                            <option value="negro">Negro</option>
+                                            <option value="rojo">Rojo</option>
+                                            <option value="azul">Azul</option>
+                                            <option value="Fucsia">Fucsia</option>
+                                            <option value="blanco">Blanco</option>
+                                            <option value="Verde">Verde</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="imagenes-terminal">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group mb-3">
+                                                <label for="imagen1">Imagen 1</label>
+                                                <input type="file" id="imagen1" name="imagen1" class="form-control"
+                                                    accept="image/*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group mb-3">
+                                                <label for="imagen2">Imagen 2</label>
+                                                <input type="file" id="imagen2" name="imagen2" class="form-control"
+                                                    accept="image/*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group mb-3">
+                                                <label for="imagen3">Imagen 3</label>
+                                                <input type="file" id="imagen3" name="imagen3" class="form-control"
+                                                    accept="image/*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group mb-3">
+                                                <label for="imagen4">Imagen 4</label>
+                                                <input type="file" id="imagen4" name="imagen4" class="form-control"
+                                                    accept="image/*" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
+                    <div id="form-otros" style="display: none;">
+                        <div class="row">
+                            <!-- Columna 1 -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="marca_otros">Marca</label>
+                                    <input type="text" id="marca_otros" name="marca_otros" class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="nombre_equipo_otros">Nombre del Equipo</label>
+                                    <input type="text" id="nombre_equipo_otros" name="nombre_equipo_otros"
+                                        class="form-control">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="gamma">Gama</label>
+                                    <select id="gamma" name="gamma" class="form-control" required>
+                                        <option value="Baja">Baja</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Alta">Alta</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Columna 2 -->
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="caracteristicas">Características Específicas</label>
+                                    <textarea id="caracteristicas" name="caracteristicas" class="form-control"
+                                        rows="4"></textarea>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="archivo_otros">Imagen o PDF del producto</label>
+                                    <input type="file" id="archivo_otros" name="archivo_otros" class="form-control"
+                                        accept="image/*,.pdf" required>
+                                    <small class="text-muted">Formatos permitidos: imágenes o PDF</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Botón Guardar -->
                     <div class="text-center">
                         <button type="submit" id="guardarBtn" class="btn btn-primary"> <i class="bi bi-save"></i>
@@ -227,16 +249,94 @@
 <!-- ✅ JavaScript -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("equipoForm");
+        const tipoEquipo = document.getElementById("tipo_equipo");
+        const formTerminal = document.getElementById("form-terminal");
+        const formOtros = document.getElementById("form-otros");
+        const imagenesTerminal = document.getElementById("imagenes-terminal");
+
+        // Función para cambiar formularios
+        function toggleForms() {
+            if (tipoEquipo.value === "terminal") {
+                formTerminal.style.display = "block";
+                formOtros.style.display = "none";
+                imagenesTerminal.style.display = "block";
+                // Habilitar campos requeridos para terminal
+                enableRequiredFields(formTerminal, true);
+                enableRequiredFields(formOtros, false);
+                enableRequiredFields(imagenesTerminal, true);
+                document.getElementById("archivo_otros").removeAttribute('required');
+            } else {
+                formTerminal.style.display = "none";
+                formOtros.style.display = "block";
+                imagenesTerminal.style.display = "none";
+                // Habilitar campos requeridos para otros
+                enableRequiredFields(formTerminal, false);
+                enableRequiredFields(formOtros, true);
+                enableRequiredFields(imagenesTerminal, false);
+                document.getElementById("archivo_otros").setAttribute('required', '');
+            }
+        }
+
+        // Función para habilitar/deshabilitar campos requeridos
+        function enableRequiredFields(form, required) {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                if (required) {
+                    input.setAttribute('required', '');
+                } else {
+                    input.removeAttribute('required');
+                }
+            });
+        }
+
+        // Evento change para el select de tipo de equipo
+        tipoEquipo.addEventListener("change", toggleForms);
+
+        // Ejecutar al cargar la página
+        toggleForms();
+
+        // Mantener el código existente del modal
+        const form = document.querySelector("form");
         const guardarBtn = document.getElementById("guardarBtn");
         const loadingModal = new bootstrap.Modal(document.getElementById("loadingModal"));
 
         form.addEventListener("submit", function (event) {
-            // Mostrar el modal de espera
+            event.preventDefault();
             loadingModal.show();
-
-            // Deshabilitar el botón para evitar múltiples envíos
             guardarBtn.disabled = true;
+            // Determinar la ruta según el tipo de equipo
+            const actionUrl = tipoEquipo.value === "terminal" ? "/agregar_equipo" : "/agregar_equipo_tecno";
+
+            // Crear un nuevo FormData para enviar los datos
+            const formData = new FormData(form);
+
+            // Enviar los datos usando fetch
+            fetch(actionUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirigir o mostrar un mensaje de éxito
+                    window.location.reload(); // Cambia esto a la página de éxito que desees
+                } else {
+                    // Manejar errores
+                    throw new Error('Error al guardar los datos');
+                }
+            })
+            .then(data => {
+                // Manejar la respuesta del servidor aquí
+                console.log('Datos guardados:', data);
+                // Puedes mostrar un mensaje de éxito o actualizar la interfaz según sea necesario
+            })
+
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+            })
+            .finally(() => {
+                loadingModal.hide();
+                guardarBtn.disabled = false;
+            });
         });
     });
 </script>

@@ -14,19 +14,9 @@
 
         <div class="row justify-content-center mb-2 gap-2">
             <div class="col-md-6 col-lg-5">
-                <label for="search_bodega" class="form-label">Marca</label>
-                <select id="search_bodega" class="form-select" onchange="buscador_equipo_digital('inventario_bodega')">
-                    <option value="">Selecciona una marca</option>
-                    <option value="Samsung">Samsung</option>
-                    <option value="Oppo">Oppo</option>
-                    <option value="Honor">Honor</option>
-                    <option value="Vivo">Vivo</option>
-                    <option value="Tecno">Tecno</option>
-                    <option value="Motorola">Motorola</option>
-                    <option value="Xiaomi">Xiaomi</option>
-                    <option value="Huawei">Huawei</option>
-                    <option value="Microsoft">Microsoft</option>
-                </select>
+                <label for="search_equipo" class="form-label">Equipo</label>
+                <input type="search" id="search_equipo" class="form-control" placeholder="Buscar equipo..."
+          aria-describedby="floatingInputHelp" onkeyup="buscador_equipo_digital('inventario_bodega')" />
             </div>
             
         </div>

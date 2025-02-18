@@ -153,8 +153,6 @@ def viewEditarEmpleado(id):
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
-
-# Recibir formulario para actulizar informacion de empleado
 @app.route('/actualizar-empleado', methods=['POST'])
 def actualizarEmpleado():
     resultData = procesar_actualizacion_form(request)
@@ -251,7 +249,7 @@ def agregar_equipo():
                 secret_key="l7SoPJjtGQ2xGKdZdwIzCJkGD0lNINzpSegDe3Ai",
                 secure=True  # True si usas HTTPS
             )
-
+            
             # Verificar que el bucket existe
             bucket_name = "inventario-equipo"
             if not minio_client.bucket_exists(bucket_name):
@@ -272,9 +270,9 @@ def agregar_equipo():
                     minio_client.put_object(
                         bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
                     )
-
+                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app"
                     # Retornar la URL de acceso
-                    url_archivo = minio_client.presigned_get_object(bucket_name, filename)
+                    url_archivo = f"{BUCKET_URL}/{filename}"
                     return f"{url_archivo}"
                 
                 return None
@@ -284,14 +282,6 @@ def agregar_equipo():
             ruta_imagen2 = subir_a_minio(request.files.get('imagen2'), nombre_equipo, 2)
             ruta_imagen3 = subir_a_minio(request.files.get('imagen3'), nombre_equipo, 3)
             ruta_imagen4 = subir_a_minio(request.files.get('imagen4'), nombre_equipo, 4)
-            
-            # Archivos de imágenes
-            #imagen1 = request.files.get('imagen1')
-            #imagen2 = request.files.get('imagen2')
-            #imagen3 = request.files.get('imagen3')
-            #imagen4 = request.files.get('imagen4')
-            
-            # Función para guardar imágenes
 
             def guardar_imagen(archivo, nombre_equipo, numero):
                 if archivo and archivo.filename:
@@ -305,18 +295,6 @@ def agregar_equipo():
                     return f"static/inventario_equipos/{filename}"
                 
                 return None
-            
-            
-            # Imprime las rutas de las imágenes en la consola
-            #print("Rutas de las imágenes:")
-            #if ruta_imagen1:
-            #    print(f"Imagen 1: {ruta_imagen1}")
-            #if ruta_imagen2:
-            #    print(f"Imagen 2: {ruta_imagen2}")
-            #if ruta_imagen3:
-            #    print(f"Imagen 3: {ruta_imagen3}")
-            #if ruta_imagen4:
-            #    print(f"Imagen 4: {ruta_imagen4}")
             
             try:
                 try:
@@ -343,7 +321,89 @@ def agregar_equipo():
                     request.form.get('caracteristica6'),  # RAM
                     request.form.get('nfc', 'No'),  # NFC (opcional)
                     red,
-                    session.get('email')
+                    session.get('email_user')
+                ))
+                conexion.commit()
+                print(f"Equipo guardado en BD con imágenes en MinIO.")
+
+                cursor.close()
+                conexion.close()
+
+                return redirect(url_for('listar_equipos'))
+            except Exception as e:
+                print(f"Error al guardar los datos: {e}")
+                return f"Error al guardar los datos: {str(e)}", 500  
+        
+        return render_template('public/empleados/agregar_equipo.html') 
+    else:
+        return redirect(url_for('loginCliente'))
+
+@app.route('/agregar_equipo_tecno', methods=['GET', 'POST'])
+def agregar_equipo_tecno():
+    if 'conectado' in session:
+        if request.method == 'POST':
+            
+            # Captura los datos del formulario
+            tipo_equipo = request.form.get('tipo_equipo')
+            marca = request.form.get('marca')
+            gamma = request.form.get('gamma')
+            nombre_equipo = request.form.get('nombre_equipo_otros')
+            descripcion = request.form.get('caracteristicas')
+            
+            # Configuración de MinIO
+            minio_client = Minio(
+                "bucket-production-6b48.up.railway.app",
+                access_key="QtuJZ2idPCTtD5RbRmWN",
+                secret_key="l7SoPJjtGQ2xGKdZdwIzCJkGD0lNINzpSegDe3Ai",
+                secure=True
+            )
+            
+            # Verificar que el bucket existe
+            bucket_name = "inventario-equipo"
+            if not minio_client.bucket_exists(bucket_name):
+                minio_client.make_bucket(bucket_name)
+        
+            # Rutas para guardar las imágenes
+            UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'inventario_equipos')
+            if not os.path.exists(UPLOAD_FOLDER):
+                os.makedirs(UPLOAD_FOLDER)  # Crea el directorio si no existe
+            
+            def subir_a_minio(archivo, nombre_equipo, numero):
+                if archivo and archivo.filename:
+                    extension = os.path.splitext(archivo.filename)[1]
+                    filename = secure_filename(f"{nombre_equipo}_img{numero}{extension}")
+
+                    minio_client.put_object(
+                        bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
+                    )
+                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app"
+
+                    url_archivo = f"{BUCKET_URL}/{filename}"
+                    return f"{url_archivo}"
+                
+                return None
+            
+            # Subir imágenes y obtener las URLs
+            ruta_imagen1 = subir_a_minio(request.files.get('archivo_otros'), nombre_equipo, 1)
+            
+            try:
+                try:
+                    #print("Intentando conectar a la base de datos...")
+                    conexion = connectionBD_railway()  
+                    #print("Conexión exitosa")
+                except Exception as e:
+                    print(f"Error al conectar a la BD: {e}")
+                    return "Error de conexión a la base de datos", 500
+                cursor = conexion.cursor()
+
+                query = """
+                    INSERT INTO `inventario_digital` (`producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, 
+                     `imagen1`, `creator`) 
+                    VALUES (%s,%s,%s,%s,%s,%s,%s);
+                """
+                cursor.execute(query, (
+                    nombre_equipo, tipo_equipo, marca, gamma, descripcion,
+                    ruta_imagen1, session.get('email_user')
                 ))
                 conexion.commit()
                 print(f"Equipo guardado en BD con imágenes en MinIO.")
@@ -365,12 +425,14 @@ def agregar_equipo():
 def viewBuscarInventario_digital():
     try:
         # Obtenemos ambos parámetros de búsqueda desde el JSON
-        busqueda = request.json.get('busqueda')  # bodega
-        
+        busqueda = request.json.get('busqueda')  # marca
+        print("1")
+        print(busqueda)
         # Llamamos a la función de búsqueda pasando ambos parámetros
         resultadobusquedainv_digital = buscarInventario_digital(busqueda)
         
         if resultadobusquedainv_digital:
+            #print(resultadobusquedainv_digital)
             # Si hay resultados, los pasamos a la plantilla para que se rendericen
             return render_template(f'{PATH_URL}/resultado_busqueda_inventario_digital.html', dataBusqueda_inv_bod_pro=resultadobusquedainv_digital)
         else:
@@ -386,7 +448,6 @@ def inventario_claro(id_equipo):
         conexion = connectionBD_railway()
         cursor = conexion.cursor()
 
-        # Consulta para obtener los datos del equipo principal
         query_equipo = """
             SELECT `id`, `producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `colores`, 
                    `imagen1`, `imagen2`, `imagen3`, `imagen4`, `camara`, `pantalla`, 
@@ -431,7 +492,7 @@ def inventario_claro(id_equipo):
         query_otros_equipos = """
             SELECT `id`, `producto`, `imagen1` 
             FROM `inventario_digital` 
-            WHERE id != %s AND gamma = %s 
+            WHERE id != %s AND gamma = %s and tipo_equipo = 'terminal'
             ORDER BY RAND() 
             LIMIT 3;
         """
@@ -447,6 +508,69 @@ def inventario_claro(id_equipo):
         # Renderizar la plantilla con los dos conjuntos de datos
         return render_template(
             'public/empleados/cliente.html',
+            equipo=datos_equipo,
+            otros_equipos=lista_otros_equipos
+        )
+
+    except Exception as e:
+        print(f"Error al obtener los datos: {e}")
+        return f"Error al obtener los datos: {str(e)}", 500
+
+    finally:
+        cursor.close()
+        conexion.close()
+        
+@app.route('/inventario_claro_tecno/<int:id_equipo>')
+def inventario_claro_tecno(id_equipo):
+    try:
+        conexion = connectionBD_railway()
+        cursor = conexion.cursor()
+
+        query_equipo = """
+            SELECT `id`, `producto`, `tipo_equipo`, `marca`, `gamma`, `descripcion`, `imagen1`
+            FROM `inventario_digital` 
+            WHERE id = %s and tipo_equipo != 'terminal'
+            LIMIT 1;
+        """
+        cursor.execute(query_equipo, (id_equipo,))
+        equipo = cursor.fetchone()
+
+        if not equipo:
+            return "Equipo no encontrado", 404
+
+        # Crear un diccionario con los datos del equipo principal
+        datos_equipo = {
+            'id': equipo[0],
+            'producto': equipo[1],
+            'tipo_equipo': equipo[2],
+            'marca': equipo[3],
+            'gamma': equipo[4],
+            'descripcion': equipo[5],
+            'imagen1': equipo[6]
+        }
+
+        gamma_equipo = equipo[4]  # Obtener el valor de gamma del equipo principal
+
+        # Consulta para obtener datos de otros equipos con la misma gamma
+        query_otros_equipos = """
+            SELECT `id`, `producto`, `imagen1` 
+            FROM `inventario_digital` 
+            WHERE id != %s AND gamma = %s AND tipo_equipo != 'terminal'
+            ORDER BY RAND() 
+            LIMIT 3;
+        """
+        cursor.execute(query_otros_equipos, (id_equipo, gamma_equipo))
+        otros_equipos = cursor.fetchall()
+
+        # Crear una lista de diccionarios para los equipos relacionados
+        lista_otros_equipos = [
+            {'id': equipo[0], 'producto': equipo[1], 'imagen1': equipo[2]}
+            for equipo in otros_equipos
+        ]
+
+        # Renderizar la plantilla con los dos conjuntos de datos
+        return render_template(
+            'public/empleados/cliente_tecnologia.html',
             equipo=datos_equipo,
             otros_equipos=lista_otros_equipos
         )

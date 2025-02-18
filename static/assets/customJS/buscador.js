@@ -115,7 +115,6 @@ async function buscadorTable_bodega(tableId) {
 }
 
 
-
 async function buscadorTable_bodega_pro(tableId) {
   let input,input2, busqueda,busqueda2, url;
   url = "/buscando-inventario-bodega-pro";
@@ -155,9 +154,6 @@ async function buscadorTable_bodega_pro(tableId) {
     console.error(error);
   }
 }
-
-
-
 
 
 async function buscadorTable_bodega_oms(tableId) {
@@ -203,8 +199,8 @@ async function buscador_equipo_digital(tableId) {
   let input, busqueda, url;
   url = "/buscando-inventario-digital";
 
-  input = document.getElementById("search_bodega");
-
+  input = document.getElementById("search_equipo");
+  
   busqueda = input.value
   
   const dataPeticion = { busqueda };
