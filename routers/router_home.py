@@ -270,7 +270,7 @@ def agregar_equipo():
                     minio_client.put_object(
                         bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
                     )
-                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app"
+                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app/inventario-equipo"
                     # Retornar la URL de acceso
                     url_archivo = f"{BUCKET_URL}/{filename}"
                     return f"{url_archivo}"
@@ -376,7 +376,7 @@ def agregar_equipo_tecno():
                     minio_client.put_object(
                         bucket_name, filename, archivo, length=-1, part_size=10*1024*1024, content_type=archivo.content_type
                     )
-                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app/inventario-equipo/"
+                    BUCKET_URL = "https://bucket-production-6b48.up.railway.app/inventario-equipo"
 
                     url_archivo = f"{BUCKET_URL}/{filename}"
                     return f"{url_archivo}"
